@@ -526,7 +526,7 @@
             <p style="font-size: 13.5px; color: #4b5563; line-height: 1.9; margin-bottom: 22px;">Welcome to the CNPAF newsletter! We regularly share community updates, research highlights, and volunteer opportunities. Even if you simply wish to follow along from afar, we would love to have you. Your information is used solely for newsletter delivery, and you can unsubscribe at any time:</p>
             <form id="newsletter-form">
                 <label style="display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 8px;">Your Email</label>
-                <input type="email" name="email" required placeholder="you@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 18px; box-sizing: border-box;">
+                <input type="email" name="fields[email]" required placeholder="you@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 18px; box-sizing: border-box;">
                 <button type="submit" style="width: 100%; background-color: #111827; color: #fff; font-weight: 700; padding: 13px 0; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='#000'" onmouseout="this.style.backgroundColor='#111827'">Subscribe Now</button>
             </form>
             <p id="newsletter-success" style="display: none; text-align: center; color: #089D9C; font-weight: 700; font-size: 15px; padding: 18px 0 6px;">Subscribed — thank you for being with us!</p>
@@ -553,8 +553,13 @@
             document.querySelectorAll('[data-newsletter-open]').forEach(el => {
                 el.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
             });
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                try {
+                    await fetch('https://assets.mailerlite.com/jsonp/2427760/forms/190049335948347216/subscribe', { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+                } catch (err) {
+                    console.error(err);
+                }
                 form.style.display = 'none';
                 success.style.display = 'block';
                 setTimeout(closeModal, 1500);

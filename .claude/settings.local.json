@@ -34,7 +34,8 @@
       "Bash(python3 -c \"import opencc; print\\('opencc ok'\\)\")",
       "Bash(pip3 install *)",
       "Bash(python3 -c \"from opencc import OpenCC; print\\(OpenCC\\('s2twp'\\).convert\\('青年赋能软件志愿者'\\)\\)\")",
-      "Bash(python3)"
+      "Bash(python3)",
+      "Bash(awk '{print $NF, $5}')"
     ]
   }
 }

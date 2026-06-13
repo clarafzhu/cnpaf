@@ -300,7 +300,7 @@
             <p style="font-size: 13.5px; color: #4b5563; line-height: 1.9; margin-bottom: 22px;">欢迎订阅 CNPAF 简报！我们将定期为您分享社区最新动态、科研成果和志愿者招募资讯。哪怕只是想远远地陪伴我们，我们也随时期待您的加入。以下信息仅用于简报投递，您可以随时取消订阅，请放心填写：</p>
             <form id="newsletter-form">
                 <label style="display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 8px;">您的邮箱</label>
-                <input type="email" name="email" required placeholder="you@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 18px; box-sizing: border-box;">
+                <input type="email" name="fields[email]" required placeholder="you@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 18px; box-sizing: border-box;">
                 <button type="submit" style="width: 100%; background-color: #111827; color: #fff; font-weight: 700; padding: 13px 0; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='#000'" onmouseout="this.style.backgroundColor='#111827'">立即订阅</button>
             </form>
             <p id="newsletter-success" style="display: none; text-align: center; color: #089D9C; font-weight: 700; font-size: 15px; padding: 18px 0 6px;">订阅成功，感谢陪伴！</p>
@@ -327,8 +327,13 @@
             document.querySelectorAll('[data-newsletter-open]').forEach(el => {
                 el.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
             });
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                try {
+                    await fetch('https://assets.mailerlite.com/jsonp/2427760/forms/190052428396103230/subscribe', { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+                } catch (err) {
+                    console.error(err);
+                }
                 form.style.display = 'none';
                 success.style.display = 'block';
                 setTimeout(closeModal, 1500);
