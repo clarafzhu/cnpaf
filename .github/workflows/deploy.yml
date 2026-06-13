@@ -1,0 +1,23 @@
+name: Automated Deployment to CNPAF Server
+
+on:
+  push:
+    branches:
+      - main # 当你往 main 分支 push 代码时触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code from GitHub
+        uses: actions/checkout@v4
+
+      - name: Sync Files to AWS Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          source: "./*" # 把本地仓库的所有文件
+          target: "/var/www/html/" # 自动推送到服务器的网页目录
+          strip_components: 0
