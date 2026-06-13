@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNPAF | 華人心理援助基金會</title>
+    <link rel="icon" type="image/png" href="../图片/logo-nav.png">
+    <link rel="apple-touch-icon" href="../图片/logo-nav.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F3E78',
+                        primaryDark: '#0A2B56',
+                        accent: '#EB9B3C',
+                        teal: '#089D9C',
+                        muted: '#6D86AA',
+                        sectionGray: '#d8d9dc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .mega-menu-wrapper { visibility: hidden; opacity: 0; transition: all 0.2s ease-in-out; transform: translateY(10px); }
+        .group:hover .mega-menu-wrapper { visibility: visible; opacity: 1; transform: translateY(0); }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+
+        /* 自定義右側捲軸樣式 */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+        .footer-link:hover { opacity: 0.7; text-decoration: underline !important; }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <div class="fixed inset-0 z-0 pointer-events-none" style="background-image: url('../图片/global-bg-texture.png'); background-size: cover; background-position: center; opacity: 0.12;"></div>
+    <div class="fixed inset-0 z-0 bg-white/90 pointer-events-none"></div>
+
+    <div class="bg-primaryDark text-gray-300 text-xs py-2 relative z-50">
+        <div class="container mx-auto px-6 flex justify-end items-center space-x-6">
+                        <!-- 暫時隱藏：登入/註冊入口
+<span class="text-gray-600">|</span>
+            <a href="/login" class="hover:text-white transition">Log In</a>
+            <a href="/signup" class="hover:text-white transition">Sign Up</a>
+-->
+        </div>
+    </div>
+
+    <header class="bg-primary text-white sticky top-0 z-40 shadow-md">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
+            <a href="index.html" class="flex items-center space-x-3 py-4">
+                <img src="../图片/logo-nav.png" alt="CNPAF Logo" class="h-10 lg:h-11">
+                <div class="hidden lg:flex flex-col justify-center">
+                    <span class="text-[15px] font-bold tracking-widest leading-none mb-1">華人心理援助基金會</span>
+                    <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                </div>
+            </a>
+
+            <nav class="hidden xl:flex space-x-8 items-center text-[15px] font-medium h-full">
+                <div class="group h-full py-6">
+                    <a href="about.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">關於我們 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-10 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">About CNPAF</h4>
+                                <a href="about.html" class="block group/title">
+                                    <h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">關於我們</h3>
+                                </a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">構建適用於華裔及少數族裔的心理學支援與診斷標準。</p>
+                            </div>
+                            <div class="w-2/4 px-10 grid grid-cols-2 gap-y-6">
+                                <a href="about.html#intro" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">基金會介紹</span>
+                                    <span class="block text-[12px] text-gray-500">發展歷程與公益屬性</span>
+                                </a>
+                                <a href="about.html#mission" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">使命與理念</span>
+                                    <span class="block text-[12px] text-gray-500">打破傳統的西方心理學壁壘</span>
+                                </a>
+                                <a href="about.html#team" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">核心成員</span>
+                                    <span class="block text-[12px] text-gray-500">常青藤智庫與專業團隊</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group h-full py-6">
+                    <a href="initiatives.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">核心專案 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-10 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Our Initiatives</h4>
+                                <a href="initiatives.html" class="block group/title">
+                                    <h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">核心專案</h3>
+                                </a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">四大公益基石，構建貫穿全生命週期的海外華人支援網路。</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-y-6 gap-x-8">
+                                <a href="initiatives.html#dreamer" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">童夢成真 (The Dreamer)</span>
+                                    <span class="block text-[12px] text-gray-500">K12兒童成長支援</span>
+                                </a>
+                                <a href="initiatives.html#perpetuator" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">花入幽香 (The Perpetuator)</span>
+                                    <span class="block text-[12px] text-gray-500">長者關懷</span>
+                                </a>
+                                <a href="initiatives.html#voyager" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">爾度雲帆 (The Voyager)</span>
+                                    <span class="block text-[12px] text-gray-500">青少年/青年成人賦能</span>
+                                </a>
+                                <a href="initiatives.html#enlightener" class="group/link block">
+                                    <span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">星牽滄海 (The Enlightener)</span>
+                                    <span class="block text-[12px] text-gray-500">跨文化交流與國際合作</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-full py-6">
+                    <a href="youth-cabinet.html" class="hover:text-accent transition flex items-center h-full">青年內閣</a>
+                </div>
+
+                <!-- 暫時隱藏：研究文獻庫入口
+<div class="h-full py-6">
+                    <a href="library.html" class="hover:text-accent transition flex items-center h-full">研究文獻庫</a>
+                </div>
+-->
+
+                <div class="group h-full py-6">
+                    <a href="join.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">參與其中 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-8 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Join Us</h4>
+                                <a href="join.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">參與其中</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">成為共同改變行業標準的一員。</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-4">
+                                <a href="#" data-newsletter-open class="text-[14px] text-gray-700 hover:text-accent font-medium">免費註冊為會員</a>
+                                <a href="stage-1.html" class="text-[14px] text-gray-700 hover:text-accent font-medium">"青聽計畫"心理支援服務</a>
+                                <a href="join.html#volunteer" class="text-[14px] text-gray-700 hover:text-accent font-medium">成為志工</a>
+                                <a href="join.html#research" class="text-[14px] text-gray-700 hover:text-accent font-medium">參與科研計劃</a>
+                                <a href="join.html#career" class="text-[14px] text-gray-700 hover:text-accent font-medium">其他工作機會</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group h-full py-6">
+                    <a href="support.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">夥伴支持 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-8 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Support & Partner</h4>
+                                <a href="support.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">夥伴支持</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">匯聚資源，放大公益影響力。</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-4">
+                                <a href="support.html#donate" class="text-[14px] text-gray-700 hover:text-accent font-medium">愛心捐助通道</a>
+                                <a href="support.html#partnership" class="text-[14px] text-gray-700 hover:text-accent font-medium">機構合作</a>
+                                <a href="support.html#campus" class="text-[14px] text-gray-700 hover:text-accent font-medium">校園與社團聯動</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+
+            <div class="hidden xl:flex items-center space-x-3 py-4">
+                <!-- lang-switcher --><div class="flex items-center space-x-2 text-[13px] font-medium text-gray-300 mr-2"><a href="../index.html" class="hover:text-accent transition">EN</a><span class="text-gray-500/60">|</span><a href="../zh/index.html" class="hover:text-accent transition">簡</a><span class="text-gray-500/60">|</span><a href="index.html" class="hover:text-accent transition">繁</a></div><!-- /lang-switcher -->
+                <a href="stage-1.html" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">
+                    立即獲取支援
+                </a>
+                <a href="support.html#donate" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">
+                    愛心捐助
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 flex-grow">
+
+        <section class="relative h-[650px] flex items-center">
+            <div class="absolute inset-0 z-0">
+                <img src="../图片/index-hero-bg.png" alt="LA Skyline Night" class="w-full h-full object-cover object-center" />
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0F3E78]/95 via-[#0F3E78]/80 to-black/30"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10 text-white">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6 drop-shadow-md">
+                        忠於愛，終與愛。<br>
+                        <span class="text-accent text-3xl lg:text-4xl mt-3 block font-bold drop-shadow">Offer Love. All for Love.</span>
+                    </h1>
+                    <p class="text-[16px] text-gray-200 mb-10 leading-relaxed drop-shadow">
+                        我們致力於為海外華人社群提供專業的心理支援與人文關懷。適應新環境、融入新生活是一段充滿不易的旅程，東西方文化的差異更可能帶來深層的心理壓力。但請相信，您不必獨自面對這一切。我們在此，為您架起心靈的橋樑。基於跨文化共情與在地行動的深耕，CNPAF 已被正式收錄於聯合國 DESA 公民社會資料庫。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="stage-1.html" class="bg-accent text-white px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-orange-500 transition duration-200 text-[15px]">立即獲取支援</a>
+                        <a href="join.html#volunteer" class="bg-transparent border border-white/60 text-white px-8 py-3.5 rounded-full font-bold hover:bg-white hover:text-primary transition duration-200 text-[15px]">成為志工</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 border-b border-gray-100 flex items-center" style="background-image: url('../图片/global-bg-texture.png'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+            <div class="container mx-auto px-8 max-w-7xl bg-white/80 backdrop-blur-sm rounded-3xl py-12">
+                <div class="text-center mb-16 reveal">
+                    <div class="flex items-center justify-center space-x-3 mb-4">
+                        <div class="h-px w-12 bg-accent"></div>
+                        <span class="text-accent font-bold tracking-widest uppercase text-sm">Our Manifesto</span>
+                        <div class="h-px w-12 bg-accent"></div>
+                    </div>
+                    <h2 class="text-3xl font-bold text-primary mb-6">構建屬於我們的心理學標準</h2>
+                    <p class="text-[16px] text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                        傳統的心理學往往是以西方學者為主導、以西方社群為研究物件的社會科學，我們成立 CNPAF 的目標是<strong class="text-primary">構建一個適用於華裔、亞裔乃至其他少數族裔的新的心理學支援、診斷和治療標準。</strong>
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative reveal delay-100">
+                    <div class="hidden md:flex absolute top-1/2 left-0 w-full justify-between px-32 pointer-events-none -mt-4 z-0">
+                        <div class="text-accent text-3xl opacity-40">➔</div>
+                        <div class="text-accent text-3xl opacity-40">➔</div>
+                        <div class="text-accent text-3xl opacity-40">➔</div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 p-8 rounded-xl shadow-sm hover:shadow-md transition relative z-10 flex flex-col items-center text-center">
+                        <h3 class="text-xl font-bold text-primary mb-4">社群服務</h3>
+                        <p class="text-[14px] text-gray-600 leading-relaxed">觸達全球華人華裔群體，提供即時的人文關懷與非醫療化支援。</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 p-8 rounded-xl shadow-sm hover:shadow-md transition relative z-10 flex flex-col items-center text-center">
+                        <h3 class="text-xl font-bold text-primary mb-4">在地實驗</h3>
+                        <p class="text-[14px] text-gray-600 leading-relaxed">深入華人華裔社群，在實踐中獲取廣泛且詳實的一手實驗資料。</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 p-8 rounded-xl shadow-sm hover:shadow-md transition relative z-10 flex flex-col items-center text-center">
+                        <h3 class="text-xl font-bold text-primary mb-4">學術研究</h3>
+                        <p class="text-[14px] text-gray-600 leading-relaxed">分析、總結經驗和規律，豐富心理學研究樣本與本土化干預框架。</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 p-8 rounded-xl shadow-sm hover:shadow-md transition relative z-10 flex flex-col items-center text-center">
+                        <h3 class="text-xl font-bold text-primary mb-4">回饋社群</h3>
+                        <p class="text-[14px] text-gray-600 leading-relaxed">以更高維度的知識體系指導實踐，使心理行業更好服務我們的社群。</p>
+                    </div>
+                </div>
+                <div class="text-center mt-16 reveal delay-200">
+                    <a href="about.html#mission" class="inline-block bg-white text-primary border-2 border-primary px-8 py-3.5 rounded-full font-bold hover:bg-primary hover:text-white transition duration-300 shadow-sm text-[15px]">
+                        瞭解我們成立的初衷和使命 →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-sectionGray border-b border-gray-200" id="home-events-gallery">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="mb-12 reveal">
+                    <h2 class="text-3xl font-extrabold text-gray-900 mb-4">社群足跡與掠影</h2>
+                    <p class="text-[16px] text-gray-700 max-w-3xl leading-relaxed">
+                        我們將同理心轉化為實實在在的行動。點選右側目錄，探索 CNPAF 在各地主導的標誌性活動。
+                    </p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-12 h-[500px] reveal delay-100">
+                    <div class="lg:w-7/12 relative rounded-2xl overflow-hidden shadow-xl bg-primary">
+
+                        <div id="display-event-1" class="event-display absolute inset-0 transition-opacity duration-500 opacity-100 z-10">
+                            <img src="../assets/images/index-gallery-culture.jpg" class="w-full h-full object-cover" alt="2026年華盛頓特區大使館開放日與中國文化節">
+
+                        </div>
+
+                        <div id="display-event-2" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="../assets/images/index-gallery-workshop.jpg" class="w-full h-full object-cover" alt="SC ADHC情緒療愈與壓力釋放工作坊">
+
+                        </div>
+
+                        <div id="display-event-3" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="../assets/images/index-gallery-roundtable.jpg" class="w-full h-full object-cover" alt="青年內閣-美國國會獎年中跨區域交流活動">
+
+                        </div>
+
+                        <div id="display-event-4" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="../assets/images/index-gallery-aacntv.jpg" class="w-full h-full object-cover" alt="2026年馬丁路德金日- L.A. Works志願服務節">
+
+                        </div>
+
+                        <div id="display-event-5" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="../assets/images/index-gallery-glam.jpg" class="w-full h-full object-cover" alt="GLAM2025-受邀參加洛杉磯老年科學峰會">
+
+                        </div>
+
+                        <div id="display-event-6" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="../assets/images/index-gallery-xinqiao.jpg" class="w-full h-full object-cover" alt=""心橋"華盛頓特區跨文化交流與文化共感體驗活動">
+
+                        </div>
+
+                        <div id="display-event-7" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="../assets/images/index-gallery-zonglian.jpg" class="w-full h-full object-cover" alt="CNPAF x 西安交通大學宗濂書院心理援助實踐基地落成">
+
+                        </div>
+                    </div>
+
+                    <div class="lg:w-5/12 overflow-y-auto pr-4 custom-scrollbar h-full space-y-4 reveal delay-200">
+                        <button data-target="display-event-1" class="event-btn w-full text-left group flex justify-between items-center bg-blue-50 border-2 border-primary rounded-xl px-8 py-5 transition-all duration-300 shadow-md cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">2026年華盛頓特區大使館開放日與中國文化節</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                        <button data-target="display-event-2" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">SC ADHC情緒療愈與壓力釋放工作坊</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                        <button data-target="display-event-3" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">青年內閣-美國國會獎年中跨區域交流活動</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                        <button data-target="display-event-4" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">2026年馬丁路德金日- L.A. Works志願服務節</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                        <button data-target="display-event-5" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">GLAM2025-受邀參加洛杉磯老年科學峰會</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                        <button data-target="display-event-6" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">"心橋"華盛頓特區跨文化交流與文化共感體驗活動</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                        <button data-target="display-event-7" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[14px] text-gray-800 group-hover:text-primary">CNPAF x 西安交通大學宗濂書院心理援助實踐基地落成</span>
+                            <span class="text-gray-400 group-hover:text-accent transition ml-2 flex-shrink-0">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white border-b border-gray-100">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl font-bold text-primary mb-4">連線資料與社會影響</h2>
+                    <p class="text-gray-600">不只是傾聽，我們透過系統化網路，每天都在為海外華人提供切實的心理資本賦能。</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                    <div class="pt-6 md:pt-0 px-4 reveal delay-100">
+                        <div class="text-4xl lg:text-5xl font-extrabold text-accent mb-3">6+</div>
+                        <h4 class="text-[16px] font-bold text-gray-800 mb-2">全球據點網路</h4>
+                        <p class="text-[12px] text-gray-500">跨越美、加、英、澳、港的多元文化支援體系</p>
+                    </div>
+                    <div class="pt-6 md:pt-0 px-4 reveal delay-200">
+                        <div class="text-4xl lg:text-5xl font-extrabold text-primary mb-3">15<span class="text-2xl font-bold text-gray-400 ml-1">min</span></div>
+                        <h4 class="text-[16px] font-bold text-gray-800 mb-2">極速非臨床導航</h4>
+                        <p class="text-[12px] text-gray-500">拒絕漫長等待，高效產出"兩週實務行動計劃"</p>
+                    </div>
+                    <div class="pt-6 md:pt-0 px-4 reveal delay-300">
+                        <div class="text-4xl lg:text-5xl font-extrabold text-teal mb-3">5000+</div>
+                        <h4 class="text-[16px] font-bold text-gray-800 mb-2">累計服務人次</h4>
+                        <p class="text-[12px] text-gray-500">包含全年齡段的亞裔社群及各行業從業者</p>
+                    </div>
+                    <div class="pt-6 md:pt-0 px-4 reveal delay-400">
+                        <div class="text-4xl lg:text-5xl font-extrabold text-accent mb-3">100+</div>
+                        <h4 class="text-[16px] font-bold text-gray-800 mb-2">觸達與合作社群</h4>
+                        <p class="text-[12px] text-gray-500">跨國界、跨代際的深度互信網路與在地連結</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-28 bg-sectionGray border-b border-gray-200" id="programs">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl font-bold text-primary mb-4">我們的旗艦服務</h2>
+                    <p class="text-[15px] text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                        在基金會運營的歷程中，我們的一些專案已經收穫了卓越的成果。如果您不知道從哪裡開始瞭解和參與我們的工作，可以從這裡開始：
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="bg-white p-12 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100 border-l-4 border-l-primary flex flex-col justify-between h-full relative z-20 reveal delay-100">
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary mb-6">Youth Cabinet 青年內閣</h3>
+                            <p class="text-[15px] text-gray-600 mb-8 leading-relaxed">
+                                加入模擬現代社會執行規則的高維實驗場。在專業導師指導下完成社會責任考核，衝擊 <span class="font-bold text-gray-800">愛丁堡公爵國際獎</span> 與 <span class="font-bold text-gray-800">美國國會獎</span>，構築常青藤名校敲門磚。
+                            </p>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="youth-cabinet.html" class="inline-block bg-primary text-white px-8 py-3.5 rounded-full font-bold hover:bg-blue-900 transition text-[14px] shadow-sm">瞭解申請詳情</a>
+                        </div>
+                    </div>
+                    <div class="bg-white p-12 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100 border-l-4 border-l-accent flex flex-col justify-between h-full relative z-20 reveal delay-200">
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary mb-6">青聽計畫 (全階段心理導航)</h3>
+                            <p class="text-[15px] text-gray-600 mb-8 leading-relaxed">
+                                提供文化契合與去病理化的非臨床心理支援。我們構建了覆蓋前置心理導航、資源匹配、深度文化適應與臨床干預轉介的完整四階段體系，為海外華人建立真實、安全的心理緩衝帶。
+                            </p>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="stage-1.html" class="inline-block bg-accent text-white px-8 py-3.5 rounded-full font-bold hover:bg-orange-500 transition text-[14px] shadow-sm">立刻獲取支援</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-primary text-white pt-20 pb-10 relative z-20 reveal">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+            <div class="md:col-span-5">
+                <div class="flex items-center space-x-3 mb-6 bg-white/10 p-3 rounded w-max">
+                    <img src="../图片/logo-nav.png" alt="CNPAF Logo" class="h-8">
+                    <div class="flex flex-col justify-center">
+                        <span class="text-[13px] font-bold tracking-widest leading-none mb-1">華人心理援助基金會</span>
+                        <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                    </div>
+                </div>
+                <p class="text-gray-300 text-[14px] leading-relaxed pr-8">
+                    中國心理援助基金會 (CNPAF) 是一家非營利組織，致力於為海外華人提供文化契合的心理支援。我們預設每一位來訪者"沒有病"，填補非醫療化支援的系統性空白。我們已被正式收錄於聯合國經濟和社會事務部 (UN DESA) 公民社會資料庫。
+                </p>
+            </div>
+            <div class="md:col-span-4">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">聯絡資訊</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li><a href="mailto:info@cnpaf.org" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">info@cnpaf.org</a></li>
+                    <li><a href="tel:+15129870747" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">+1 512-987-0747</a></li>
+                    <li class="leading-relaxed">洛杉磯總部: <br><a href="https://www.google.com/maps/search/?api=1&query=633+W+5th+St,+Los+Angeles,+CA" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">633 W 5th St, Los Angeles, CA</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">關注我們</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li><span class="font-bold text-white">微信公眾號:</span> 華人心理援助基金會</li>
+                    <li><span class="font-bold text-white">小紅書:</span> <a href="https://xhslink.com/m/543aipPv7G3" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">@CNPAF</a></li>
+                    <li><span class="font-bold text-white">Instagram:</span> <a href="https://www.instagram.com/cnpaf_org?utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">@cnpaf_org</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 text-center text-gray-400 text-xs border-t border-blue-900 pt-8">
+            <p>&copy; 2026 Chinese Psychological Assistance Foundation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 滾動漸顯觀察器
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // 2. 動態事件畫廊互動邏輯
+            function initGallery(galleryId) {
+                const gallery = document.getElementById(galleryId);
+                if (!gallery) return;
+                const buttons = gallery.querySelectorAll('.event-btn');
+                const displays = gallery.querySelectorAll('.event-display');
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        buttons.forEach(b => {
+                            b.classList.remove('border-primary', 'bg-blue-50', 'shadow-md');
+                            b.classList.add('border-transparent', 'bg-white', 'shadow-sm');
+                            const s = b.querySelector('span:first-child');
+                            if (s) { s.classList.remove('text-primary'); s.classList.add('text-gray-800'); }
+                        });
+                        displays.forEach(d => {
+                            d.classList.remove('opacity-100', 'z-10');
+                            d.classList.add('opacity-0', 'z-0');
+                        });
+                        btn.classList.remove('border-transparent', 'bg-white', 'shadow-sm');
+                        btn.classList.add('border-primary', 'bg-blue-50', 'shadow-md');
+                        const as = btn.querySelector('span:first-child');
+                        if (as) { as.classList.remove('text-gray-800'); as.classList.add('text-primary'); }
+                        const targetDisplay = gallery.querySelector('#' + btn.getAttribute('data-target'));
+                        if (targetDisplay) {
+                            targetDisplay.classList.remove('opacity-0', 'z-0');
+                            targetDisplay.classList.add('opacity-100', 'z-10');
+                        }
+                    });
+                });
+            }
+            initGallery('home-events-gallery');
+
+        });
+    </script>
+
+    <!-- Newsletter 訂閱浮窗元件 -->
+    <style>
+        #newsletter-fab { position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 84px; height: 84px; border-radius: 50%; background-color: #EB9B3C; color: #fff; border: none; cursor: pointer; box-shadow: 0 6px 18px rgba(235, 155, 60, 0.45); display: flex; align-items: center; justify-content: center; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        #newsletter-fab:hover { transform: scale(1.12); box-shadow: 0 10px 28px rgba(235, 155, 60, 0.6); }
+        #newsletter-overlay { position: fixed; inset: 0; z-index: 1060; background: rgba(10, 27, 56, 0.55); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; padding: 20px; }
+        #newsletter-overlay.show { display: flex; }
+        #newsletter-dialog { background: #fff; border-radius: 16px; width: 100%; max-width: 460px; padding: 36px 32px; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25); position: relative; animation: newsletter-pop 0.25s ease; }
+        @keyframes newsletter-pop { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
+        @media (max-width: 480px) {
+            #newsletter-fab { bottom: 20px; right: 20px; width: 72px; height: 72px; }
+            #newsletter-dialog { padding: 28px 20px; }
+        }
+    </style>
+    <button id="newsletter-fab" type="button" aria-label="訂閱電子報">
+        <svg style="width: 36px; height: 36px;" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+        </svg>
+    </button>
+    <div id="newsletter-overlay" role="dialog" aria-modal="true" aria-labelledby="newsletter-title">
+        <div id="newsletter-dialog">
+            <button id="newsletter-close" type="button" aria-label="關閉" style="position: absolute; top: 14px; right: 18px; background: none; border: none; font-size: 24px; color: #9ca3af; cursor: pointer; line-height: 1;">&times;</button>
+            <h3 id="newsletter-title" style="font-size: 20px; font-weight: 800; color: #0F3E78; margin-bottom: 14px;">訂閱我們的電子報 (Newsletter)</h3>
+            <p style="font-size: 13.5px; color: #4b5563; line-height: 1.9; margin-bottom: 22px;">歡迎訂閱 CNPAF 電子報！我們將定期為您分享社群最新動態、科研成果和志工招募資訊。哪怕只是想遠遠地陪伴我們，我們也隨時期待您的加入。以下資訊僅用於電子報投遞，您可以隨時取消訂閱，請放心填寫：</p>
+            <form id="newsletter-form">
+                <label style="display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 8px;">您的郵箱</label>
+                <input type="email" name="email" required placeholder="you@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 18px; box-sizing: border-box;">
+                <button type="submit" style="width: 100%; background-color: #111827; color: #fff; font-weight: 700; padding: 13px 0; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='#000'" onmouseout="this.style.backgroundColor='#111827'">立即訂閱</button>
+            </form>
+            <p id="newsletter-success" style="display: none; text-align: center; color: #089D9C; font-weight: 700; font-size: 15px; padding: 18px 0 6px;">訂閱成功，感謝陪伴！</p>
+        </div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('newsletter-overlay');
+            const fab = document.getElementById('newsletter-fab');
+            const closeBtn = document.getElementById('newsletter-close');
+            const form = document.getElementById('newsletter-form');
+            const success = document.getElementById('newsletter-success');
+            function openModal() { overlay.classList.add('show'); }
+            function closeModal() {
+                overlay.classList.remove('show');
+                form.style.display = '';
+                success.style.display = 'none';
+                form.reset();
+            }
+            fab.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(); });
+            document.querySelectorAll('[data-newsletter-open]').forEach(el => {
+                el.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+            });
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                form.style.display = 'none';
+                success.style.display = 'block';
+                setTimeout(closeModal, 1500);
+            });
+        })();
+    </script>
+
+    <!-- Donorbox 愛心捐助彈窗元件 -->
+    <style>
+        #donation-modal-overlay { position: fixed; inset: 0; z-index: 1080; background: rgba(15, 30, 55, 0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #donation-modal-overlay.donation-show { opacity: 1; visibility: visible; pointer-events: auto; }
+        #donation-modal { position: relative; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 16px; overflow: hidden; isolation: isolate; transform: translateZ(0); max-width: 480px; width: 100%; max-height: 90vh; padding: 44px 16px 16px; box-shadow: 0 25px 70px rgba(28, 58, 106, 0.25); transition: transform 0.3s ease, opacity 0.3s ease; display: flex; flex-direction: column; }
+        #donation-modal-overlay:not(.donation-show) #donation-modal { transform: translateY(16px) scale(0.97); }
+        #donation-scroll { flex: 1 1 auto; overflow-y: auto; border-radius: 10px; }
+        #donation-modal-overlay.donation-show #donation-modal { transform: translateZ(0); }
+        #donation-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 26px; color: #9ca3af; cursor: pointer; line-height: 1; transition: color 0.2s ease; z-index: 1; }
+        #donation-close:hover { color: #1C3A6A; }
+    </style>
+    <div id="donation-modal-overlay" role="dialog" aria-modal="true" aria-label="愛心捐助">
+        <div id="donation-modal">
+            <button id="donation-close" type="button" aria-label="關閉">&times;</button>
+            <div id="donation-scroll">
+                <script type="module" src="https://donorbox.org/widgets.js" async></script><dbox-widget campaign="support-your-own-community-rebuild-the-system" type="donation_form" enable-auto-scroll="true" language="zh-TW"></dbox-widget>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('donation-modal-overlay');
+            const closeBtn = document.getElementById('donation-close');
+            window.openDonationModal = function () { overlay.classList.add('donation-show'); };
+            function closeDonation() { overlay.classList.remove('donation-show'); }
+            closeBtn.addEventListener('click', closeDonation);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDonation(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('donation-show')) closeDonation(); });
+            // 攔截"愛心捐助"(導航) 與 "立即捐贈"(捐助通道卡片) 按鈕：保留 href，僅阻止預設跳轉
+            document.querySelectorAll('a').forEach(a => {
+                const t = a.textContent.trim();
+                if (t === '愛心捐助' || t === '立即捐贈') {
+                    a.addEventListener('click', (e) => { e.preventDefault(); window.openDonationModal(); });
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

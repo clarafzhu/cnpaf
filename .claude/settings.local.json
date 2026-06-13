@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Read(//tmp/**)",
+      "Bash(cat /tmp/index_v6.html | wc -c)",
+      "Bash(sed -i '' \"s|url\\('./版面背景 1.jpg'\\)|url\\('./图片/global-bg-texture.png'\\)|g\" /Volumes/502/cnpaf/网站/index.html)",
+      "Bash(sed -i '' \"s|./homepage.jpg|./图片/index-hero-bg.png|g\" /Volumes/502/cnpaf/网站/index.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/800x600/0F3E78/FFFFFF?text=Public+Cultural+Dialogue|./图片/index-gallery-culture.jpg|g\" /Volumes/502/cnpaf/网站/index.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/800x600/EB9B3C/FFFFFF?text=Cognitive+Workshop|./图片/index-gallery-workshop.png|g\" /Volumes/502/cnpaf/网站/index.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/800x600/089D9C/FFFFFF?text=Youth+Cabinet+Roundtable|./图片/index-gallery-roundtable.jpg|g\" /Volumes/502/cnpaf/网站/index.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/600x450/3F5D8B/FFFFFF?text=The+Dreamer|./图片/project-detail-dreamer.png|g\" /Volumes/502/cnpaf/网站/initiatives.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/600x450/3F5D8B/FFFFFF?text=The+Perpetuator|./图片/project-detail-perpetuator.png|g\" /Volumes/502/cnpaf/网站/initiatives.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/600x450/3F5D8B/FFFFFF?text=The+Voyager|./图片/project-detail-voyager.png|g\" /Volumes/502/cnpaf/网站/initiatives.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/600x450/3F5D8B/FFFFFF?text=The+Enlightener|./图片/project-detail-enlightener.png|g\" /Volumes/502/cnpaf/网站/initiatives.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/800x600/0F3E78/FFFFFF?text=DC+Embassy+Visit|./图片/DSC08298.jpg|g\" /Volumes/502/cnpaf/网站/youth-cabinet.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/800x600/EB9B3C/FFFFFF?text=UN+Roundtable|./图片/DSC08337.jpg|g\" /Volumes/502/cnpaf/网站/youth-cabinet.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/800x600/089D9C/FFFFFF?text=National+Gala+Awards|./图片/yc-gallery-awards.jpg|g\" /Volumes/502/cnpaf/网站/youth-cabinet.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/100x100/0F3E78/FFFFFF?text=DofE|./图片/award-dofe-logo.png|g\" /Volumes/502/cnpaf/网站/youth-cabinet.html)",
+      "Bash(sed -i '' \"s|https://placehold.co/100x100/EB9B3C/FFFFFF?text=Congress|./图片/award-congress-logo.png|g\" /Volumes/502/cnpaf/网站/youth-cabinet.html)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(cat > *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8743/index.html)",
+      "Bash(python3 -m http.server 8744)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:8744/index.html\")",
+      "Bash(sed -n '132,136p' index.html)",
+      "Bash(sed -n '248,254p' about.html)",
+      "Bash(sed -n '172,178p' join.html)",
+      "Bash(grep -n \"h-full py-2\\\\\">$\" index.html)",
+      "Bash(mkdir -p backup-20260610 && cp *.html backup-20260610/ && ls backup-20260610/ | wc -l *)",
+      "Bash(sed -n '86,96p' paper-pgd.html)",
+      "Bash(sed -n '104,114p' paper-pgd.html)",
+      "Bash(python3 -)",
+      "Bash(python3 -c \"import opencc; print\\('opencc ok'\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \"from opencc import OpenCC; print\\(OpenCC\\('s2twp'\\).convert\\('青年赋能软件志愿者'\\)\\)\")",
+      "Bash(python3)"
+    ]
+  }
+}

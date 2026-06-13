@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青年内阁 Youth Cabinet | CNPAF 华人心理援助基金会</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F3E78', primaryDark: '#0A2B56', accent: '#EB9B3C', teal: '#089D9C', muted: '#6D86AA', sectionGray: '#d8d9dc', } } } }
+    </script>
+    <style>
+        .mega-menu-wrapper { visibility: hidden; opacity: 0; transition: all 0.2s ease-in-out; transform: translateY(10px); }
+        .group:hover .mega-menu-wrapper { visibility: visible; opacity: 1; transform: translateY(0); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; } .delay-200 { transition-delay: 200ms; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <div class="bg-primaryDark text-gray-300 text-xs py-2 relative z-50">
+        <div class="container mx-auto px-6 flex justify-end items-center space-x-6">
+            <button class="hover:text-white transition tracking-wide">中 / EN</button>
+            <!-- 暂时隐藏：登录/注册入口
+<span class="text-gray-600">|</span>
+            <a href="/login" class="hover:text-white transition">Log In</a>
+            <a href="/signup" class="hover:text-white transition">Sign Up</a>
+-->
+        </div>
+    </div>
+
+    <header class="bg-primary text-white sticky top-0 z-40 shadow-md">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
+            <a href="index.html" class="flex items-center space-x-3 py-4">
+                <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-10 lg:h-11">
+                <div class="hidden lg:flex flex-col justify-center">
+                    <span class="text-[15px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
+                    <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                </div>
+            </a>
+
+            <nav class="hidden xl:flex space-x-8 items-center text-[15px] font-medium h-full">
+                <div class="group h-full py-6">
+                    <a href="about.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">关于我们 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-10 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">About CNPAF</h4>
+                                <a href="about.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">关于我们</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">构建适用于华裔及少数族裔的心理学支持与诊断标准。</p>
+                            </div>
+                            <div class="w-2/4 px-10 grid grid-cols-2 gap-y-6">
+                                <a href="about.html#intro" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">基金会介绍</span><span class="block text-[12px] text-gray-500">发展历程与公益属性</span></a>
+                                <a href="about.html#mission" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">使命与理念</span><span class="block text-[12px] text-gray-500">打破传统的西方心理学壁垒</span></a>
+                                <a href="about.html#team" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">核心成员</span><span class="block text-[12px] text-gray-500">常青藤智库与专业团队</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group h-full py-6">
+                    <a href="initiatives.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">核心项目 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-10 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Our Initiatives</h4>
+                                <a href="initiatives.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">核心项目</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">四大公益基石，构建贯穿全生命周期的海外华人支持网络。</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-y-6 gap-x-8">
+                                <a href="initiatives.html#dreamer" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">童梦成真 (The Dreamer)</span><span class="block text-[12px] text-gray-500">K12儿童成长支持</span></a>
+                                <a href="initiatives.html#perpetuator" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">花入幽香 (The Perpetuator)</span><span class="block text-[12px] text-gray-500">长者关怀</span></a>
+                                <a href="initiatives.html#voyager" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">尔度云帆 (The Voyager)</span><span class="block text-[12px] text-gray-500">青少年/青年成人赋能</span></a>
+                                <a href="initiatives.html#enlightener" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">星牵沧海 (The Enlightener)</span><span class="block text-[12px] text-gray-500">跨文化交流与国际合作</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-full py-6">
+                    <a href="youth-cabinet.html" class="text-accent hover:text-accent transition flex items-center h-full">青年内阁</a>
+                </div>
+
+                <!-- 暂时隐藏：研究文献库入口
+<div class="h-full py-6">
+                    <a href="library.html" class="hover:text-accent transition flex items-center h-full">研究文献库</a>
+                </div>
+-->
+
+                <div class="group h-full py-6">
+                    <a href="join.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">加入我们 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-8 flex">
+                            <div class="w-1/3 pr-8 border-r border-gray-100">
+                                <h3 class="text-xl font-bold text-primary mb-2">加入我们</h3>
+                                <p class="text-[13px] text-gray-500">成为共同改变行业标准的一员。</p>
+                            </div>
+                            <div class="w-2/3 px-10 grid grid-cols-2 gap-4">
+                                <a href="join.html#register" class="text-[14px] text-gray-700 hover:text-accent font-medium">免费注册为会员</a>
+                                <a href="stage-1.html" class="text-[14px] text-gray-700 hover:text-accent font-medium">"青听计划"心理支持服务</a>
+                                <a href="join.html#volunteer" class="text-[14px] text-gray-700 hover:text-accent font-medium">成为志愿者</a>
+                                <a href="join.html#research" class="text-[14px] text-gray-700 hover:text-accent font-medium">参与科研计划</a>
+                                <a href="join.html#career" class="text-[14px] text-gray-700 hover:text-accent font-medium">其他工作机会</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group h-full py-6">
+                    <a href="support.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">支持与合作 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800">
+                        <div class="container mx-auto px-6 py-8 flex">
+                            <div class="w-1/3 pr-8 border-r border-gray-100">
+                                <h3 class="text-xl font-bold text-primary mb-2">支持与合作</h3>
+                                <p class="text-[13px] text-gray-500">汇聚资源，放大公益影响力。</p>
+                            </div>
+                            <div class="w-2/3 px-10 grid grid-cols-2 gap-4">
+                                <a href="support.html#donate" class="text-[14px] text-gray-700 hover:text-accent font-medium">爱心捐助通道</a>
+                                <a href="support.html#partnership" class="text-[14px] text-gray-700 hover:text-accent font-medium">机构合作</a>
+                                <a href="support.html#campus" class="text-[14px] text-gray-700 hover:text-accent font-medium">校园与社团联动</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+
+            <div class="hidden xl:flex items-center space-x-3 py-4">
+                <a href="stage-1.html" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">
+                    立即获取支持
+                </a>
+                <a href="support.html#donate" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">
+                    爱心捐助
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <section class="bg-primaryDark text-white py-24 relative overflow-hidden" id="top">
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-primary rounded-full opacity-50 blur-3xl"></div>
+            <div class="container mx-auto px-6 relative z-10 text-center max-w-4xl">
+                <span class="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Global Youth Leadership</span>
+                <h1 class="text-4xl lg:text-5xl font-extrabold mb-6">CNPAF Youth Cabinet<br>青年内阁</h1>
+                <p class="text-lg text-gray-300 leading-relaxed">
+                    全球青年领袖战略赋能与精英养成计划。从考察"你学到了什么"，转向考察"你能创造什么"。我们提供一个模拟现代社会运行规则的高维实验场。
+                </p>
+            </div>
+        </section>
+
+        <section class="py-24 bg-white border-b border-gray-100" id="yc-events-gallery">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="mb-12 reveal">
+                    <h2 class="text-3xl font-extrabold text-primary mb-4">内阁实战足迹</h2>
+                    <p class="text-[16px] text-gray-600 max-w-3xl leading-relaxed">
+                        加入青年内阁，意味着你将走出象牙塔，参与真实的社会议题。点击目录，探索我们的青年议员在各地发起的改变。
+                    </p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-12 h-[500px] reveal delay-100">
+                    <div class="lg:w-7/12 relative rounded-2xl overflow-hidden shadow-xl bg-primary">
+                        <div id="yc-display-1" class="event-display absolute inset-0 transition-opacity duration-500 opacity-100 z-10">
+                            <img src="./assets/images/yc-gallery-embassy.jpg" class="w-full h-full object-cover">
+
+                        </div>
+                        <div id="yc-display-2" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="./assets/images/yc-gallery-un.jpg" class="w-full h-full object-cover">
+
+                        </div>
+                        <div id="yc-display-3" class="event-display absolute inset-0 transition-opacity duration-500 opacity-0 z-0">
+                            <img src="./assets/images/yc-gallery-awards.jpg" class="w-full h-full object-cover">
+
+                        </div>
+                    </div>
+
+                    <div class="lg:w-5/12 overflow-y-auto pr-4 custom-scrollbar h-full space-y-4 reveal delay-200">
+                        <button data-target="yc-display-1" class="event-btn w-full text-left group flex justify-between items-center bg-blue-50 border-2 border-primary rounded-xl px-8 py-5 transition-all duration-300 shadow-md cursor-pointer">
+                            <span class="font-bold text-[15px] text-primary">华盛顿特区：使馆深度参访与外交对话</span>
+                            <span class="text-accent transition">→</span>
+                        </button>
+                        <button data-target="yc-display-2" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[15px] text-gray-800 group-hover:text-primary">联合国总部：全球青年跨界圆桌会</span>
+                            <span class="text-gray-400 group-hover:text-accent transition">→</span>
+                        </button>
+                        <button data-target="yc-display-3" class="event-btn w-full text-left group flex justify-between items-center bg-white border-2 border-transparent rounded-xl px-8 py-5 hover:bg-gray-50 hover:shadow transition-all duration-300 shadow-sm cursor-pointer">
+                            <span class="font-bold text-[15px] text-gray-800 group-hover:text-primary">CNPAF 年度慈善晚宴暨金奖加冕</span>
+                            <span class="text-gray-400 group-hover:text-accent transition">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-sectionGray border-b border-gray-200">
+            <div class="container mx-auto px-6 max-w-5xl">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Global Awards Authorization</span>
+                    <h2 class="text-3xl font-bold text-primary">国际至高荣誉体系护航</h2>
+                    <p class="text-gray-700 mt-4 leading-relaxed max-w-2xl mx-auto">
+                        作为官方认证合作机构，我们将指导成员冲击在国际招生官眼中极具分量的两大青年荣誉。这不仅是奖项，更是全球精英青年的"通行证"。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="bg-white p-10 rounded-xl shadow-md border-t-4 border-primary reveal delay-100">
+                        <img src="./图片/award-dofe-logo.png" alt="Duke of Edinburgh" class="mb-6 rounded-full">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">爱丁堡公爵国际奖</h3>
+                        <p class="text-[15px] text-gray-600 leading-relaxed">
+                            被誉为"全球青年界的诺贝尔奖"。该奖项在英联邦及欧美顶尖高校申请中极具含金量，代表着申请者具备卓越的综合素质、抗逆力与社会责任感。
+                        </p>
+                    </div>
+                    <div class="bg-white p-10 rounded-xl shadow-md border-t-4 border-accent reveal delay-200">
+                        <img src="./图片/award-congress-logo.png" alt="US Congressional Award" class="mb-6 rounded-full" style="display: block; margin: 0 auto 1.5rem;">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">美国国会奖认证</h3>
+                        <p class="text-[15px] text-gray-600 leading-relaxed">
+                            美国国会授予青年的最高荣誉，也是美国唯一的联邦级青年奖项。获得该奖章不仅是国家级的认可，更是通往美国顶尖名校的有力敲门砖。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-white border-b border-gray-100">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl font-bold text-primary mb-4">模拟议会与"双院制"治理</h2>
+                    <p class="text-[16px] text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        拒绝"过家家"式的模拟。我们效仿现代民主议会制度，构建严谨的双院制结构，为精英青年提供一个安全试错、真实履职的实战平台。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 reveal delay-100">
+                    <div class="bg-blue-50 p-8 rounded-lg border border-blue-100">
+                        <h3 class="text-xl font-bold text-primary mb-3">上议院 (The Upper House)</h3>
+                        <p class="text-sm font-bold text-accent mb-4">战略决策层</p>
+                        <p class="text-[14px] text-gray-700 leading-relaxed mb-4">由各区域 Branch Leader 组成。负责制定组织发展的年度战略方向、审核重大跨区域项目、决定预算分配及外交事务。</p>
+                        <span class="text-xs text-muted bg-white px-3 py-1 rounded-full border border-gray-200">培养：宏观战略思维 / 资源整合 / 谈判技巧</span>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg border border-gray-200">
+                        <h3 class="text-xl font-bold text-primary mb-3">下议院 (The Lower House)</h3>
+                        <p class="text-sm font-bold text-accent mb-4">执行运营层</p>
+                        <p class="text-[14px] text-gray-700 leading-relaxed mb-4">由各 Branch 的核心运营官组成。负责具体议案的提案、项目落地执行、会员管理及社区反馈。</p>
+                        <span class="text-xs text-muted bg-white px-3 py-1 rounded-full border border-gray-200">培养：项目管理 / 团队协作 / 危机处理</span>
+                    </div>
+                </div>
+
+                <div class="reveal delay-200">
+                    <h3 class="text-2xl font-bold text-center text-primary mb-10">发起人行动指南 (The 5 Phases)</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-start space-y-6 md:space-y-0 md:space-x-4">
+                        <div class="text-center w-full">
+                            <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">1</div>
+                            <h4 class="font-bold text-gray-800 mb-2">愿景构建<br><span class="text-xs text-accent">Visioning</span></h4>
+                        </div>
+                        <div class="hidden md:block w-full h-px bg-gray-300 mt-6"></div>
+                        <div class="text-center w-full">
+                            <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">2</div>
+                            <h4 class="font-bold text-gray-800 mb-2">团队组建<br><span class="text-xs text-accent">Recruitment</span></h4>
+                        </div>
+                        <div class="hidden md:block w-full h-px bg-gray-300 mt-6"></div>
+                        <div class="text-center w-full">
+                            <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">3</div>
+                            <h4 class="font-bold text-gray-800 mb-2">路演共识<br><span class="text-xs text-accent">Pitching</span></h4>
+                        </div>
+                        <div class="hidden md:block w-full h-px bg-gray-300 mt-6"></div>
+                        <div class="text-center w-full">
+                            <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">4</div>
+                            <h4 class="font-bold text-gray-800 mb-2">制度确立<br><span class="text-xs text-accent">Establishment</span></h4>
+                        </div>
+                        <div class="hidden md:block w-full h-px bg-gray-300 mt-6"></div>
+                        <div class="text-center w-full">
+                            <div class="w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">5</div>
+                            <h4 class="font-bold text-primary mb-2">启动执行<br><span class="text-xs text-accent">Launch</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-primary text-white text-center px-6">
+            <div class="max-w-3xl mx-auto reveal">
+                <h2 class="text-3xl font-bold mb-6">加入青年内阁</h2>
+                <p class="text-[15px] font-light leading-relaxed text-gray-200 mb-8">
+                    我们目前采取"提名邀请制"全年滚动录取。CNPAF 将为每一个分支提供从启动资金、法律合规到实务资源对接的全程督导支持。
+                </p>
+                <a href="#founder-contact" class="founder-guide-btn inline-block bg-accent text-white px-10 py-4 rounded-full font-bold hover:bg-orange-500 transition duration-300 shadow-lg">索取《发起人申报指引》</a>
+            </div>
+        </section>
+
+        <section id="founder-contact" style="background-color: #D9D9D9; padding: 80px 0;">
+            <div class="container mx-auto px-6 reveal">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-primary mb-4">迈出第一步，随时与我们联络</h2>
+                    <p class="text-[15px] text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        无论你是想发起一个新的分支，还是只是好奇青年内阁在做什么，都欢迎在下方留言。
+                    </p>
+                </div>
+
+                <div class="card shadow-sm border-0 bg-white" style="max-width: 800px; margin: 0 auto; border-radius: 12px; padding: 40px;">
+                    <form id="founder-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">您的称呼</label>
+                                <input type="text" name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary bg-gray-50 text-[15px]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">您的邮箱</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary bg-gray-50 text-[15px]">
+                            </div>
+                        </div>
+                        <input type="hidden" id="contact-type" value="青年内阁咨询">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">留言内容</label>
+                            <textarea name="message" rows="10" required class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary bg-gray-50 text-[15px] leading-relaxed">欢迎联系青年内阁！以下信息均为选填，多分享一些能帮助我们更快地为你匹配支持。请不要有任何压力，哪怕只有一个初步的念头，我们也随时期待你的问询：
+
+我是（学生 / 家长 / 其他）：
+发起人年龄与学习阶段（如：15岁，高一）：
+常驻坐标（如：洛杉矶 / 北京）：
+初步构想（有没有特别想关注的议题，或想在社区做点什么？）：
+其他想对我们说的话：</textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-blue-900 transition shadow-md">发送留言</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-primary text-white pt-20 pb-10 relative z-20 reveal">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+            <div class="md:col-span-5">
+                <div class="flex items-center space-x-3 mb-6 bg-white/10 p-3 rounded w-max">
+                    <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-8">
+                    <div class="flex flex-col justify-center">
+                        <span class="text-[13px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
+                        <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                    </div>
+                </div>
+                <p class="text-gray-300 text-[14px] leading-relaxed pr-8">
+                    中国心理援助基金会 (CNPAF) 是一家非营利组织，致力于为海外华人提供文化契合的心理支持。我们默认每一位来访者"没有病"，填补非医疗化支持的系统性空白。
+                </p>
+            </div>
+            <div class="md:col-span-4">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">联系信息</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li>info@cnpaf.org</li>
+                    <li>+1 512-987-0747</li>
+                    <li class="leading-relaxed">洛杉矶总部: <br>633 W 5th St, Los Angeles, CA</li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">关注我们</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li><span class="font-bold text-white">微信公众号:</span> 华人心理援助基金会</li>
+                    <li><span class="font-bold text-white">小红书:</span> @CNPAF</li>
+                    <li><span class="font-bold text-white">Instagram:</span> @cnpaf_org</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 text-center text-gray-400 text-xs border-t border-blue-900 pt-8">
+            <p>&copy; 2026 Chinese Psychological Assistance Foundation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Youth Cabinet 画廊动态切换 (移除 scale, 使用 border/shadow/bg)
+            const gallery = document.getElementById('yc-events-gallery');
+            if(gallery) {
+                const buttons = gallery.querySelectorAll('.event-btn');
+                const displays = gallery.querySelectorAll('.event-display');
+
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        buttons.forEach(b => {
+                            b.classList.remove('border-primary', 'bg-blue-50', 'shadow-md');
+                            b.classList.add('border-transparent', 'bg-white', 'shadow-sm');
+                        });
+                        displays.forEach(d => {
+                            d.classList.remove('opacity-100', 'z-10');
+                            d.classList.add('opacity-0', 'z-0');
+                        });
+
+                        btn.classList.remove('border-transparent', 'bg-white', 'shadow-sm');
+                        btn.classList.add('border-primary', 'bg-blue-50', 'shadow-md');
+
+                        const targetId = btn.getAttribute('data-target');
+                        const targetDisplay = gallery.querySelector('#' + targetId);
+                        targetDisplay.classList.remove('opacity-0', 'z-0');
+                        targetDisplay.classList.add('opacity-100', 'z-10');
+                    });
+                });
+            }
+
+            // "索取《发起人申报指引》" 按钮平滑滚动到底部表单
+            document.querySelectorAll('.founder-guide-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.getElementById('founder-contact');
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // 发起人联络表单 API 异步提交逻辑
+            const founderForm = document.getElementById('founder-form');
+            if (founderForm) {
+                founderForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const form = e.target;
+                    const btn = form.querySelector('button[type="submit"]');
+                    const originalText = btn.innerText;
+
+                    const fields = form.querySelectorAll('input, textarea');
+                    let formData = {};
+                    fields.forEach(field => {
+                        if (field.name) formData[field.name] = field.value;
+                    });
+                    formData.type = document.getElementById('contact-type').value;
+
+                    btn.innerText = '正在发送...';
+                    btn.disabled = true;
+
+                    try {
+                        const response = await fetch('/api/contact', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        });
+
+                        if (response.ok) {
+                            btn.innerText = '发送成功！我们会尽快联系您';
+                            btn.classList.replace('bg-primary', 'bg-green-600');
+                            form.reset();
+                        } else {
+                            throw new Error('请求失败');
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        btn.innerText = '发送失败，请稍后重试';
+                        btn.classList.replace('bg-primary', 'bg-red-600');
+                    }
+
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        btn.classList.remove('bg-green-600', 'bg-red-600');
+                        btn.classList.add('bg-primary');
+                    }, 4000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

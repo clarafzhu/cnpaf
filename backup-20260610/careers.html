@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作机会 | CNPAF 华人心理援助基金会</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F3E78', primaryDark: '#0A2B56', accent: '#EB9B3C', teal: '#089D9C', muted: '#6D86AA', sectionGray: '#d8d9dc', } } } }
+    </script>
+    <style>
+        .mega-menu-wrapper { visibility: hidden; opacity: 0; transition: all 0.2s ease-in-out; transform: translateY(10px); }
+        .group:hover .mega-menu-wrapper { visibility: visible; opacity: 1; transform: translateY(0); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; } .delay-200 { transition-delay: 200ms; }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <div class="bg-primaryDark text-gray-300 text-xs py-2 relative z-50">
+        <div class="container mx-auto px-6 flex justify-end items-center space-x-6">
+            <button class="hover:text-white transition tracking-wide">中 / EN</button>
+            <!-- 暂时隐藏：登录/注册入口
+<span class="text-gray-600">|</span>
+            <a href="/login" class="hover:text-white transition">Log In</a>
+            <a href="/signup" class="hover:text-white transition">Sign Up</a>
+-->
+        </div>
+    </div>
+
+    <header class="bg-primary text-white sticky top-0 z-40 shadow-md">
+        <div class="container mx-auto px-6 flex justify-between items-center relative py-4">
+            <a href="index.html" class="flex items-center space-x-3">
+                <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-10 lg:h-11">
+                <div class="hidden lg:flex flex-col justify-center">
+                    <span class="text-[15px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
+                    <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex space-x-8 items-center text-[15px] font-medium h-full">
+                <div class="group h-full py-2">
+                    <a href="about.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">关于我们 ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible"></div>
+                </div>
+                <div class="group h-full py-2">
+                    <a href="initiatives.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">核心项目 ▾</a>
+                </div>
+                <div class="h-full py-2"><a href="youth-cabinet.html" class="hover:text-accent transition flex items-center h-full">青年内阁</a></div>
+                <!-- 暂时隐藏：研究文献库入口
+<div class="h-full py-2"><a href="library.html" class="hover:text-accent transition flex items-center h-full">研究文献库</a></div>
+-->
+                <div class="group h-full py-2">
+                    <a href="join.html" class="text-accent hover:text-accent transition flex items-center h-full cursor-pointer">加入我们 ▾</a>
+                </div>
+                <div class="group h-full py-2">
+                    <a href="support.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">支持与合作 ▾</a>
+                </div>
+            </nav>
+            <div class="hidden xl:flex items-center space-x-3 py-2">
+                <a href="stage-1.html" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">立即获取支持</a>
+                <a href="support.html#donate" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">爱心捐助</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="bg-primaryDark text-white py-24 relative overflow-hidden" id="top">
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-primary rounded-full opacity-50 blur-3xl"></div>
+            <div class="container mx-auto px-6 relative z-10 text-center max-w-4xl">
+                <span class="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Join The Team</span>
+                <h1 class="text-4xl lg:text-5xl font-extrabold mb-6">开放职位与机会</h1>
+                <p class="text-[16px] text-gray-300 leading-relaxed">
+                    我们在全球据点常年招募志同道合的伙伴。无论您是资深从业者还是充满热情的在校生，在这里，您的才华将化作真实的社会影响力。
+                </p>
+            </div>
+        </section>
+
+        <section class="py-24 bg-white">
+            <div class="container mx-auto px-6 max-w-4xl space-y-12">
+
+                <div class="bg-white border border-gray-200 rounded-xl p-10 shadow-sm hover:shadow-lg transition duration-300 reveal border-t-4 border-t-primary">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-primary mb-2">项目统筹运营官 (Program Coordinator)</h2>
+                            <div class="flex items-center mt-3">
+                                <span class="text-xs font-bold text-accent bg-orange-50 px-3 py-1 rounded-full">全职 / 兼职</span>
+                                <span class="text-sm text-gray-500 ml-3">洛杉矶总部 / 混合办公</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-[15px] text-gray-600 space-y-4 mb-8">
+                        <p><strong class="text-gray-800">岗位职责：</strong><br>负责"青年内阁"及"青听计划"的日常运营与统筹；跨时区协调各分支机构的在地活动；维护与外部学术机构及赞助商的合作关系。</p>
+                        <p><strong class="text-gray-800">任职要求：</strong><br>本科及以上学历，社会学、心理学或管理学背景优先；极强的中英双语沟通能力；具有 NGO、学生社团或跨国项目管理经验。</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl p-10 shadow-sm hover:shadow-lg transition duration-300 reveal delay-100 border-t-4 border-t-teal">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-primary mb-2">心理健康科研助理 (Research Assistant)</h2>
+                            <div class="flex items-center mt-3">
+                                <span class="text-xs font-bold text-teal bg-teal/10 px-3 py-1 rounded-full">实习 / 项目制</span>
+                                <span class="text-sm text-gray-500 ml-3">全球远程</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-[15px] text-gray-600 space-y-4 mb-8">
+                        <p><strong class="text-gray-800">岗位职责：</strong><br>协助心理与科研总监收集、清洗和分析在地实验数据；参与起草关于华裔心理健康的学术文献、行业白皮书与调研问卷设计。</p>
+                        <p><strong class="text-gray-800">任职要求：</strong><br>心理学、统计学或公共卫生等相关专业在读或应届毕业生；熟练使用 SPSS/R/Python 等数据分析工具；具备严谨的学术态度与文献检索能力。</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl p-10 shadow-sm hover:shadow-lg transition duration-300 reveal delay-200 border-t-4 border-t-accent">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-primary mb-2">跨文化传播专员 (Communications Specialist)</h2>
+                            <div class="flex items-center mt-3">
+                                <span class="text-xs font-bold text-accent bg-orange-50 px-3 py-1 rounded-full">志愿者 / 兼职</span>
+                                <span class="text-sm text-gray-500 ml-3">全球远程</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-[15px] text-gray-600 space-y-4 mb-8">
+                        <p><strong class="text-gray-800">岗位职责：</strong><br>负责 CNPAF 微信公众号、小红书及 Instagram 的日常内容策划与视觉排版；撰写活动新闻稿及人物专访，扩大机构的社会影响力。</p>
+                        <p><strong class="text-gray-800">任职要求：</strong><br>网感敏锐，文字功底扎实，能用平实温暖的语言讲述复杂的心理学概念；熟练使用各类排版与设计工具；高度认同机构"去病理化"的核心理念。</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-24 bg-sectionGray shadow-inner">
+            <div class="container mx-auto px-6 max-w-3xl text-center reveal">
+                <div class="mb-6 flex justify-center">
+                    <svg class="w-16 h-16 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-primary mb-4">如何申请</h2>
+                <p class="text-[16px] text-gray-700 leading-relaxed mb-8">
+                    如果您对上述职位感兴趣，或相信您的独门绝技可以为 CNPAF 创造不可替代的价值，请将您的<strong class="text-gray-900">中英文简历（附带过往作品集或科研经历说明）</strong>发送至我们的招聘专用邮箱。
+                </p>
+                <div class="bg-white p-8 rounded-xl shadow-md inline-block">
+                    <p class="text-sm text-gray-500 mb-2">请在邮件标题注明："应聘岗位 - 您的姓名"</p>
+                    <a href="mailto:hr@cnpaf.org" class="text-2xl font-extrabold text-accent hover:text-orange-500 transition">hr@cnpaf.org</a>
+                </div>
+                <p class="text-sm text-gray-500 mt-8">我们会在收到邮件后的 3-5 个工作日内与合适的候选人取得联系。</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-primary text-white pt-20 pb-10 relative z-20 reveal">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+            <div class="md:col-span-5">
+                <div class="flex items-center space-x-3 mb-6 bg-white/10 p-3 rounded w-max">
+                    <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-8">
+                    <div class="flex flex-col justify-center">
+                        <span class="text-[13px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
+                        <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                    </div>
+                </div>
+                <p class="text-gray-300 text-[14px] leading-relaxed pr-8">
+                    中国心理援助基金会 (CNPAF) 是一家非营利组织，致力于为海外华人提供文化契合的心理支持。我们默认每一位来访者"没有病"，填补非医疗化支持的系统性空白。
+                </p>
+            </div>
+            <div class="md:col-span-4">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">联系信息</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li>info@cnpaf.org</li>
+                    <li>+1 512-987-0747</li>
+                    <li class="leading-relaxed">洛杉矶总部: <br>633 W 5th St, Los Angeles, CA</li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">关注我们</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li><span class="font-bold text-white">微信公众号:</span> 华人心理援助基金会</li>
+                    <li><span class="font-bold text-white">小红书:</span> @CNPAF</li>
+                    <li><span class="font-bold text-white">Instagram:</span> @cnpaf_org</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 text-center text-gray-400 text-xs border-t border-blue-900 pt-8">
+            <p>&copy; 2026 Chinese Psychological Assistance Foundation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); }
+                });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership | CNPAF Chinese Psychological Assistance Foundation</title>
+    <link rel="icon" type="image/png" href="./图片/logo-nav.png">
+    <link rel="apple-touch-icon" href="./图片/logo-nav.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0F3E78', primaryDark: '#0A2B56', accent: '#EB9B3C', teal: '#089D9C', muted: '#6D86AA', sectionGray: '#d8d9dc', } } } }
+    </script>
+    <style>
+        .mega-menu-wrapper { visibility: hidden; opacity: 0; transition: all 0.2s ease-in-out; transform: translateY(10px); }
+        .group:hover .mega-menu-wrapper { visibility: visible; opacity: 1; transform: translateY(0); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; } .delay-200 { transition-delay: 200ms; }
+        .footer-link:hover { opacity: 0.7; text-decoration: underline !important; }
+
+        /* ===== 会员计划页专属样式 ===== */
+        .membership-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 顶部两张核心卡片 (Hero Section) */
+        .hero-cards {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .plan-card {
+            flex: 1;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+
+        /* 免费卡片样式 */
+        .card-free {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .card-free h2 {
+            color: #0F3E78;
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* 支持者卡片样式 (深色品牌金搭配) */
+        .card-paid {
+            background: #0F3E78;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .card-paid h2 {
+            color: #ffffff;
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .plan-badge {
+            background: #EB9B3C;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            position: absolute;
+            top: -15px;
+            right: 30px;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            font-weight: normal;
+            opacity: 0.8;
+        }
+
+        .plan-btn {
+            display: block;
+            text-align: center;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .plan-btn-outline {
+            border: 2px solid #0F3E78;
+            color: #0F3E78;
+        }
+
+        .plan-btn-outline:hover {
+            background: #0F3E78;
+            color: #ffffff;
+        }
+
+        .plan-btn-primary {
+            background: #EB9B3C;
+            color: #ffffff;
+        }
+
+        .plan-btn-primary:hover {
+            background: #d4821f;
+        }
+
+        .plan-card ul li { margin-bottom: 8px; }
+
+        /* 权益对比表格 */
+        .membership-section-title {
+            text-align: center;
+            color: #0F3E78;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .membership-container table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 60px;
+        }
+
+        .membership-container th, .membership-container td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .membership-container th {
+            background: #f4f6f9;
+            color: #0F3E78;
+            font-weight: 600;
+            width: 33%;
+        }
+
+        .membership-container td:nth-child(2) {
+            color: #666;
+        }
+
+        .membership-container td:nth-child(3) {
+            font-weight: 600;
+            color: #0F3E78;
+            background: #fdfaf5; /* 微微的金色背景高亮 */
+        }
+
+        /* Q&A 手风琴式折叠 */
+        .qna-wrapper {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .qna-wrapper details {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .qna-wrapper details:last-child {
+            border-bottom: none;
+        }
+
+        .qna-wrapper summary {
+            font-weight: 600;
+            color: #0F3E78;
+            padding: 15px 0;
+            cursor: pointer;
+            list-style: none; /* 隐藏默认箭头 */
+            position: relative;
+        }
+
+        .qna-wrapper summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .qna-wrapper summary::after {
+            content: '+';
+            position: absolute;
+            right: 0;
+            font-size: 1.5rem;
+            color: #EB9B3C;
+        }
+
+        .qna-wrapper details[open] summary::after {
+            content: '-';
+        }
+
+        .qna-content {
+            padding-bottom: 20px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .hero-cards {
+                flex-direction: column;
+            }
+            .membership-container th, .membership-container td {
+                padding: 15px 10px;
+                font-size: 0.9rem;
+            }
+            .qna-wrapper { padding: 24px; }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <div class="bg-primaryDark text-gray-300 text-xs py-2 relative z-50">
+        <div class="container mx-auto px-6 flex justify-end items-center space-x-6">
+                        <!-- 暂时隐藏：登录/注册入口
+<span class="text-gray-600">|</span>
+            <a href="/login" class="hover:text-white transition">Log In</a>
+            <a href="/signup" class="hover:text-white transition">Sign Up</a>
+-->
+        </div>
+    </div>
+
+    <header class="bg-primary text-white sticky top-0 z-40 shadow-md">
+        <div class="container mx-auto px-6 flex justify-between items-center relative py-4">
+            <a href="index.html" class="flex items-center space-x-3">
+                <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-10 lg:h-11">
+                <div class="hidden lg:flex flex-col justify-center">
+                    <span class="text-[15px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
+                    <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex space-x-8 items-center text-[15px] font-medium h-full">
+                <div class="group h-full py-2">
+                    <a href="about.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">About Us ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
+                        <div class="container mx-auto px-6 py-10 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">About CNPAF</h4>
+                                <a href="about.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">About Us</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">Building psychological support and diagnostic standards that truly serve Chinese and minority communities.</p>
+                            </div>
+                            <div class="w-2/4 px-10 grid grid-cols-2 gap-y-6">
+                                <a href="about.html#intro" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">About the Foundation</span><span class="block text-[12px] text-gray-500">Our history and nonprofit mission</span></a>
+                                <a href="about.html#mission" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">Mission & Philosophy</span><span class="block text-[12px] text-gray-500">Beyond Western-centric psychology</span></a>
+                                <a href="about.html#team" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">Our Team</span><span class="block text-[12px] text-gray-500">Ivy League think tank & professionals</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group h-full py-2">
+                    <a href="initiatives.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">Core Initiatives ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
+                        <div class="container mx-auto px-6 py-10 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Our Initiatives</h4>
+                                <a href="initiatives.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">Core Initiatives</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">Four pillars of care, building a support network that spans every life stage of overseas Chinese communities.</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-y-6 gap-x-8">
+                                <a href="initiatives.html#dreamer" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">The Dreamer</span><span class="block text-[12px] text-gray-500">K-12 child development support</span></a>
+                                <a href="initiatives.html#perpetuator" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">The Perpetuator</span><span class="block text-[12px] text-gray-500">Elder care & wellbeing</span></a>
+                                <a href="initiatives.html#voyager" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">The Voyager</span><span class="block text-[12px] text-gray-500">Youth & young adult empowerment</span></a>
+                                <a href="initiatives.html#enlightener" class="group/link block"><span class="block text-[15px] font-bold text-primary group-hover/link:text-accent transition mb-1">The Enlightener</span><span class="block text-[12px] text-gray-500">Cross-cultural exchange & international collaboration</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-full py-2"><a href="youth-cabinet.html" class="hover:text-accent transition flex items-center h-full">Youth Cabinet</a></div>
+                <!-- 暂时隐藏：研究文献库入口
+<div class="h-full py-2"><a href="library.html" class="hover:text-accent transition flex items-center h-full">研究文献库</a></div>
+-->
+
+                <div class="group h-full py-2">
+                    <a href="join.html" class="text-accent hover:text-accent transition flex items-center h-full cursor-pointer">Get Involved ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
+                        <div class="container mx-auto px-6 py-8 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Join Us</h4>
+                                <a href="join.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">Get Involved</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">Join us in reshaping the standards of our field.</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-4">
+                                <a href="#" data-newsletter-open class="text-[14px] text-gray-700 hover:text-accent font-medium">Become a Free Member</a>
+                                <a href="stage-1.html" class="text-[14px] text-gray-700 hover:text-accent font-medium">Stage I–IV Psychological Support</a>
+                                <a href="join.html#volunteer" class="text-[14px] text-gray-700 hover:text-accent font-medium">Become a Volunteer</a>
+                                <a href="join.html#research" class="text-[14px] text-gray-700 hover:text-accent font-medium">Join Research Initiatives</a>
+                                <a href="join.html#career" class="text-[14px] text-gray-700 hover:text-accent font-medium">Careers & Openings</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group h-full py-2">
+                    <a href="support.html" class="hover:text-accent transition flex items-center h-full cursor-pointer">Partnerships & Support Us ▾</a>
+                    <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
+                        <div class="container mx-auto px-6 py-8 flex">
+                            <div class="w-1/4 pr-8 border-r border-gray-100">
+                                <h4 class="text-xs font-bold text-accent tracking-widest uppercase mb-2">Support & Partner</h4>
+                                <a href="support.html" class="block group/title"><h3 class="text-2xl font-bold text-primary mb-4 group-hover/title:text-accent transition duration-200">Partnerships & Support Us</h3></a>
+                                <p class="text-[13px] text-gray-500 leading-relaxed">Pooling resources to amplify social impact.</p>
+                            </div>
+                            <div class="w-3/4 px-10 grid grid-cols-2 gap-4">
+                                <a href="support.html#donate" class="text-[14px] text-gray-700 hover:text-accent font-medium">Ways to Give</a>
+                                <a href="support.html#partnership" class="text-[14px] text-gray-700 hover:text-accent font-medium">Institutional Partnerships</a>
+                                <a href="support.html#campus" class="text-[14px] text-gray-700 hover:text-accent font-medium">Campus & Community Outreach</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+            <div class="hidden xl:flex items-center space-x-3 py-2">
+                <!-- lang-switcher --><div class="flex items-center space-x-2 text-[13px] font-medium text-gray-300 mr-2"><a href="membership.html" class="hover:text-accent transition">EN</a><span class="text-gray-500/60">|</span><a href="zh/membership.html" class="hover:text-accent transition">简</a><span class="text-gray-500/60">|</span><a href="tc/membership.html" class="hover:text-accent transition">繁</a></div><!-- /lang-switcher -->
+                <a href="stage-1.html" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">Get Support Now</a>
+                <a href="support.html#donate" class="bg-accent text-white px-5 py-2.5 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[14px]">Donate</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow" style="background-color: #f8f9fa; padding: 60px 20px;">
+        <div class="membership-container">
+            <h1 class="membership-section-title">Choose Your Support Plan</h1>
+
+            <div class="hero-cards reveal">
+                <div class="plan-card card-free">
+                    <h2>Free Psychological Navigation</h2>
+                    <p>Our baseline support channel, open to everyone — direct help with no long-term financial commitment.</p>
+                    <div class="price">Free</div>
+                    <ul style="padding-left: 20px; color: #555;">
+                        <li>Access the core practical toolbox</li>
+                        <li>1-on-1 navigation with a refundable deposit</li>
+                        <li>Join open online community activities</li>
+                    </ul>
+                    <a href="mailto:gethelp@cnpaf.org" class="plan-btn plan-btn-outline">Email Us for Support</a>
+                </div>
+
+                <div class="plan-card card-paid">
+                    <div class="plan-badge">Flagship</div>
+                    <h2>Supporter Membership</h2>
+                    <p>Deeply engage with and support our cross-cultural mental wellbeing work — and unlock full skip-the-line benefits.</p>
+                    <div class="price">$9.9 <span>/ year</span></div>
+                    <ul style="padding-left: 20px; color: #e0e0e0;">
+                        <li>Priority scheduling, no deposit required</li>
+                        <li>One free in-depth assessment every 6 months</li>
+                        <li>Tiered discounts & direct referral channel</li>
+                        <li>Compliant annual tax-deductible donation receipt</li>
+                    </ul>
+                    <a href="#" id="join-supporter-btn" class="plan-btn plan-btn-primary">Become a Supporter</a>
+                </div>
+            </div>
+
+            <h2 class="membership-section-title">Benefits at a Glance</h2>
+            <table class="reveal">
+                <thead>
+                    <tr>
+                        <th>Benefit</th>
+                        <th>Free Navigation</th>
+                        <th>Supporter Member</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Stage I Core Benefit</strong><br><span style="font-size: 0.85em; font-weight: normal;">(1v1 Navigation Session)</span></td>
+                        <td>First session free<br><span style="font-size: 0.85em;">($20 deposit, refunded upon completion)</span></td>
+                        <td>Free once every 6 months<br><span style="font-size: 0.85em;">(no deposit, book directly)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Additional Stage I Sessions</strong><br><span style="font-size: 0.85em; font-weight: normal;">(follow-up on specific issues)</span></td>
+                        <td>$20 / session<br><span style="font-size: 0.85em;">(standard nonprofit rate)</span></td>
+                        <td>First 3 per year: $15 / session<br>From the 4th: $20 / session</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Triage Fast-Track (Stage 1+)</strong><br><span style="font-size: 0.85em; font-weight: normal;">(in-depth assessment when referral is indicated)</span></td>
+                        <td>Standard booking & queue process</td>
+                        <td>Green channel<br><span style="font-size: 0.85em;">(no deposit, no queue — direct connection to support resources)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stage II Benefit</strong><br><span style="font-size: 0.85em; font-weight: normal;">(formal non-clinical counseling)</span></td>
+                        <td>Standard nonprofit rate</td>
+                        <td>5% member discount</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Core Tools: Action Support</strong><br><span style="font-size: 0.85em; font-weight: normal;">(email polishing, breathing exercises, résumé review, etc.)</span></td>
+                        <td>Included (tailored action plan)</td>
+                        <td>Included (tailored action plan)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Community & Rewards</strong></td>
+                        <td>Public newsletter & talks</td>
+                        <td>20% off paid resources, referral reward points</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 class="membership-section-title">Frequently Asked Questions</h2>
+            <div class="qna-wrapper reveal">
+                <details>
+                    <summary>What problem are we solving?</summary>
+                    <div class="qna-content">
+                        Our core purpose is accessible psychological support and actionable guidance. Stage I skips lengthy psychoanalysis and focuses intensely on the specific problem driving your stress right now — like not knowing how to talk to your parents or partner after a fight, or how to word an email asking for an assignment extension.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>What's the difference between Stage I and Stage II?</summary>
+                    <div class="qna-content">
+                        If mental wellbeing were physical health, Stage I is the triage desk and the first-aid kit — quick relief and direction. Formal, longer-term psychological mentorship belongs to Stage II.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Why are extra sessions tiered in price?</summary>
+                    <div class="qna-content">
+                        As a nonprofit our resources are limited. Tiering Stage I sessions prevents resources from being monopolized long-term, keeping support flowing to the students who need it most urgently.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>What is the Supporter "Triage Fast-Track"?</summary>
+                    <div class="qna-content">
+                        If your Navigator determines you need Stage II (formal counseling):<br>
+                        <strong>Supporter Members:</strong> a green channel — skip the booking process and receive an additional in-depth assessment session, evaluated by professionals with immediate connection to follow-up services.<br>
+                        <strong>Free navigation users:</strong> similar to hospital registration — a deposit and standard queue are required before entering that assessment step.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Will I receive a tax-deductible receipt?</summary>
+                    <div class="qna-content">
+                        Yes. CNPAF is a 501(c)(3) tax-exempt nonprofit registered in California, and your Supporter Membership fee counts as a tax-deductible donation. After payment, our system automatically emails you an official annual tax receipt that meets IRS audit standards.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-primary text-white pt-20 pb-10 relative z-20 reveal">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+            <div class="md:col-span-5">
+                <div class="flex items-center space-x-3 mb-6 bg-white/10 p-3 rounded w-max">
+                    <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-8">
+                    <div class="flex flex-col justify-center">
+                        <span class="text-[13px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
+                        <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                    </div>
+                </div>
+                <p class="text-gray-300 text-[14px] leading-relaxed pr-8">
+                    The Chinese Psychological Assistance Foundation (CNPAF) is a nonprofit dedicated to culturally attuned, mentorship-driven support for overseas Chinese communities. We assume every visitor is "not ill" — filling the systemic gap between struggling alone and clinical treatment. We are proudly included in the UN DESA Civil Society Database.
+                </p>
+            </div>
+            <div class="md:col-span-4">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">Contact</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li><a href="mailto:info@cnpaf.org" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">info@cnpaf.org</a></li>
+                    <li><a href="tel:+15129870747" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">+1 512-987-0747</a></li>
+                    <li class="leading-relaxed">Los Angeles HQ: <br><a href="https://www.google.com/maps/search/?api=1&query=633+W+5th+St,+Los+Angeles,+CA" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">633 W 5th St, Los Angeles, CA</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <h4 class="text-[15px] font-bold mb-6 text-accent uppercase tracking-wider">Follow Us</h4>
+                <ul class="text-gray-300 text-[14px] space-y-4">
+                    <li><span class="font-bold text-white">WeChat:</span> 华人心理援助基金会</li>
+                    <li><span class="font-bold text-white">rednote (xiaohongshu):</span> <a href="https://xhslink.com/m/543aipPv7G3" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">@CNPAF</a></li>
+                    <li><span class="font-bold text-white">Instagram:</span> <a href="https://www.instagram.com/cnpaf_org?utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none footer-link" style="transition: opacity 0.3s;">@cnpaf_org</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 text-center text-gray-400 text-xs border-t border-blue-900 pt-8">
+            <p>&copy; 2026 Chinese Psychological Assistance Foundation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); }
+                });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+
+    <!-- Newsletter 订阅浮窗组件 -->
+    <style>
+        #newsletter-fab { position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 84px; height: 84px; border-radius: 50%; background-color: #EB9B3C; color: #fff; border: none; cursor: pointer; box-shadow: 0 6px 18px rgba(235, 155, 60, 0.45); display: flex; align-items: center; justify-content: center; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        #newsletter-fab:hover { transform: scale(1.12); box-shadow: 0 10px 28px rgba(235, 155, 60, 0.6); }
+        #newsletter-overlay { position: fixed; inset: 0; z-index: 1060; background: rgba(10, 27, 56, 0.55); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; padding: 20px; }
+        #newsletter-overlay.show { display: flex; }
+        #newsletter-dialog { background: #fff; border-radius: 16px; width: 100%; max-width: 460px; padding: 36px 32px; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25); position: relative; animation: newsletter-pop 0.25s ease; }
+        @keyframes newsletter-pop { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
+        @media (max-width: 480px) {
+            #newsletter-fab { bottom: 20px; right: 20px; width: 72px; height: 72px; }
+            #newsletter-dialog { padding: 28px 20px; }
+        }
+    </style>
+    <button id="newsletter-fab" type="button" aria-label="Subscribe to Newsletter">
+        <svg style="width: 36px; height: 36px;" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+        </svg>
+    </button>
+    <div id="newsletter-overlay" role="dialog" aria-modal="true" aria-labelledby="newsletter-title">
+        <div id="newsletter-dialog">
+            <button id="newsletter-close" type="button" aria-label="Close" style="position: absolute; top: 14px; right: 18px; background: none; border: none; font-size: 24px; color: #9ca3af; cursor: pointer; line-height: 1;">&times;</button>
+            <h3 id="newsletter-title" style="font-size: 20px; font-weight: 800; color: #0F3E78; margin-bottom: 14px;">Subscribe to Our Newsletter</h3>
+            <p style="font-size: 13.5px; color: #4b5563; line-height: 1.9; margin-bottom: 22px;">Welcome to the CNPAF newsletter! We regularly share community updates, research highlights, and volunteer opportunities. Even if you simply wish to follow along from afar, we would love to have you. Your information is used solely for newsletter delivery, and you can unsubscribe at any time:</p>
+            <form id="newsletter-form">
+                <label style="display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 8px;">Your Email</label>
+                <input type="email" name="email" required placeholder="you@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 18px; box-sizing: border-box;">
+                <button type="submit" style="width: 100%; background-color: #111827; color: #fff; font-weight: 700; padding: 13px 0; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='#000'" onmouseout="this.style.backgroundColor='#111827'">Subscribe Now</button>
+            </form>
+            <p id="newsletter-success" style="display: none; text-align: center; color: #089D9C; font-weight: 700; font-size: 15px; padding: 18px 0 6px;">Subscribed — thank you for being with us!</p>
+        </div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('newsletter-overlay');
+            const fab = document.getElementById('newsletter-fab');
+            const closeBtn = document.getElementById('newsletter-close');
+            const form = document.getElementById('newsletter-form');
+            const success = document.getElementById('newsletter-success');
+            function openModal() { overlay.classList.add('show'); }
+            function closeModal() {
+                overlay.classList.remove('show');
+                form.style.display = '';
+                success.style.display = 'none';
+                form.reset();
+            }
+            fab.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(); });
+            document.querySelectorAll('[data-newsletter-open]').forEach(el => {
+                el.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+            });
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                form.style.display = 'none';
+                success.style.display = 'block';
+                setTimeout(closeModal, 1500);
+            });
+        })();
+    </script>
+
+    <!-- Donorbox 爱心捐助弹窗组件 -->
+    <style>
+        #donation-modal-overlay { position: fixed; inset: 0; z-index: 1080; background: rgba(15, 30, 55, 0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #donation-modal-overlay.donation-show { opacity: 1; visibility: visible; pointer-events: auto; }
+        #donation-modal { position: relative; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 16px; overflow: hidden; isolation: isolate; transform: translateZ(0); max-width: 480px; width: 100%; max-height: 90vh; padding: 44px 16px 16px; box-shadow: 0 25px 70px rgba(28, 58, 106, 0.25); transition: transform 0.3s ease, opacity 0.3s ease; display: flex; flex-direction: column; }
+        #donation-modal-overlay:not(.donation-show) #donation-modal { transform: translateY(16px) scale(0.97); }
+        #donation-scroll { flex: 1 1 auto; overflow-y: auto; border-radius: 10px; }
+        #donation-modal-overlay.donation-show #donation-modal { transform: translateZ(0); }
+        #donation-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 26px; color: #9ca3af; cursor: pointer; line-height: 1; transition: color 0.2s ease; z-index: 1; }
+        #donation-close:hover { color: #1C3A6A; }
+    </style>
+    <div id="donation-modal-overlay" role="dialog" aria-modal="true" aria-label="Donate">
+        <div id="donation-modal">
+            <button id="donation-close" type="button" aria-label="Close">&times;</button>
+            <div id="donation-scroll">
+                <script type="module" src="https://donorbox.org/widgets.js" async></script><dbox-widget campaign="support-your-own-community-rebuild-the-system" type="donation_form" enable-auto-scroll="true" language="en"></dbox-widget>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('donation-modal-overlay');
+            const closeBtn = document.getElementById('donation-close');
+            window.openDonationModal = function () { overlay.classList.add('donation-show'); };
+            function closeDonation() { overlay.classList.remove('donation-show'); }
+            closeBtn.addEventListener('click', closeDonation);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDonation(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('donation-show')) closeDonation(); });
+            // 拦截"爱心捐助"(导航) 与 "立即捐赠"(捐助通道卡片) 按钮：保留 href，仅阻止默认跳转
+            document.querySelectorAll('a').forEach(a => {
+                const t = a.textContent.trim();
+                if (t === '爱心捐助' || t === '立即捐赠' || t === 'Donate' || t === 'Donate Now') {
+                    a.addEventListener('click', (e) => { e.preventDefault(); window.openDonationModal(); });
+                }
+            });
+        })();
+    </script>
+
+    <!-- Donorbox 支持者会员弹窗组件 -->
+    <style>
+        #membership-modal-overlay { position: fixed; inset: 0; z-index: 1085; background: rgba(15, 30, 55, 0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #membership-modal-overlay.membership-show { opacity: 1; visibility: visible; pointer-events: auto; }
+        #membership-modal { position: relative; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 16px; overflow: hidden; isolation: isolate; transform: translateZ(0); max-width: 480px; width: 100%; max-height: 90vh; padding: 44px 16px 16px; box-shadow: 0 25px 70px rgba(28, 58, 106, 0.25); transition: transform 0.3s ease, opacity 0.3s ease; display: flex; flex-direction: column; }
+        #membership-modal-overlay:not(.membership-show) #membership-modal { transform: translateY(16px) scale(0.97); }
+        #membership-scroll { flex: 1 1 auto; overflow-y: auto; border-radius: 10px; }
+        #membership-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 26px; color: #9ca3af; cursor: pointer; line-height: 1; transition: color 0.2s ease; z-index: 1; }
+        #membership-close:hover { color: #1C3A6A; }
+    </style>
+    <div id="membership-modal-overlay" role="dialog" aria-modal="true" aria-label="Become a Supporter">
+        <div id="membership-modal">
+            <button id="membership-close" type="button" aria-label="Close">&times;</button>
+            <div id="membership-scroll">
+                <script type="module" src="https://donorbox.org/widgets.js" async></script><dbox-widget campaign="supporter-membership-942752" type="donation_form" enable-auto-scroll="true" language="en"></dbox-widget>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('membership-modal-overlay');
+            const closeBtn = document.getElementById('membership-close');
+            window.openMembershipModal = function () { overlay.classList.add('membership-show'); };
+            function closeMembership() { overlay.classList.remove('membership-show'); }
+            closeBtn.addEventListener('click', closeMembership);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeMembership(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('membership-show')) closeMembership(); });
+            const joinBtn = document.getElementById('join-supporter-btn');
+            if (joinBtn) joinBtn.addEventListener('click', (e) => { e.preventDefault(); window.openMembershipModal(); });
+        })();
+    </script>
+</body>
+</html>
