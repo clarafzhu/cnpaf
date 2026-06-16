@@ -37,13 +37,13 @@
                 <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-10 lg:h-11">
                 <div class="hidden lg:flex flex-col justify-center">
                     <span class="text-[15px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
-                    <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                    <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300 whitespace-nowrap">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
                 </div>
             </a>
 
             <nav class="hidden lg:flex space-x-8 items-center text-[15px] font-medium h-full">
                 <div class="group h-full py-2">
-                    <a href="about" class="hover:text-accent transition flex items-center h-full cursor-pointer">About Us ▾</a>
+                    <a href="about" class="hover:text-accent transition flex items-center h-full cursor-pointer whitespace-nowrap">About Us ▾</a>
                     <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
                         <div class="container mx-auto px-6 py-10 flex">
                             <div class="w-1/4 pr-8 border-r border-gray-100">
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="group h-full py-2">
-                    <a href="initiatives" class="hover:text-accent transition flex items-center h-full cursor-pointer">Core Initiatives ▾</a>
+                    <a href="initiatives" class="hover:text-accent transition flex items-center h-full cursor-pointer whitespace-nowrap">Core Initiatives ▾</a>
                     <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
                         <div class="container mx-auto px-6 py-10 flex">
                             <div class="w-1/4 pr-8 border-r border-gray-100">
@@ -79,13 +79,13 @@
                     </div>
                 </div>
 
-                <div class="h-full py-2"><a href="youth-cabinet" class="hover:text-accent transition flex items-center h-full">Youth Cabinet</a></div>
+                <div class="h-full py-2"><a href="youth-cabinet" class="hover:text-accent transition flex items-center h-full whitespace-nowrap">Youth Cabinet</a></div>
                 <!-- 暂时隐藏：研究文献库入口
-<div class="h-full py-2"><a href="library" class="text-accent hover:text-accent transition flex items-center h-full">研究文献库</a></div>
+<div class="h-full py-2"><a href="library" class="text-accent hover:text-accent transition flex items-center h-full whitespace-nowrap">研究文献库</a></div>
 -->
 
                 <div class="group h-full py-2">
-                    <a href="join" class="hover:text-accent transition flex items-center h-full cursor-pointer">Get Involved ▾</a>
+                    <a href="join" class="hover:text-accent transition flex items-center h-full cursor-pointer whitespace-nowrap">Get Involved ▾</a>
                     <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
                         <div class="container mx-auto px-6 py-8 flex">
                             <div class="w-1/4 pr-8 border-r border-gray-100">
@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="group h-full py-2">
-                    <a href="support" class="hover:text-accent transition flex items-center h-full cursor-pointer">Partnerships & Support Us ▾</a>
+                    <a href="support" class="hover:text-accent transition flex items-center h-full cursor-pointer whitespace-nowrap">Partnerships & Support Us ▾</a>
                     <div class="mega-menu-wrapper absolute left-0 top-full w-full bg-white shadow-2xl border-t-4 border-accent text-gray-800 opacity-0 invisible">
                         <div class="container mx-auto px-6 py-8 flex">
                             <div class="w-1/4 pr-8 border-r border-gray-100">
@@ -128,8 +128,90 @@
                 <a href="stage-1" class="bg-accent text-white px-4 py-2 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[13px] whitespace-nowrap">Get Support Now</a>
                 <a href="support#donate" class="bg-accent text-white px-4 py-2 rounded-full font-bold shadow hover:bg-orange-500 transition duration-200 text-[13px] whitespace-nowrap">Donate</a>
             </div>
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" class="xl:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 focus:outline-none ml-auto" aria-label="Open menu">
+                <span class="block w-6 h-0.5 bg-white rounded transition-all duration-300"></span>
+                <span class="block w-6 h-0.5 bg-white rounded transition-all duration-300"></span>
+                <span class="block w-6 h-0.5 bg-white rounded transition-all duration-300"></span>
+            </button>
         </div>
     </header>
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav-overlay" class="xl:hidden fixed inset-0 z-[200] bg-primary overflow-y-auto -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+            <a href="./" class="flex items-center space-x-3">
+                <img src="./图片/logo-nav.png" alt="CNPAF" class="h-9">
+                <span class="text-white font-bold text-[14px] leading-tight">华人心理援助基金会</span>
+            </a>
+            <button id="mobile-menu-close" class="text-white/50 hover:text-white text-[24px] leading-none focus:outline-none">✕</button>
+        </div>
+        <nav class="px-6 py-2 divide-y divide-white/10">
+        <div>
+            <div class="flex items-center justify-between">
+                <a href="about" class="py-4 text-white font-semibold text-[15px] hover:text-accent flex-1">About Us</a>
+                <button data-mobile-accordion class="py-4 pl-4 text-white/50 hover:text-white focus:outline-none">
+                    <span data-arrow class="block transition-transform duration-200 text-[11px]">▼</span>
+                </button>
+            </div>
+            <div class="hidden pb-3 space-y-1 pl-2">
+                <a href="about#intro" class="block text-white/60 hover:text-accent text-[14px] py-1">About the Foundation</a>
+                <a href="about#mission" class="block text-white/60 hover:text-accent text-[14px] py-1">Mission & Philosophy</a>
+                <a href="about#team" class="block text-white/60 hover:text-accent text-[14px] py-1">Our Team</a>
+            </div>
+        </div>
+        <div>
+            <div class="flex items-center justify-between">
+                <a href="initiatives" class="py-4 text-white font-semibold text-[15px] hover:text-accent flex-1">Core Initiatives</a>
+                <button data-mobile-accordion class="py-4 pl-4 text-white/50 hover:text-white focus:outline-none">
+                    <span data-arrow class="block transition-transform duration-200 text-[11px]">▼</span>
+                </button>
+            </div>
+            <div class="hidden pb-3 space-y-1 pl-2">
+                <a href="initiatives#dreamer" class="block text-white/60 hover:text-accent text-[14px] py-1">The Dreamer</a>
+                <a href="initiatives#perpetuator" class="block text-white/60 hover:text-accent text-[14px] py-1">The Perpetuator</a>
+                <a href="initiatives#voyager" class="block text-white/60 hover:text-accent text-[14px] py-1">The Voyager</a>
+                <a href="initiatives#enlightener" class="block text-white/60 hover:text-accent text-[14px] py-1">The Enlightener</a>
+            </div>
+        </div>
+        <div>
+            <a href="youth-cabinet" class="block py-4 text-white font-semibold text-[15px] hover:text-accent">Youth Cabinet</a>
+        </div>
+        <div>
+            <div class="flex items-center justify-between">
+                <a href="join" class="py-4 text-white font-semibold text-[15px] hover:text-accent flex-1">Get Involved</a>
+                <button data-mobile-accordion class="py-4 pl-4 text-white/50 hover:text-white focus:outline-none">
+                    <span data-arrow class="block transition-transform duration-200 text-[11px]">▼</span>
+                </button>
+            </div>
+            <div class="hidden pb-3 space-y-1 pl-2">
+                <a href="stage-1" class="block text-white/60 hover:text-accent text-[14px] py-1">Stage I–IV Psychological Support</a>
+                <a href="join#volunteer" class="block text-white/60 hover:text-accent text-[14px] py-1">Become a Volunteer</a>
+                <a href="join#research" class="block text-white/60 hover:text-accent text-[14px] py-1">Join Research Initiatives</a>
+                <a href="join#career" class="block text-white/60 hover:text-accent text-[14px] py-1">Careers & Openings</a>
+            </div>
+        </div>
+        <div>
+            <div class="flex items-center justify-between">
+                <a href="support" class="py-4 text-white font-semibold text-[15px] hover:text-accent flex-1">Partnerships & Support Us</a>
+                <button data-mobile-accordion class="py-4 pl-4 text-white/50 hover:text-white focus:outline-none">
+                    <span data-arrow class="block transition-transform duration-200 text-[11px]">▼</span>
+                </button>
+            </div>
+            <div class="hidden pb-3 space-y-1 pl-2">
+                <a href="support#donate" class="block text-white/60 hover:text-accent text-[14px] py-1">Ways to Give</a>
+                <a href="support#partnership" class="block text-white/60 hover:text-accent text-[14px] py-1">Institutional Partnerships</a>
+                <a href="support#campus" class="block text-white/60 hover:text-accent text-[14px] py-1">Campus & Community Outreach</a>
+            </div>
+        </div>
+        </nav>
+        <div class="px-6 py-6 space-y-3">
+            <a href="stage-1" class="block w-full text-center bg-accent text-white font-bold py-3 rounded-full text-[15px] hover:bg-orange-500 transition">Get Support Now</a>
+            <a href="support#donate" class="block w-full text-center border border-white/30 text-white font-bold py-3 rounded-full text-[15px] hover:bg-white/10 transition">Donate</a>
+            <div class="flex items-center justify-center gap-3 pt-2 text-[14px]">
+                <a href="./" class="hover:text-accent transition text-white font-semibold">EN</a> <span class="text-white/20">|</span> <a href="zh/" class="hover:text-accent transition text-white/50">简</a> <span class="text-white/20">|</span> <a href="tc/" class="hover:text-accent transition text-white/50">繁</a>
+            </div>
+        </div>
+    </div>
 
     <main class="flex-grow">
         <section class="bg-primaryDark text-white py-24 relative overflow-hidden" id="top">
@@ -236,7 +318,7 @@
                     <img src="./图片/logo-nav.png" alt="CNPAF Logo" class="h-8">
                     <div class="flex flex-col justify-center">
                         <span class="text-[13px] font-bold tracking-widest leading-none mb-1">华人心理援助基金会</span>
-                        <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
+                        <span class="text-[8px] font-light tracking-[0.1em] leading-none text-gray-300 whitespace-nowrap">CHINESE PSYCHOLOGICAL ASSISTANCE FOUNDATION</span>
                     </div>
                 </div>
                 <p class="text-gray-300 text-[14px] leading-relaxed pr-8">
@@ -377,6 +459,42 @@
                 }
             });
         })();
+    </script>
+    <script>
+    // Mobile navigation
+    (function() {
+        var btn = document.getElementById('mobile-menu-btn');
+        var overlay = document.getElementById('mobile-nav-overlay');
+        var closeBtn = document.getElementById('mobile-menu-close');
+        function openMenu() {
+            if (!overlay) return;
+            overlay.classList.remove('-translate-x-full');
+            overlay.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMenu() {
+            if (!overlay) return;
+            overlay.classList.add('-translate-x-full');
+            overlay.classList.remove('translate-x-0');
+            document.body.style.overflow = '';
+        }
+        if (btn) btn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        // Accordion
+        document.querySelectorAll('[data-mobile-accordion]').forEach(function(b) {
+            b.addEventListener('click', function() {
+                var wrap = b.parentElement;
+                var content = wrap.nextElementSibling;
+                var arrow = b.querySelector('[data-arrow]');
+                if (content) content.classList.toggle('hidden');
+                if (arrow) arrow.classList.toggle('rotate-180');
+            });
+        });
+        // Close on link click
+        if (overlay) overlay.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', closeMenu);
+        });
+    })();
     </script>
 </body>
 </html>
