@@ -35,7 +35,8 @@
       "Bash(pip3 install *)",
       "Bash(python3 -c \"from opencc import OpenCC; print\\(OpenCC\\('s2twp'\\).convert\\('青年赋能软件志愿者'\\)\\)\")",
       "Bash(python3)",
-      "Bash(awk '{print $NF, $5}')"
+      "Bash(awk '{print $NF, $5}')",
+      "Bash(find /Volumes/502/cnpaf -name \"*.yml\" -o -name \"*.yaml\" | grep -v node_modules | head -20)"
     ]
   }
 }
