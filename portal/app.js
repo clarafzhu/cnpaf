@@ -184,8 +184,8 @@
     window._cpaf_currentMember = member;
 
     const locale = currentLang === "zh" ? "zh-CN" : currentLang === "zt" ? "zh-HK" : "en-US";
-    const joinDate = member.joinedAt
-      ? new Date(member.joinedAt).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" })
+    const joinDate = (member.joinedAt || member.created_at)
+      ? new Date(member.joinedAt || member.created_at).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" })
       : "—";
 
     const genderDisplay  = member.gender  ? (t(genderKeyMap[member.gender])   || member.gender)  : "—";
