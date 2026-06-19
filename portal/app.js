@@ -1476,11 +1476,18 @@
       // Handle return from Stripe Embedded Checkout
       if (urlParams.get('payment_status') === 'complete') {
         history.replaceState(null, '', location.pathname);
-        const banner = document.createElement('div');
-        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999;background:#065f46;color:#fff;padding:.75rem 1.25rem;text-align:center;font-size:.875rem;font-weight:600;letter-spacing:.01em;';
-        banner.textContent = '支付成功！您的内阁成员身份正在激活，请稍候片刻后刷新页面查看最新状态。';
-        document.body.prepend(banner);
-        setTimeout(() => banner.remove(), 10000);
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;';
+        overlay.innerHTML = `
+          <div style="background:#fff;border-radius:1rem;padding:2.5rem 2rem;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);">
+            <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
+            <h2 style="margin:0 0 .75rem;font-size:1.25rem;color:#065f46;font-weight:700;">支付成功！</h2>
+            <p style="margin:0 0 .5rem;color:#374151;font-size:.95rem;line-height:1.6;">您的内阁成员身份正在激活，系统将自动刷新页面。</p>
+            <p style="margin:0 0 1.5rem;color:#6b7280;font-size:.85rem;line-height:1.6;">如页面刷新后青年内阁状态仍未更新，请查看站内消息或联系秘书处：<a href="mailto:info@cnpaf.org" style="color:#1d4ed8;">info@cnpaf.org</a></p>
+            <button onclick="this.closest('div[style*=inset]').remove();location.reload();" style="background:#065f46;color:#fff;border:none;border-radius:.5rem;padding:.65rem 1.75rem;font-size:.95rem;font-weight:600;cursor:pointer;">好的，刷新页面</button>
+          </div>`;
+        document.body.appendChild(overlay);
+        setTimeout(() => { overlay.remove(); location.reload(); }, 6000);
       }
     } else {
       clearToken();
