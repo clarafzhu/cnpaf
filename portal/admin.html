@@ -1183,11 +1183,11 @@
       ? new Date(app.applied_at || app.appliedAt).toLocaleDateString('zh-CN', {year:'numeric', month:'long', day:'numeric'})
       : '—';
 
-    const fullName = [demo.firstName, demo.lastName].filter(Boolean).join(' ') || app.name || '—';
-    const address  = [demo.street, demo.city, demo.state, demo.zip].filter(Boolean).join(', ') || '—';
+    const fullName = app.name || '—';
+    const address  = [app.addressStreet, app.addressCity, app.addressState, app.addressZip].filter(Boolean).join(', ') || '—';
     const dob      = demo.dob || '—';
-    const phone    = demo.phone || '—';
-    const email    = demo.email || app.email || '—';
+    const phone    = [app.phoneCode, app.phone].filter(Boolean).join(' ').trim() || '—';
+    const email    = app.email || '—';
     const gender   = demo.gender || '—';
     const race     = demo.race || '—';
     const guardian = demo.guardianEmail || '';

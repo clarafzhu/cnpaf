@@ -1167,11 +1167,10 @@
     btn.disabled = true;
     btn.textContent = t("cabinetSubmitting");
 
-    const combinedMotivation = motivation + (vision ? `\n\n[Research Focus]\n${vision}` : '');
     const demographics = { dob, gender, race, ...(guardianEmail ? { guardianEmail } : {}) };
     const res = await apiFetch("/youth-cabinet/apply", {
       method: "POST",
-      body: JSON.stringify({ experience: background, motivation: combinedMotivation, demographics }),
+      body: JSON.stringify({ experience: background, motivation, vision, demographics }),
     });
 
     if (res.ok) {
@@ -1493,5 +1492,85 @@
       clearToken();
     }
   })();
+
+  // ─── Forgot / Reset Password ──────────────────────────────────────────────
+
+  const forgotModal   = document.getElementById('forgot-pwd-modal');
+  const resetModal    = document.getElementById('reset-pwd-modal');
+
+  document.getElementById('forgot-pwd-link')?.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('forgot-pwd-success').style.display = 'none';
+    document.getElementById('forgot-pwd-error').style.display = 'none';
+    document.getElementById('forgot-pwd-email').value = '';
+    forgotModal.style.display = 'flex';
+  });
+
+  document.getElementById('forgot-pwd-cancel')?.addEventListener('click', () => {
+    forgotModal.style.display = 'none';
+  });
+
+  forgotModal?.addEventListener('click', e => { if (e.target === forgotModal) forgotModal.style.display = 'none'; });
+
+  document.getElementById('forgot-pwd-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email   = document.getElementById('forgot-pwd-email').value.trim();
+    const errEl   = document.getElementById('forgot-pwd-error');
+    const succEl  = document.getElementById('forgot-pwd-success');
+    const btn     = e.target.querySelector('button[type=submit]');
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = '发送中…';
+    try {
+      await apiFetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) });
+      succEl.style.display = 'block';
+      e.target.querySelector('input').style.display = 'none';
+      btn.style.display = 'none';
+    } catch {
+      errEl.textContent = '发送失败，请稍后重试。';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send Reset Link';
+    }
+  });
+
+  // Auto-open reset modal when ?reset_token= is in URL
+  const resetToken = new URLSearchParams(location.search).get('reset_token');
+  if (resetToken) {
+    history.replaceState(null, '', location.pathname);
+    resetModal.style.display = 'flex';
+  }
+
+  document.getElementById('reset-pwd-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const password = document.getElementById('reset-pwd-input').value;
+    const confirm  = document.getElementById('reset-pwd-confirm').value;
+    const errEl    = document.getElementById('reset-pwd-error');
+    errEl.style.display = 'none';
+    if (password !== confirm) {
+      errEl.textContent = '两次输入的密码不一致。';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (password.length < 6) {
+      errEl.textContent = '密码至少 6 位。';
+      errEl.style.display = 'block';
+      return;
+    }
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = '更新中…';
+    const res = await apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token: resetToken, password }) });
+    if (res.ok) {
+      resetModal.style.display = 'none';
+      alert('密码已重置，请用新密码登录。');
+      showScreen('login');
+    } else {
+      errEl.textContent = res.data?.message || '重置链接已失效，请重新申请。';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Update Password';
+    }
+  });
 
 })();

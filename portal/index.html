@@ -617,6 +617,9 @@
             <input type="password" id="login-password" name="password" required />
           </div>
           <button type="submit" class="btn btn-primary" data-i18n="loginSubmit">Sign In</button>
+          <p style="text-align:center;margin-top:.85rem;font-size:.875rem;">
+            <a href="#" id="forgot-pwd-link" style="color:#1d4ed8;" data-i18n="forgotPassword">Forgot password?</a>
+          </p>
         </form>
       </main>
     </section>
@@ -963,6 +966,46 @@
         </div>
         <button type="button" id="save-avatar-btn" class="btn btn-primary" data-i18n="saveBtn">Save Changes</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password modal -->
+  <div id="forgot-pwd-modal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:1rem;padding:2.5rem 2rem;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.25);">
+      <h2 style="margin:0 0 .5rem;font-size:1.15rem;font-weight:700;color:#1e293b;" data-i18n="forgotPwdTitle">Reset Password</h2>
+      <p style="margin:0 0 1.25rem;font-size:.875rem;color:#6b7280;" data-i18n="forgotPwdDesc">Enter your registered email and we'll send you a reset link.</p>
+      <div id="forgot-pwd-success" style="display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.5rem;padding:.875rem 1rem;margin-bottom:1rem;font-size:.875rem;color:#166534;" data-i18n="forgotPwdSuccess">Reset link sent! Please check your inbox.</div>
+      <form id="forgot-pwd-form">
+        <div class="field">
+          <label style="font-size:.875rem;font-weight:600;color:#374151;" data-i18n="loginLabel">Email</label>
+          <input type="email" id="forgot-pwd-email" style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:.5rem;font-size:.875rem;margin-top:.25rem;" required />
+        </div>
+        <div id="forgot-pwd-error" style="display:none;color:#dc2626;font-size:.8rem;margin-top:.5rem;"></div>
+        <div style="display:flex;gap:.75rem;margin-top:1.25rem;">
+          <button type="submit" class="btn btn-primary" style="flex:1;" data-i18n="forgotPwdSend">Send Reset Link</button>
+          <button type="button" id="forgot-pwd-cancel" class="btn btn-secondary" style="flex:1;" data-i18n="cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset Password modal -->
+  <div id="reset-pwd-modal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.5);align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:1rem;padding:2.5rem 2rem;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.25);">
+      <h2 style="margin:0 0 .5rem;font-size:1.15rem;font-weight:700;color:#1e293b;" data-i18n="resetPwdTitle">Set New Password</h2>
+      <p style="margin:0 0 1.25rem;font-size:.875rem;color:#6b7280;" data-i18n="resetPwdDesc">Enter your new password below.</p>
+      <div id="reset-pwd-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:.5rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.875rem;color:#dc2626;"></div>
+      <form id="reset-pwd-form">
+        <div class="field">
+          <label style="font-size:.875rem;font-weight:600;color:#374151;" data-i18n="signupPassword">New Password</label>
+          <input type="password" id="reset-pwd-input" style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:.5rem;font-size:.875rem;margin-top:.25rem;" required minlength="6" />
+        </div>
+        <div class="field" style="margin-top:.75rem;">
+          <label style="font-size:.875rem;font-weight:600;color:#374151;" data-i18n="signupConfirmPassword">Confirm New Password</label>
+          <input type="password" id="reset-pwd-confirm" style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:.5rem;font-size:.875rem;margin-top:.25rem;" required minlength="6" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1.25rem;" data-i18n="resetPwdSubmit">Update Password</button>
+      </form>
     </div>
   </div>
 
