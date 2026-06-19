@@ -1483,7 +1483,7 @@
             <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
             <h2 style="margin:0 0 .75rem;font-size:1.25rem;color:#065f46;font-weight:700;">支付成功！</h2>
             <p style="margin:0 0 .5rem;color:#374151;font-size:.95rem;line-height:1.6;">您的内阁成员身份正在激活，系统将自动刷新页面。</p>
-            <p style="margin:0 0 1.5rem;color:#6b7280;font-size:.85rem;line-height:1.6;">如页面刷新后青年内阁状态仍未更新，请查看站内消息或联系秘书处：<a href="mailto:info@cnpaf.org" style="color:#1d4ed8;">info@cnpaf.org</a></p>
+            <p style="margin:0 0 1.5rem;color:#6b7280;font-size:.85rem;line-height:1.6;">如页面刷新后青年内阁状态仍未更新，请查看站内消息或联系秘书处：<a href="mailto:ycsec@cnpaf.org" style="color:#1d4ed8;">ycsec@cnpaf.org</a></p>
             <button onclick="this.closest('div[style*=inset]').remove();location.reload();" style="background:#065f46;color:#fff;border:none;border-radius:.5rem;padding:.65rem 1.75rem;font-size:.95rem;font-weight:600;cursor:pointer;">好的，刷新页面</button>
           </div>`;
         document.body.appendChild(overlay);
