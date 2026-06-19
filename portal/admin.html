@@ -820,7 +820,7 @@
     const users = tbody?._usersData || [];
     const set = new Set();
     // Standard tags always available
-    ['Youth Cabinet', 'Supporter', 'Volunteer', 'Donor'].forEach(t => set.add(t));
+    ['Member', 'Youth Cabinet', 'Supporter', 'Volunteer', 'Donor'].forEach(t => set.add(t));
     users.forEach(u => (u.tags || []).forEach(t => set.add(t)));
     return [...set].sort();
   }
