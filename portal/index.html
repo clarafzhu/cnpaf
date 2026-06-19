@@ -645,6 +645,7 @@
             <li data-tab="tab-card" data-i18n="dashMenuCard">My Membership Card</li>
             <li data-tab="tab-profile" data-i18n="dashMenuProfile">Member Info</li>
             <li data-tab="tab-account" data-i18n="dashMenuAccount">My Account</li>
+            <li data-tab="tab-benefits" data-i18n="dashMenuBenefits">My Benefits</li>
             <li data-tab="tab-cabinet" data-i18n="dashMenuCabinet">Youth Cabinet<span class="notif-nav-badge" id="cabinet-notif-badge" style="display:none"></span></li>
             <li data-tab="tab-security" data-i18n="dashMenuSecurity">Account Security</li>
             <li id="admin-panel-link" style="display:none; color:var(--secondary); border-top:1px solid var(--border); margin-top:0.5rem; padding-top:0.5rem;">
@@ -681,6 +682,14 @@
                   <span class="inbox-unread-badge" id="inbox-unread-badge" style="display:none"></span>
                 </div>
                 <div id="overview-inbox-list" class="inbox-list"></div>
+              </div>
+
+              <div class="overview-benefits-preview">
+                <h3 data-i18n="dashOverviewSummary">Benefit Summary</h3>
+                <ul class="benefits-preview-list" id="overview-benefits-preview-list">
+                  <!-- Short list of benefits -->
+                </ul>
+                <button type="button" class="btn-text" onclick="switchTab('tab-benefits')" data-i18n="dashMenuBenefits">View all benefits</button>
               </div>
 
             </div>
@@ -884,6 +893,16 @@
             </div>
           </div>
 
+
+          <!-- Tab 4: My Benefits -->
+          <div id="tab-benefits" class="dash-tab">
+            <div class="form-container-full">
+              <h2 data-i18n="dashMenuBenefits">My Benefits</h2>
+              <div id="benefits-dynamic-container" class="benefits-dynamic">
+                <p style="color:var(--text-muted); font-size:0.875rem;">Loading benefits…</p>
+              </div>
+            </div>
+          </div>
 
           <!-- Tab 5: Youth Cabinet -->
           <div id="tab-cabinet" class="dash-tab">

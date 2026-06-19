@@ -184,9 +184,16 @@
     window._cpaf_currentMember = member;
 
     const locale = currentLang === "zh" ? "zh-CN" : currentLang === "zt" ? "zh-HK" : "en-US";
-    const joinDate = (member.joinedAt || member.created_at)
-      ? new Date(member.joinedAt || member.created_at).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" })
+    const joinRaw = member.joinedAt || member.created_at;
+    const joinDateCard = joinRaw
+      ? new Date(joinRaw).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" })
       : "—";
+    const joinDate = joinRaw ? (() => {
+      const d = new Date(joinRaw);
+      const ymd = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+      const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+      return `Since ${ymd} · 已加入 ${days} 天`;
+    })() : "—";
 
     const genderDisplay  = member.gender  ? (t(genderKeyMap[member.gender])   || member.gender)  : "—";
     const regionDisplay  = member.region  ? (t(regionKeyMap[member.region])   || member.region)  : "—";
@@ -206,7 +213,7 @@
     setEl("card-mbti",          member.mbti || "—");
     setEl("card-zodiac",        zodiacDisplay);
     setEl("card-dob",           formatDob(member.dob));
-    setEl("card-joined",        joinDate);
+    setEl("card-joined",        joinDateCard);
     setEl("card-bio",           member.bio || "—");
 
     setEl("dash-points", member.member_id || "—");
