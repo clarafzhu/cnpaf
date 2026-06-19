@@ -1659,6 +1659,28 @@ body.lang-zt .profile-value {
   width: 100%;
   margin-bottom: 0.5rem;
 }
+.cabinet-action-btn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: #1E3A8A;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  margin-bottom: 0.5rem;
+}
+.cabinet-action-btn:hover {
+  background: #163072;
+  transform: translateY(-1px);
+}
+.cabinet-action-btn:active {
+  transform: translateY(0);
+}
 .cabinet-fellowship-note {
   margin-top: 1rem;
   padding: 0.875rem 1rem;
