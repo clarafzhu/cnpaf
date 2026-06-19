@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CNPAF Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Tag chip editor ── */
+    .tag-chip-editor {
+      display: flex; flex-wrap: wrap; gap: 0.375rem;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 0.4rem 0.6rem; background: #fff; min-height: 2.25rem;
+      cursor: text;
+    }
+    .tag-chip-editor:focus-within { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(15,62,120,.12); }
+    .tag-chip {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--accent); color: #fff;
+      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+    }
+    .tag-chip-remove {
+      background: none; border: none; color: rgba(255,255,255,.7);
+      cursor: pointer; font-size: 0.875rem; line-height: 1; padding: 0;
+      display: flex; align-items: center;
+    }
+    .tag-chip-remove:hover { color: #fff; }
+    .tag-chip-input {
+      border: none; outline: none; font-size: 0.8125rem;
+      font-family: var(--font-sans); min-width: 6rem; flex: 1; padding: 0.1rem 0;
+    }
+    /* ── Detail row in view modal ── */
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem; }
+    .detail-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .detail-label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+    .detail-value { font-size: 0.875rem; font-weight: 600; color: var(--text); word-break: break-all; }
+    .detail-section { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; }
+    .detail-section-title { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 0.875rem; }
+    /* ── Status badges ── */
+    .status-badge { display: inline-flex; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.6875rem; font-weight: 700; border: 1px solid; }
+    .status-pending  { color: #92400e; background: #fef3c7; border-color: #fcd34d; }
+    .status-approved { color: #166534; background: #dcfce7; border-color: #86efac; }
+    .status-none     { color: var(--text-muted); background: var(--bg); border-color: var(--border); }
+    /* ── Action icon buttons ── */
+    .btn-icon { background: none; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); transition: all .15s; white-space: nowrap; }
+    .btn-icon:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .btn-icon.danger:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+    .row-actions { display: flex; gap: 0.375rem; }
+    /* ── Divider label ── */
+    .section-divider { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.875rem; }
+    /* ── Authcode modal always on top ── */
+    #authcode-modal { z-index: 1100; }
+    /* ── Auth caution banner ── */
+    .auth-caution { background: #fef3c7; border: 1px solid #fbbf24; border-radius: var(--radius); padding: 0.75rem 1rem; display: flex; gap: 0.625rem; align-items: flex-start; }
+    .auth-caution-icon { font-size: 1rem; line-height: 1.4; flex-shrink: 0; }
+    .auth-caution-text { font-size: 0.8125rem; color: #92400e; font-weight: 500; line-height: 1.5; }
+    /* ── Success toast ── */
+    #success-toast { position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%) translateY(-4rem); background: #166534; color: #fff; font-size: 0.875rem; font-weight: 600; padding: 0.65rem 1.5rem; border-radius: var(--radius); z-index: 1200; transition: transform .3s ease, opacity .3s ease; opacity: 0; pointer-events: none; white-space: nowrap; }
+    #success-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    /* ── Tag suggestion dropdown ── */
+    .tag-suggestions-wrap { position: relative; }
+    .tag-suggestions { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,.1); max-height: 160px; overflow-y: auto; z-index: 10; display: none; }
+    .tag-suggestions.open { display: block; }
+    .tag-suggestion-item { padding: 0.5rem 0.75rem; font-size: 0.8125rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; color: var(--text); }
+    .tag-suggestion-item:hover { background: var(--accent-light); color: var(--accent); }
+    .tag-suggestion-item.already-added { opacity: 0.4; cursor: default; }
+    .tag-suggestion-item .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    /* ── Audit log ── */
+    .audit-section { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 0.25rem; }
+    .audit-section-title { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 0.75rem; }
+    .audit-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .audit-entry { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); }
+    .audit-entry-meta { flex: 1; min-width: 0; }
+    .audit-entry-who { font-size: 0.75rem; font-weight: 700; color: var(--text); }
+    .audit-entry-what { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.1rem; line-height: 1.4; word-break: break-word; }
+    .audit-entry-time { font-size: 0.6875rem; color: var(--text-muted); white-space: nowrap; }
+    .audit-undo-btn { font-size: 0.6875rem; font-weight: 600; color: #b42828; background: none; border: 1px solid rgba(180,40,40,.35); border-radius: 3px; padding: 0.2rem 0.5rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .audit-undo-btn:hover { background: #fef2f2; }
+    .audit-empty { font-size: 0.8125rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <section class="screen active" style="min-height:100vh; flex-direction:column;">
+
+    <header class="site-header">
+      <div class="logo">
+        <img src="logo.png" alt="CNPAF Logo" />
+        <span>CNPAF&nbsp;<span style="color:var(--secondary)">Admin</span></span>
+      </div>
+      <nav style="display:flex; align-items:center; gap:1.5rem;">
+        <span id="admin-user-name" style="font-size:0.8125rem; color:rgba(255,255,255,.65);"></span>
+        <a href="index.html" class="btn-text" style="font-size:0.8125rem; color:rgba(255,255,255,.75);">← Member Portal</a>
+        <button type="button" class="btn-text" id="admin-logout-btn" style="color:rgba(255,255,255,.75);">Sign Out</button>
+      </nav>
+    </header>
+
+    <!-- Access-denied gate -->
+    <div id="admin-auth-gate" style="display:none; flex:1; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; padding:4rem; text-align:center;">
+      <div style="font-size:2.5rem;">🔒</div>
+      <h2 style="margin:0;">Access Denied</h2>
+      <p style="color:var(--text-muted); max-width:36ch; margin:0; font-size:0.875rem;">You must be signed in as an administrator to access this panel.</p>
+      <a href="index.html" class="btn btn-primary">Return to Member Portal</a>
+    </div>
+
+    <!-- Admin content -->
+    <main class="dashboard-layout" id="admin-main" style="display:none; flex:1;">
+      <aside class="dashboard-sidebar">
+        <ul class="dash-menu" id="admin-sidebar-menu">
+          <li class="active" data-admin-tab="tab-users">User Management</li>
+          <li data-admin-tab="tab-cabinet">Youth Cabinet</li>
+          <li data-admin-tab="tab-notifications">消息通知</li>
+          <li data-admin-tab="tab-benefits-mgmt">Benefits</li>
+        </ul>
+      </aside>
+
+      <div class="dashboard-content">
+
+        <!-- Tab: Users -->
+        <div id="tab-users" class="dash-tab active">
+          <div class="form-container-full">
+            <h2>User Management</h2>
+            <p style="color:var(--text-muted); margin:0 0 1.25rem; font-size:0.8125rem;">
+              Add, edit, or remove members. Select rows for bulk actions.
+            </p>
+            <div class="admin-toolbar">
+              <button type="button" class="btn btn-primary btn-sm" id="add-member-btn">+ Add Member</button>
+              <button type="button" class="btn btn-secondary-blue btn-sm" id="grant-tag-btn" disabled>Grant Youth Cabinet Tag</button>
+              <button type="button" class="btn btn-secondary-blue btn-sm" id="grant-admin-btn" disabled>Grant Admin Role</button>
+              <button type="button" class="btn btn-sm" id="delete-bulk-btn" disabled style="border:1px solid #dc2626; color:#dc2626; background:#fff; font-weight:600; border-radius:var(--radius); cursor:pointer;">Delete Selected</button>
+              <span id="selection-count" style="display:none; align-self:center; font-size:0.8125rem; color:var(--text-muted);"></span>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width:2.5rem;"><input type="checkbox" id="select-all-users" /></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Member ID</th>
+                    <th>Region</th>
+                    <th>Tags</th>
+                    <th>Role</th>
+                    <th>Cabinet</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody">
+                  <tr><td colspan="10" class="table-loading">Loading users…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Youth Cabinet -->
+        <div id="tab-cabinet" class="dash-tab">
+          <div class="form-container-full">
+            <h2>Youth Cabinet</h2>
+            <div class="admin-subtab-nav">
+              <button class="admin-subtab-btn active" data-subtab="subtab-applications">申请审批</button>
+              <button class="admin-subtab-btn" data-subtab="subtab-activities">实践审批</button>
+            </div>
+
+            <!-- 子Tab：申请审批 -->
+            <div id="subtab-applications" class="admin-subtab-panel active">
+              <p style="color:var(--text-muted);margin:0 0 1.5rem;font-size:0.8125rem;">
+                审核候选人申请。通过后申请人将收到激活提示。
+              </p>
+              <div id="cabinet-applications-list">
+                <p class="table-loading">Loading applications…</p>
+              </div>
+            </div>
+
+            <!-- 子Tab：实践审批 -->
+            <div id="subtab-activities" class="admin-subtab-panel">
+              <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                <button class="activity-filter-btn active" data-status="pending">待审核</button>
+                <button class="activity-filter-btn" data-status="approved">已通过</button>
+                <button class="activity-filter-btn" data-status="rejected">已驳回</button>
+                <span id="activity-review-count" style="font-size:0.8rem;color:var(--text-muted);margin-left:auto"></span>
+              </div>
+              <div id="activity-review-list"><p class="table-loading">加载中…</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Notifications -->
+        <div id="tab-notifications" class="dash-tab">
+          <div class="form-container-full">
+            <h2>消息通知</h2>
+            <p style="color:var(--text-muted);margin:0 0 1.5rem;font-size:0.8125rem;">
+              向特定群组或个别会员推送通知，消息将显示在其会员门户首页。
+            </p>
+            <form id="notif-send-form" class="admin-notif-form">
+              <div class="field">
+                <label>发送对象</label>
+                <select id="notif-target-type">
+                  <option value="tag">指定 Tag 群组</option>
+                  <option value="user">指定会员</option>
+                  <option value="all">全体会员</option>
+                </select>
+              </div>
+              <div class="field" id="notif-tag-field">
+                <label>目标 Tag</label>
+                <select id="notif-target-tag">
+                  <option value="Youth Cabinet">Youth Cabinet</option>
+                  <option value="Supporter">Supporter</option>
+                  <option value="Volunteer">Volunteer</option>
+                  <option value="Donor">Donor</option>
+                </select>
+              </div>
+              <div class="field" id="notif-user-field" style="display:none">
+                <label>会员邮箱或 ID</label>
+                <input type="text" id="notif-target-user" placeholder="输入邮箱或 Member ID">
+              </div>
+              <div class="field">
+                <label>标题</label>
+                <input type="text" id="notif-title" placeholder="通知标题" required>
+              </div>
+              <div class="field">
+                <label>正文</label>
+                <textarea id="notif-body" rows="4" placeholder="通知内容…" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">发送通知</button>
+            </form>
+            <div style="margin-top:2rem;border-top:1px solid var(--border);padding-top:1.5rem;">
+              <h4 style="font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin:0 0 1rem">已发送记录</h4>
+              <div id="notif-sent-list"><p class="table-loading">加载中…</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Benefits Management -->
+        <div id="tab-benefits-mgmt" class="dash-tab">
+          <div class="form-container-full">
+            <h2>Benefits Management</h2>
+            <p style="color:var(--text-muted); margin:0 0 1.25rem; font-size:0.8125rem;">
+              Create and configure member benefits. Each benefit can target specific tags, support redemption cycles, and will appear automatically in eligible members' portals.
+            </p>
+            <div class="admin-toolbar">
+              <button type="button" class="btn btn-primary btn-sm" id="add-benefit-btn">+ New Benefit</button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width:3rem;">Icon</th>
+                    <th>Name</th>
+                    <th>Required Tags</th>
+                    <th>Redeemable</th>
+                    <th>Cycle</th>
+                    <th>Order</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="benefits-tbody">
+                  <tr><td colspan="8" class="table-loading">Loading benefits…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </section>
+</div>
+
+<!-- ═══ ADD / EDIT BENEFIT MODAL ═══════════════════════════════════════ -->
+<div id="benefit-modal" class="modal">
+  <div class="modal-content" style="max-width:680px;">
+    <div class="modal-header">
+      <h2 id="benefit-modal-title">New Benefit</h2>
+      <button type="button" class="modal-close" id="close-benefit-modal">&times;</button>
+    </div>
+    <div style="padding:1.5rem; overflow-y:auto; max-height:80vh; display:flex; flex-direction:column; gap:1.25rem;">
+
+      <!-- Name row -->
+      <div>
+        <p class="detail-section-title">Name</p>
+        <div class="field-row">
+          <div class="field">
+            <label>English</label>
+            <input type="text" id="bm-name" placeholder="Psychological Navigation Session" />
+          </div>
+          <div class="field">
+            <label>简体中文</label>
+            <input type="text" id="bm-name-zh" placeholder="心理导航服务" />
+          </div>
+          <div class="field">
+            <label>繁體中文</label>
+            <input type="text" id="bm-name-zt" placeholder="心理導航服務" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <p class="detail-section-title">Description</p>
+        <div class="field">
+          <label>English</label>
+          <textarea id="bm-desc" rows="2" placeholder="Describe this benefit in English…"></textarea>
+        </div>
+        <div class="field-row" style="margin-top:.75rem;">
+          <div class="field">
+            <label>简体中文</label>
+            <textarea id="bm-desc-zh" rows="2" placeholder="权益描述（简体）…"></textarea>
+          </div>
+          <div class="field">
+            <label>繁體中文</label>
+            <textarea id="bm-desc-zt" rows="2" placeholder="權益描述（繁體）…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon + order -->
+      <div class="field-row">
+        <div class="field" style="max-width:8rem;">
+          <label>Icon (emoji)</label>
+          <input type="text" id="bm-icon" placeholder="🧭" maxlength="4" style="font-size:1.25rem;" />
+        </div>
+        <div class="field" style="max-width:8rem;">
+          <label>Display Order</label>
+          <input type="number" id="bm-order" value="0" min="0" />
+        </div>
+        <div class="field" style="max-width:8rem;">
+          <label>Active</label>
+          <select id="bm-active">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tags required -->
+      <div class="field">
+        <label>Required Tags <span style="font-weight:400;color:var(--text-muted)">(any match = eligible · empty = all members)</span></label>
+        <div class="tag-suggestions-wrap">
+          <div class="tag-chip-editor" id="bm-tag-editor">
+            <input type="text" class="tag-chip-input" id="bm-tag-input" placeholder="Add tag requirement…" />
+          </div>
+          <div class="tag-suggestions" id="bm-tag-suggestions"></div>
+        </div>
+      </div>
+
+      <!-- Redemption settings -->
+      <div class="detail-section">
+        <p class="detail-section-title">Redemption Settings</p>
+        <div class="field-row">
+          <div class="field">
+            <label>Requires Redemption?</label>
+            <select id="bm-redeemable">
+              <option value="0">No — informational only</option>
+              <option value="1">Yes — track usage per cycle</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Uses per Cycle</label>
+            <input type="number" id="bm-limit" value="1" min="1" placeholder="1" />
+          </div>
+          <div class="field">
+            <label>Cycle Type</label>
+            <select id="bm-cycle">
+              <option value="none">None</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="semi-annual">Semi-annual</option>
+              <option value="annual">Annual</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <p id="benefit-modal-error" style="color:#dc2626;font-size:.8125rem;margin:0;display:none;"></p>
+      <div style="display:flex;gap:.75rem;">
+        <button type="button" class="btn btn-primary" id="save-benefit-btn">Save Benefit</button>
+        <button type="button" class="btn btn-sm" id="delete-benefit-btn" style="display:none;border:1px solid #dc2626;color:#dc2626;background:#fff;font-weight:600;border-radius:var(--radius);cursor:pointer;padding:.6rem 1.25rem;font-size:.875rem;">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADD MEMBER MODAL ══════════════════════════════════════════════════ -->
+<div id="add-member-modal" class="modal">
+  <div class="modal-content" style="max-width:520px;">
+    <div class="modal-header">
+      <h2>Add Member Manually</h2>
+      <button type="button" class="modal-close" id="close-add-member-modal">&times;</button>
+    </div>
+    <div style="padding:1.5rem; overflow-y:auto; max-height:70vh;">
+      <form id="add-member-form" class="membership-form">
+        <div class="field-row">
+          <div class="field">
+            <label>English Name <span style="color:#dc2626">*</span></label>
+            <input type="text" id="am-name" required placeholder="Jane Doe" />
+          </div>
+          <div class="field">
+            <label>Chinese Name</label>
+            <input type="text" id="am-namezh" placeholder="张三 (optional)" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Email <span style="color:#dc2626">*</span></label>
+          <input type="email" id="am-email" required placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Temporary Password <span style="color:#dc2626">*</span></label>
+          <input type="text" id="am-password" required placeholder="At least 8 characters" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Region</label>
+            <select id="am-region">
+              <option value="">— Select —</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="CN">China Mainland</option>
+              <option value="HK">Hong Kong SAR</option>
+              <option value="MO">Macau SAR</option>
+              <option value="TW">Taiwan</option>
+              <option value="AU">Australia</option>
+              <option value="UK">United Kingdom</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Gender</label>
+            <select id="am-gender">
+              <option value="">— Select —</option>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Non-binary">Non-binary</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="text" id="am-phone" placeholder="+1 000 000 0000" />
+        </div>
+        <p id="add-member-error" style="color:#dc2626; font-size:0.8125rem; margin:0; display:none;"></p>
+        <button type="submit" class="btn btn-primary" style="margin-top:0.5rem;">Create Member</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EDIT MEMBER MODAL ════════════════════════════════════════════════ -->
+<div id="edit-member-modal" class="modal">
+  <div class="modal-content" style="max-width:600px;">
+    <div class="modal-header">
+      <h2 id="edit-modal-title">Member Details</h2>
+      <button type="button" class="modal-close" id="close-edit-member-modal">&times;</button>
+    </div>
+    <div style="padding:1.5rem; overflow-y:auto; max-height:80vh; display:flex; flex-direction:column; gap:1.25rem;">
+
+      <!-- Profile info (read-only) -->
+      <div>
+        <p class="detail-section-title">Profile</p>
+        <div class="detail-grid" id="edit-detail-grid"></div>
+      </div>
+
+      <!-- Editable permissions -->
+      <div class="detail-section">
+        <p class="detail-section-title">Permissions &amp; Tags</p>
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="field">
+            <label>Tags <span style="font-weight:400; color:var(--text-muted);">(Enter / comma 添加，或点击下拉选择)</span></label>
+            <div class="tag-suggestions-wrap">
+              <div class="tag-chip-editor" id="tag-chip-editor">
+                <input type="text" class="tag-chip-input" id="tag-chip-input" placeholder="Add tag…" />
+              </div>
+              <div class="tag-suggestions" id="tag-suggestions"></div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Role</label>
+              <select id="edit-role">
+                <option value="0">Member</option>
+                <option value="1">Admin</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Youth Cabinet Status</label>
+              <select id="edit-cabinet-status">
+                <option value="">None</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p id="edit-member-error" style="color:#dc2626; font-size:0.8125rem; margin:0; display:none;"></p>
+      <div style="display:flex; gap:0.75rem;">
+        <button type="button" class="btn btn-primary" id="save-edit-btn">Save Changes</button>
+        <button type="button" class="btn btn-sm danger" id="delete-from-edit-btn" style="border:1px solid #dc2626; color:#dc2626; background:#fff; font-weight:600; border-radius:var(--radius); cursor:pointer; padding:0.6rem 1.25rem; font-size:0.875rem;">Delete Member</button>
+      </div>
+
+      <!-- Audit log -->
+      <div class="audit-section">
+        <p class="audit-section-title">Recent Edit History</p>
+        <div id="audit-list" class="audit-list">
+          <p class="audit-empty">Loading…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AUTHORIZATION MODAL (always last → highest stacking) ══════════ -->
+<!-- ═══ CABINET APPLICATION DETAIL MODAL ══════════════════════════════════ -->
+<div id="cabinet-detail-modal" class="modal">
+  <div class="modal-content" style="max-width:640px;">
+    <div class="modal-header">
+      <h2 id="cabinet-detail-title">申请详情</h2>
+      <button type="button" class="modal-close" id="close-cabinet-detail-modal">&times;</button>
+    </div>
+    <div id="cabinet-detail-body" style="padding:1.5rem; overflow-y:auto; max-height:72vh; display:flex; flex-direction:column; gap:1.25rem;">
+    </div>
+  </div>
+</div>
+
+<div id="authcode-modal" class="modal">
+  <div class="modal-content" style="max-width:440px;">
+    <div class="modal-header">
+      <h2>Authorization Required</h2>
+      <button type="button" class="modal-close" id="close-authcode-modal">&times;</button>
+    </div>
+    <div style="padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+      <div class="auth-caution">
+        <span class="auth-caution-icon">⚠️</span>
+        <span class="auth-caution-text">此操作将直接修改会员数据库，请确认操作无误后再输入授权码。操作完成后将留存修改记录。</span>
+      </div>
+      <p id="authcode-modal-desc" style="color:var(--text-muted); margin:0; font-size:0.875rem; line-height:1.6;"></p>
+      <div class="field">
+        <label for="authcode-input">Authorization Code</label>
+        <input type="text" id="authcode-input" placeholder="Enter authorization code…" autocomplete="off" />
+      </div>
+      <button type="button" class="btn btn-primary" id="authcode-confirm-btn">Confirm Action</button>
+      <p id="authcode-error" style="color:#dc2626; font-size:0.8125rem; margin:0; display:none;"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SUCCESS TOAST ═══════════════════════════════════════════════════ -->
+<div id="success-toast">✓ 编辑成功</div>
+
+<script>
+  "use strict";
+
+  const BASE_URL  = 'https://cnpaf.org/api';
+  const TOKEN_KEY = 'cpaf_token';
+
+  const getToken   = () => { try { return localStorage.getItem(TOKEN_KEY); }  catch { return null; } };
+  const clearToken = () => { try { localStorage.removeItem(TOKEN_KEY); }       catch {} };
+
+  async function apiFetch(path, options = {}) {
+    const token = getToken();
+    const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    try {
+      const res  = await fetch(BASE_URL + path, { ...options, headers });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, data };
+    } catch {
+      return { ok: false, status: 0, data: { message: 'Network error.' } };
+    }
+  }
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ─── State ────────────────────────────────────────────────────────────────────
+  let selectedUserIds = new Set();
+  let pendingAction   = null;
+  let editingUserId   = null;
+  let editingTags     = [];
+
+  // ─── Tab switching ────────────────────────────────────────────────────────────
+  document.querySelectorAll('#admin-sidebar-menu li[data-admin-tab]').forEach(li => {
+    li.addEventListener('click', () => {
+      const tabId = li.getAttribute('data-admin-tab');
+      document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('#admin-sidebar-menu li').forEach(l => l.classList.remove('active'));
+      document.getElementById(tabId)?.classList.add('active');
+      li.classList.add('active');
+      if (tabId === 'tab-cabinet') loadCabinetApplications();
+      if (tabId === 'tab-notifications') loadAdminNotifications();
+      if (tabId === 'tab-benefits-mgmt') loadAdminBenefits();
+    });
+  });
+
+  // ─── Youth Cabinet 子Tab 切换 ─────────────────────────────────────────────────
+  document.querySelectorAll('.admin-subtab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const subtabId = btn.getAttribute('data-subtab');
+      document.querySelectorAll('.admin-subtab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.admin-subtab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(subtabId)?.classList.add('active');
+      if (subtabId === 'subtab-activities') loadActivityReviews('pending');
+    });
+  });
+
+  // 通知发送对象切换
+  document.getElementById('notif-target-type')?.addEventListener('change', e => {
+    document.getElementById('notif-tag-field').style.display  = e.target.value === 'tag'  ? '' : 'none';
+    document.getElementById('notif-user-field').style.display = e.target.value === 'user' ? '' : 'none';
+  });
+
+  // 实践审批筛选
+  document.querySelectorAll('.activity-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.activity-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadActivityReviews(btn.dataset.status);
+    });
+  });
+
+  // 通知发送表单
+  document.getElementById('notif-send-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const targetType = document.getElementById('notif-target-type').value;
+    const title      = document.getElementById('notif-title').value.trim();
+    const body       = document.getElementById('notif-body').value.trim();
+    const targetTag  = targetType === 'tag'  ? document.getElementById('notif-target-tag').value : null;
+    const targetUser = targetType === 'user' ? document.getElementById('notif-target-user').value.trim() : null;
+    if (!title || !body) return alert('请填写标题和正文');
+    pendingAction = { type: 'send-notif', payload: { target_type: targetType, target_tag: targetTag, target_user_input: targetUser, title, body } };
+    openAuthModal('send-notif');
+  });
+
+  // ─── Init ─────────────────────────────────────────────────────────────────────
+  async function init() {
+    const token = getToken();
+    if (!token) { showGate(); return; }
+    const res = await apiFetch('/me');
+    if (!res.ok || !res.data.user?.is_admin) { showGate(); return; }
+    document.getElementById('admin-user-name').textContent = res.data.user.name || res.data.user.email;
+    document.getElementById('admin-auth-gate').style.display = 'none';
+    document.getElementById('admin-main').style.display      = 'flex';
+    loadUsers();
+  }
+
+  function showGate() {
+    document.getElementById('admin-auth-gate').style.display = 'flex';
+    document.getElementById('admin-main').style.display      = 'none';
+  }
+
+  // ─── User list ────────────────────────────────────────────────────────────────
+  async function loadUsers() {
+    const tbody = document.getElementById('users-tbody');
+    tbody.innerHTML = '<tr><td colspan="10" class="table-loading">Loading users…</td></tr>';
+    const res = await apiFetch('/admin/users');
+    if (!res.ok) {
+      tbody.innerHTML = `<tr><td colspan="10" class="table-loading">Failed to load: ${escapeHtml(res.data.message)}</td></tr>`;
+      return;
+    }
+    const users = res.data.users || [];
+    if (!users.length) {
+      tbody.innerHTML = '<tr><td colspan="10" class="table-loading">No registered users found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = users.map(u => {
+      const uid    = escapeHtml(String(u.id || u.membershipId));
+      const tags   = (u.tags || []).map(tag => `<span class="admin-tag-pill">${escapeHtml(tag)}</span>`).join('') || '<span class="text-muted">—</span>';
+      const joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString() : '—';
+      const cab    = u.youth_cabinet_status
+        ? `<span class="status-badge status-${u.youth_cabinet_status === 'approved' ? 'approved' : u.youth_cabinet_status === 'pending' ? 'pending' : 'none'}">${escapeHtml(u.youth_cabinet_status)}</span>`
+        : '<span class="text-muted">—</span>';
+      return `
+        <tr>
+          <td><input type="checkbox" class="user-checkbox" data-id="${uid}" /></td>
+          <td>
+            <div class="user-name-cell">
+              <strong>${escapeHtml(u.name)}</strong>
+              ${u.nameZh ? `<span class="user-name-zh">${escapeHtml(u.nameZh)}</span>` : ''}
+            </div>
+          </td>
+          <td style="font-size:0.8125rem;">${escapeHtml(u.email)}</td>
+          <td><code class="admin-mid">${escapeHtml(u.membershipId || u.member_id || '')}</code></td>
+          <td style="font-size:0.8125rem;">${escapeHtml(u.region || '—')}</td>
+          <td>${tags}</td>
+          <td><span class="admin-role-badge ${u.is_admin ? 'admin-role-badge--admin' : ''}">${u.is_admin ? 'Admin' : 'Member'}</span></td>
+          <td>${cab}</td>
+          <td style="font-size:0.8125rem; color:var(--text-muted);">${joined}</td>
+          <td>
+            <div class="row-actions">
+              <button class="btn-icon edit-user-btn" data-id="${uid}">Edit</button>
+              <button class="btn-icon danger delete-user-btn" data-id="${uid}" data-name="${escapeHtml(u.name)}">Delete</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    // store user data on tbody for edit modal and notification targeting
+    tbody._usersData = users;
+    window._allUsersCache = users;
+
+    tbody.querySelectorAll('.user-checkbox').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const id = cb.getAttribute('data-id');
+        cb.checked ? selectedUserIds.add(id) : selectedUserIds.delete(id);
+        updateActionButtons();
+      });
+    });
+
+    tbody.querySelectorAll('.edit-user-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const uid  = btn.getAttribute('data-id');
+        const user = (tbody._usersData || []).find(u => String(u.id || u.membershipId) === uid);
+        if (user) openEditModal(uid, user);
+      });
+    });
+
+    tbody.querySelectorAll('.delete-user-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const uid  = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name');
+        pendingAction = { type: 'delete-user', userId: uid };
+        openAuthModal(`Permanently delete member "${name}"? This cannot be undone.`);
+      });
+    });
+  }
+
+  document.getElementById('select-all-users')?.addEventListener('change', function () {
+    document.querySelectorAll('.user-checkbox').forEach(cb => {
+      cb.checked = this.checked;
+      const id = cb.getAttribute('data-id');
+      this.checked ? selectedUserIds.add(id) : selectedUserIds.delete(id);
+    });
+    updateActionButtons();
+  });
+
+  function updateActionButtons() {
+    const has = selectedUserIds.size > 0;
+    document.getElementById('grant-tag-btn').disabled    = !has;
+    document.getElementById('grant-admin-btn').disabled  = !has;
+    document.getElementById('delete-bulk-btn').disabled  = !has;
+    const countEl = document.getElementById('selection-count');
+    if (has) {
+      countEl.style.display = 'inline';
+      countEl.textContent   = `${selectedUserIds.size} user${selectedUserIds.size > 1 ? 's' : ''} selected`;
+    } else {
+      countEl.style.display = 'none';
+    }
+  }
+
+  document.getElementById('grant-tag-btn')?.addEventListener('click', () => {
+    pendingAction = { type: 'tag', userIds: [...selectedUserIds] };
+    openAuthModal(`Grant "Youth Cabinet" tag to ${selectedUserIds.size} selected user(s).`);
+  });
+
+  document.getElementById('grant-admin-btn')?.addEventListener('click', () => {
+    pendingAction = { type: 'admin', userIds: [...selectedUserIds] };
+    openAuthModal(`Grant Admin role to ${selectedUserIds.size} selected user(s).`);
+  });
+
+  document.getElementById('delete-bulk-btn')?.addEventListener('click', () => {
+    pendingAction = { type: 'delete-bulk', userIds: [...selectedUserIds] };
+    openAuthModal(`Permanently delete ${selectedUserIds.size} selected user(s)? This cannot be undone.`);
+  });
+
+  // ─── Add Member ───────────────────────────────────────────────────────────────
+  document.getElementById('add-member-btn')?.addEventListener('click', () => {
+    document.getElementById('add-member-form').reset();
+    document.getElementById('add-member-error').style.display = 'none';
+    document.getElementById('add-member-modal').classList.add('active');
+  });
+
+  document.getElementById('close-add-member-modal')?.addEventListener('click', () => {
+    document.getElementById('add-member-modal').classList.remove('active');
+  });
+
+  document.getElementById('add-member-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const errEl = document.getElementById('add-member-error');
+    const btn   = e.target.querySelector('button[type=submit]');
+    const name     = document.getElementById('am-name').value.trim();
+    const nameZh   = document.getElementById('am-namezh').value.trim();
+    const email    = document.getElementById('am-email').value.trim();
+    const password = document.getElementById('am-password').value.trim();
+    const region   = document.getElementById('am-region').value;
+    const gender   = document.getElementById('am-gender').value;
+    const phone    = document.getElementById('am-phone').value.trim();
+
+    if (!name || !email || !password) {
+      errEl.textContent = 'Name, email, and password are required.';
+      errEl.style.display = 'block';
+      return;
+    }
+    pendingAction = { type: 'add-user', payload: { name, nameZh, email, password, region, gender, phone } };
+    openAuthModal(`Create new member account for "${name}" (${email})?`);
+  });
+
+  // ─── Success toast ────────────────────────────────────────────────────────────
+  function showSuccessToast(msg) {
+    const toast = document.getElementById('success-toast');
+    toast.textContent = '✓ ' + (msg || '编辑成功');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  // ─── Tag suggestions ──────────────────────────────────────────────────────────
+  function collectAllTags() {
+    const tbody = document.getElementById('users-tbody');
+    const users = tbody?._usersData || [];
+    const set = new Set();
+    // Standard tags always available
+    ['Youth Cabinet', 'Supporter', 'Volunteer', 'Donor'].forEach(t => set.add(t));
+    users.forEach(u => (u.tags || []).forEach(t => set.add(t)));
+    return [...set].sort();
+  }
+
+  function renderSuggestions(filter) {
+    const dropdown = document.getElementById('tag-suggestions');
+    if (!dropdown) return;
+    const all = collectAllTags();
+    const q = (filter || '').toLowerCase();
+    const items = all.filter(t => !q || t.toLowerCase().includes(q));
+    if (!items.length) { dropdown.classList.remove('open'); return; }
+    dropdown.innerHTML = items.map(tag => {
+      const added = editingTags.includes(tag);
+      return `<div class="tag-suggestion-item${added ? ' already-added' : ''}" data-tag="${escapeHtml(tag)}">
+        <span class="tag-dot"></span>${escapeHtml(tag)}${added ? ' <span style="font-size:.65rem;opacity:.6">(already added)</span>' : ''}
+      </div>`;
+    }).join('');
+    dropdown.querySelectorAll('.tag-suggestion-item:not(.already-added)').forEach(item => {
+      item.addEventListener('mousedown', e => {
+        e.preventDefault();
+        const tag = item.getAttribute('data-tag');
+        if (tag && !editingTags.includes(tag)) {
+          editingTags.push(tag);
+          renderTagChips();
+        }
+        document.getElementById('tag-chip-input').value = '';
+        dropdown.classList.remove('open');
+      });
+    });
+    dropdown.classList.add('open');
+  }
+
+  // Close suggestions when clicking outside
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.tag-suggestions-wrap')) {
+      document.getElementById('tag-suggestions')?.classList.remove('open');
+    }
+  });
+
+  // ─── Audit log ────────────────────────────────────────────────────────────────
+  async function loadAuditLog(userId) {
+    const listEl = document.getElementById('audit-list');
+    if (!listEl) return;
+    listEl.innerHTML = '<p class="audit-empty">Loading…</p>';
+    const res = await apiFetch(`/admin/users/${userId}/audit-log`);
+    if (!res.ok) {
+      listEl.innerHTML = '<p class="audit-empty">No edit history available.</p>';
+      return;
+    }
+    const entries = res.data.entries || [];
+    if (!entries.length) {
+      listEl.innerHTML = '<p class="audit-empty">No edits recorded yet.</p>';
+      return;
+    }
+    listEl.innerHTML = entries.map(e => {
+      const when = new Date(e.created_at).toLocaleString('zh-CN', {month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      const changes = formatAuditChanges(e.changes);
+      return `<div class="audit-entry">
+        <div class="audit-entry-meta">
+          <div class="audit-entry-who">${escapeHtml(e.admin_name || 'Admin')}</div>
+          <div class="audit-entry-what">${changes}</div>
+        </div>
+        <span class="audit-entry-time">${when}</span>
+        ${!e.undone ? `<button class="audit-undo-btn" data-log-id="${e.id}">撤销</button>` : '<span style="font-size:.6875rem;color:var(--text-muted);opacity:.6">已撤销</span>'}
+      </div>`;
+    }).join('');
+    listEl.querySelectorAll('.audit-undo-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const logId = btn.getAttribute('data-log-id');
+        pendingAction = { type: 'undo-audit', userId, logId };
+        openAuthModal(`撤销此次编辑操作？将恢复该字段的上一个值。`);
+      });
+    });
+  }
+
+  function formatAuditChanges(changes) {
+    if (!changes || typeof changes !== 'object') return '—';
+    const SKIP_KEYS = new Set(['_undo', '_undone']);
+    const LABELS = { tags: 'Tags', is_admin: 'Role', youth_cabinet_status: 'Cabinet Status' };
+    const lines = Object.entries(changes)
+      .filter(([k]) => !SKIP_KEYS.has(k))
+      .map(([k, v]) => {
+        const label  = LABELS[k] || k;
+        const before = Array.isArray(v.before) ? v.before.join(', ') || '(none)' : String(v.before ?? '');
+        const after  = Array.isArray(v.after)  ? v.after.join(', ')  || '(none)' : String(v.after  ?? '');
+        if (before === after) return null;
+        const bStr = before || '(none)';
+        const aStr = after  || '(none)';
+        return `<b>${label}</b>: ${escapeHtml(bStr)} → ${escapeHtml(aStr)}`;
+      })
+      .filter(Boolean);
+    return lines.length ? lines.join('<br>') : '无字段变更';
+  }
+
+  // ─── Edit Member modal ────────────────────────────────────────────────────────
+  function openEditModal(uid, user) {
+    editingUserId = uid;
+    editingTags   = [...(user.tags || [])];
+
+    document.getElementById('edit-modal-title').textContent = user.name || 'Member Details';
+    document.getElementById('edit-member-error').style.display = 'none';
+
+    // Profile grid
+    const grid = document.getElementById('edit-detail-grid');
+    const fmt  = (v) => v || '—';
+    const joined = user.joinedAt ? new Date(user.joinedAt).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) : '—';
+    grid.innerHTML = [
+      ['Member ID',   user.membershipId || user.member_id],
+      ['Email',       user.email],
+      ['English Name',user.name],
+      ['Chinese Name',user.nameZh || user.name_zh],
+      ['Region',      user.region],
+      ['Gender',      user.gender],
+      ['Phone',       user.phone],
+      ['Date of Birth',user.dob],
+      ['MBTI',        user.mbti],
+      ['Zodiac',      user.zodiac],
+      ['Joined',      joined],
+      ['Bio',         user.bio],
+    ].map(([label, val]) => `
+      <div class="detail-item">
+        <span class="detail-label">${label}</span>
+        <span class="detail-value">${escapeHtml(fmt(val))}</span>
+      </div>`).join('');
+
+    // Tags chip editor
+    renderTagChips();
+
+    // Role & cabinet status
+    document.getElementById('edit-role').value           = user.is_admin ? '1' : '0';
+    document.getElementById('edit-cabinet-status').value = user.youth_cabinet_status || '';
+
+    document.getElementById('edit-member-modal').classList.add('active');
+    loadAuditLog(uid);
+  }
+
+  function renderTagChips() {
+    const editor = document.getElementById('tag-chip-editor');
+    const input  = document.getElementById('tag-chip-input');
+    // Remove existing chips (keep the input)
+    editor.querySelectorAll('.tag-chip').forEach(c => c.remove());
+    editingTags.forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'tag-chip';
+      chip.innerHTML = `${escapeHtml(tag)}<button type="button" class="tag-chip-remove" data-tag="${escapeHtml(tag)}" title="Remove">&times;</button>`;
+      editor.insertBefore(chip, input);
+    });
+    editor.querySelectorAll('.tag-chip-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.getAttribute('data-tag');
+        editingTags = editingTags.filter(t => t !== tag);
+        renderTagChips();
+      });
+    });
+  }
+
+  // Tag chip input
+  document.getElementById('tag-chip-editor')?.addEventListener('click', () => {
+    const input = document.getElementById('tag-chip-input');
+    input.focus();
+    renderSuggestions(input.value);
+  });
+
+  document.getElementById('tag-chip-input')?.addEventListener('focus', e => {
+    renderSuggestions(e.target.value);
+  });
+
+  document.getElementById('tag-chip-input')?.addEventListener('input', e => {
+    renderSuggestions(e.target.value);
+  });
+
+  document.getElementById('tag-chip-input')?.addEventListener('keydown', e => {
+    const input = e.target;
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const val = input.value.trim().replace(/,$/, '');
+      if (val && !editingTags.includes(val)) {
+        editingTags.push(val);
+        renderTagChips();
+      }
+      input.value = '';
+      document.getElementById('tag-suggestions')?.classList.remove('open');
+    } else if (e.key === 'Escape') {
+      document.getElementById('tag-suggestions')?.classList.remove('open');
+    } else if (e.key === 'Backspace' && !input.value && editingTags.length) {
+      editingTags.pop();
+      renderTagChips();
+    }
+  });
+
+  document.getElementById('save-edit-btn')?.addEventListener('click', () => {
+    const role    = document.getElementById('edit-role').value;
+    const cabinet = document.getElementById('edit-cabinet-status').value;
+    pendingAction = {
+      type: 'edit-user',
+      userId: editingUserId,
+      payload: {
+        tags: editingTags,
+        is_admin: role === '1',
+        youth_cabinet_status: cabinet || null,
+      },
+    };
+    openAuthModal(`Save changes for member ID ${editingUserId}?`);
+  });
+
+  document.getElementById('delete-from-edit-btn')?.addEventListener('click', () => {
+    const title = document.getElementById('edit-modal-title').textContent;
+    pendingAction = { type: 'delete-user', userId: editingUserId };
+    document.getElementById('edit-member-modal').classList.remove('active');
+    openAuthModal(`Permanently delete member "${title}"? This cannot be undone.`);
+  });
+
+  document.getElementById('close-edit-member-modal')?.addEventListener('click', () => {
+    document.getElementById('edit-member-modal').classList.remove('active');
+  });
+
+  // ─── Cabinet applications ─────────────────────────────────────────────────────
+  async function loadCabinetApplications() {
+    const container = document.getElementById('cabinet-applications-list');
+    container.innerHTML = '<p class="table-loading">Loading applications…</p>';
+    const res = await apiFetch('/admin/cabinet-applications');
+    if (!res.ok) {
+      container.innerHTML = `<p class="table-loading">Failed to load: ${escapeHtml(res.data.message)}</p>`;
+      return;
+    }
+    const apps = res.data.applications || [];
+    if (!apps.length) {
+      container.innerHTML = `<div style="text-align:center; padding:3rem; color:var(--text-muted);"><div style="font-size:2rem; margin-bottom:0.75rem;">✓</div><p style="margin:0; font-size:0.875rem;">No applications yet.</p></div>`;
+      return;
+    }
+
+    const pending   = apps.filter(a => !['approved','rejected'].includes(a.youth_cabinet_status));
+    const processed = apps.filter(a =>  ['approved','rejected'].includes(a.youth_cabinet_status));
+
+    const cabinetAppsById = {};
+
+    function renderCard(app, done) {
+      const uid  = escapeHtml(String(app.user_id || app.id || ''));
+      const mid  = escapeHtml(app.member_id || app.membershipId || '');
+      const name = escapeHtml(app.name || uid);
+      const appliedDate = (app.applied_at || app.appliedAt || app.created_at)
+        ? new Date(app.applied_at || app.appliedAt || app.created_at).toLocaleDateString('zh-CN', {year:'numeric', month:'long', day:'numeric'})
+        : '—';
+      const st = app.youth_cabinet_status;
+      const isApproved     = st === 'approved';
+      const isRejected     = st === 'rejected';
+      const isInfoReq      = st === 'info_requested';
+      const stampLabel = isApproved ? 'APPROVED' : isRejected ? 'REJECTED' : isInfoReq ? 'INFO NEEDED' : '';
+      const stampClass = isApproved ? 'cabinet-stamp--approved' : isRejected ? 'cabinet-stamp--rejected' : 'cabinet-stamp--info';
+      const fb = app.cabinet_feedback ? `<div class="cabinet-app-feedback"><span>秘书处反馈：</span>${escapeHtml(app.cabinet_feedback)}</div>` : '';
+      cabinetAppsById[uid] = app;
+      return `
+        <div class="cabinet-app-card${done ? ' cabinet-app-card--done' : ''}" data-uid="${uid}">
+          ${done ? `<div class="cabinet-stamp ${stampClass}">${stampLabel}</div>` : ''}
+          <div class="cabinet-app-info">
+            <div class="cabinet-app-name">
+              <strong>${name}</strong>
+              <code class="admin-mid">${mid}</code>
+              ${isInfoReq ? '<span class="cabinet-info-badge">待补充材料</span>' : ''}
+            </div>
+            <div class="cabinet-app-email">${escapeHtml(app.email || '')}</div>
+            <div class="cabinet-app-submitted">申请时间：${appliedDate}</div>
+            <div style="margin-top:0.5rem">
+              <button class="btn-icon cabinet-detail-btn" data-uid="${uid}">查看申请详情 ›</button>
+            </div>
+            ${fb}
+          </div>
+          ${!done ? `
+          <div class="cabinet-app-actions">
+            <button class="btn btn-sm cabinet-review-btn cabinet-review-btn--approve" data-uid="${uid}" data-name="${name}" data-action="approve">✓ 批准</button>
+            <button class="btn btn-sm cabinet-review-btn cabinet-review-btn--reject"  data-uid="${uid}" data-name="${name}" data-action="reject">✗ 拒绝</button>
+            <button class="btn btn-sm cabinet-review-btn cabinet-review-btn--info"    data-uid="${uid}" data-name="${name}" data-action="request_info">✎ 补充材料</button>
+          </div>
+          <div class="cabinet-review-panel" style="display:none">
+            <label class="cabinet-review-panel-label"></label>
+            <textarea class="cabinet-review-feedback" rows="3" placeholder=""></textarea>
+            <div class="cabinet-review-panel-foot">
+              <button class="btn btn-sm btn-primary cabinet-review-confirm">确认提交</button>
+              <button class="btn btn-sm cabinet-review-cancel">取消</button>
+            </div>
+          </div>` : ''}
+        </div>`;
+    }
+
+    const pendingHtml = pending.length
+      ? pending.map(a => renderCard(a, false)).join('')
+      : '<p style="color:var(--text-muted);font-size:0.8125rem;padding:0.75rem 0">暂无待审申请。</p>';
+    const processedHtml = processed.length
+      ? `<div style="margin-top:1.75rem;border-top:1px solid var(--border);padding-top:1.25rem">
+           <p class="section-divider">已处理</p>
+           ${processed.map(a => renderCard(a, true)).join('')}
+         </div>`
+      : '';
+
+    container.innerHTML = `<div class="cabinet-apps-list">${pendingHtml}${processedHtml}</div>`;
+
+    const ACTION_META = {
+      approve:      { label: '批准申请 — 反馈（可选，将作为鼓励语发送给申请人）', placeholder: '恭喜您通过审核！期待与您共同推进基金会的使命…' },
+      reject:       { label: '拒绝申请 — 请填写反馈（将发送给申请人）',           placeholder: '感谢您的申请，经综合评估，本次未能通过审核…' },
+      request_info: { label: '请求补充材料 — 请说明需要哪些信息',                 placeholder: '请补充以下材料以便我们进一步评估：…' },
+    };
+
+    container.querySelectorAll('.cabinet-review-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card   = btn.closest('.cabinet-app-card');
+        const panel  = card.querySelector('.cabinet-review-panel');
+        const action = btn.dataset.action;
+        const meta   = ACTION_META[action];
+        card.querySelectorAll('.cabinet-review-btn').forEach(b => b.classList.toggle('active', b === btn));
+        panel.querySelector('.cabinet-review-panel-label').textContent = meta.label;
+        panel.querySelector('.cabinet-review-feedback').placeholder = meta.placeholder;
+        panel.dataset.action = action;
+        panel.dataset.uid    = btn.dataset.uid;
+        panel.dataset.name   = btn.dataset.name;
+        panel.style.display  = 'block';
+        panel.querySelector('.cabinet-review-feedback').focus();
+      });
+    });
+
+    container.querySelectorAll('.cabinet-review-cancel').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.closest('.cabinet-review-panel');
+        panel.style.display = 'none';
+        panel.closest('.cabinet-app-card').querySelectorAll('.cabinet-review-btn').forEach(b => b.classList.remove('active'));
+      });
+    });
+
+    container.querySelectorAll('.cabinet-review-confirm').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel    = btn.closest('.cabinet-review-panel');
+        const action   = panel.dataset.action;
+        const userId   = panel.dataset.uid;
+        const name     = panel.dataset.name;
+        const feedback = panel.querySelector('.cabinet-review-feedback').value.trim();
+        if ((action === 'reject' || action === 'request_info') && !feedback) {
+          alert('拒绝或补充材料请求必须填写反馈内容。'); return;
+        }
+        pendingAction = { type: 'review-cabinet', userId, action, feedback };
+        const actionLabel = action === 'approve' ? '批准' : action === 'reject' ? '拒绝' : '请求补充材料';
+        openAuthModal(`确认${actionLabel} "${name}" 的青年内阁申请？`);
+      });
+    });
+
+    container.querySelectorAll('.cabinet-detail-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const app = cabinetAppsById[btn.dataset.uid];
+        if (app) openCabinetDetailModal(app);
+      });
+    });
+  }
+
+  function openCabinetDetailModal(app) {
+    let demo = {};
+    try { demo = JSON.parse(app.cabinet_demographics || '{}'); } catch {}
+
+    const f = v => escapeHtml(v || '—');
+    const st = app.youth_cabinet_status;
+    const statusLabel = st === 'approved' ? '已批准' : st === 'rejected' ? '已拒绝' : st === 'info_requested' ? '待补充材料' : '待审核';
+    const appliedDate = (app.applied_at || app.appliedAt)
+      ? new Date(app.applied_at || app.appliedAt).toLocaleDateString('zh-CN', {year:'numeric', month:'long', day:'numeric'})
+      : '—';
+
+    const fullName = [demo.firstName, demo.lastName].filter(Boolean).join(' ') || app.name || '—';
+    const address  = [demo.street, demo.city, demo.state, demo.zip].filter(Boolean).join(', ') || '—';
+    const dob      = demo.dob || '—';
+    const phone    = demo.phone || '—';
+    const email    = demo.email || app.email || '—';
+    const gender   = demo.gender || '—';
+    const race     = demo.race || '—';
+    const guardian = demo.guardianEmail || '';
+
+    document.getElementById('cabinet-detail-title').textContent = `申请详情 — ${fullName}`;
+    document.getElementById('cabinet-detail-body').innerHTML = `
+      <div>
+        <p class="detail-section-title">基本信息</p>
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">姓名</span><span class="detail-value">${f(fullName)}</span></div>
+          <div class="detail-item"><span class="detail-label">出生日期</span><span class="detail-value">${f(dob)}</span></div>
+          <div class="detail-item"><span class="detail-label">邮箱</span><span class="detail-value">${f(email)}</span></div>
+          <div class="detail-item"><span class="detail-label">手机</span><span class="detail-value">${f(phone)}</span></div>
+          <div class="detail-item" style="grid-column:1/-1"><span class="detail-label">地址</span><span class="detail-value">${f(address)}</span></div>
+          <div class="detail-item"><span class="detail-label">性别</span><span class="detail-value">${f(gender)}</span></div>
+          <div class="detail-item"><span class="detail-label">种族 / 民族</span><span class="detail-value">${f(race)}</span></div>
+          ${guardian ? `<div class="detail-item" style="grid-column:1/-1"><span class="detail-label">监护人邮箱</span><span class="detail-value">${f(guardian)}</span></div>` : ''}
+        </div>
+      </div>
+      <div class="detail-section">
+        <p class="detail-section-title">申请材料</p>
+        <div class="detail-item" style="margin-bottom:0.75rem"><span class="detail-label">学术 / 职业背景</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.background || app.experience)}</span></div>
+        <div class="detail-item" style="margin-bottom:0.75rem"><span class="detail-label">申请动机与愿景</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.motivation)}</span></div>
+        <div class="detail-item"><span class="detail-label">长远影响力规划</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.vision || demo.vision)}</span></div>
+      </div>
+      <div class="detail-section">
+        <p class="detail-section-title">申请状态</p>
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-label">申请时间</span><span class="detail-value">${f(appliedDate)}</span></div>
+          <div class="detail-item"><span class="detail-label">当前状态</span><span class="detail-value">${f(statusLabel)}</span></div>
+          ${app.cabinet_feedback ? `<div class="detail-item" style="grid-column:1/-1"><span class="detail-label">秘书处反馈</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.cabinet_feedback)}</span></div>` : ''}
+        </div>
+      </div>`;
+
+    document.getElementById('cabinet-detail-modal').classList.add('active');
+  }
+
+  document.getElementById('close-cabinet-detail-modal')?.addEventListener('click', () => {
+    document.getElementById('cabinet-detail-modal').classList.remove('active');
+  });
+  document.getElementById('cabinet-detail-modal')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
+  });
+
+  // ─── Authorization modal ──────────────────────────────────────────────────────
+  const authModal = document.getElementById('authcode-modal');
+
+  function openAuthModal(desc) {
+    document.getElementById('authcode-modal-desc').textContent = desc;
+    document.getElementById('authcode-input').value = '';
+    document.getElementById('authcode-error').style.display = 'none';
+    authModal.classList.add('active');
+    setTimeout(() => document.getElementById('authcode-input').focus(), 100);
+  }
+
+  document.getElementById('close-authcode-modal')?.addEventListener('click', () => {
+    authModal.classList.remove('active');
+    pendingAction = null;
+  });
+
+  document.getElementById('authcode-input')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('authcode-confirm-btn')?.click();
+  });
+
+  document.getElementById('authcode-confirm-btn')?.addEventListener('click', async () => {
+    const authCode   = document.getElementById('authcode-input').value;
+    const errorEl    = document.getElementById('authcode-error');
+    const confirmBtn = document.getElementById('authcode-confirm-btn');
+    errorEl.style.display = 'none';
+
+    if (!pendingAction || !authCode) {
+      errorEl.textContent = 'Please enter the authorization code.';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    confirmBtn.disabled    = true;
+    confirmBtn.textContent = 'Processing…';
+
+    let res;
+    const { type } = pendingAction;
+
+    if (type === 'tag') {
+      // Add "Youth Cabinet" to each selected user's tags via PATCH
+      const tbody = document.getElementById('users-tbody');
+      const allUsers = tbody._usersData || [];
+      let allOk = true;
+      for (const uid of pendingAction.userIds) {
+        const user = allUsers.find(u => String(u.id || u.membershipId) === uid);
+        const currentTags = user?.tags || [];
+        const newTags = currentTags.includes('Youth Cabinet') ? currentTags : [...currentTags, 'Youth Cabinet'];
+        const r = await apiFetch(`/admin/users/${uid}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ authCode, tags: newTags }),
+        });
+        if (!r.ok) { allOk = false; res = r; break; }
+        res = r;
+      }
+      if (allOk) res = { ok: true, data: {} };
+    } else if (type === 'admin') {
+      // Grant admin role to each selected user via PATCH
+      let allOk = true;
+      for (const uid of pendingAction.userIds) {
+        const r = await apiFetch(`/admin/users/${uid}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ authCode, is_admin: true }),
+        });
+        if (!r.ok) { allOk = false; res = r; break; }
+        res = r;
+      }
+      if (allOk) res = { ok: true, data: {} };
+    } else if (type === 'review-cabinet') {
+      res = await apiFetch(`/admin/cabinet-applications/${pendingAction.userId}/review`, {
+        method: 'POST',
+        body: JSON.stringify({ authCode, action: pendingAction.action, feedback: pendingAction.feedback }),
+      });
+    } else if (type === 'undo-audit') {
+      res = await apiFetch(`/admin/users/${pendingAction.userId}/audit-log/${pendingAction.logId}/undo`, {
+        method: 'POST',
+        body: JSON.stringify({ authCode }),
+      });
+    } else if (type === 'edit-user') {
+      res = await apiFetch(`/admin/users/${pendingAction.userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ authCode, ...pendingAction.payload }),
+      });
+      if (res?.ok) document.getElementById('edit-member-modal').classList.remove('active');
+    } else if (type === 'delete-user') {
+      res = await apiFetch(`/admin/users/${pendingAction.userId}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ authCode }),
+      });
+      if (res?.ok) document.getElementById('edit-member-modal').classList.remove('active');
+    } else if (type === 'delete-bulk') {
+      // Sequential deletes
+      let allOk = true;
+      for (const uid of pendingAction.userIds) {
+        const r = await apiFetch(`/admin/users/${uid}`, {
+          method: 'DELETE',
+          body: JSON.stringify({ authCode }),
+        });
+        if (!r.ok) { allOk = false; break; }
+      }
+      res = { ok: allOk, data: { message: allOk ? 'Deleted' : 'Some deletions failed' } };
+    } else if (type === 'add-user') {
+      res = await apiFetch('/admin/users', {
+        method: 'POST',
+        body: JSON.stringify({ authCode, ...pendingAction.payload }),
+      });
+      if (res?.ok) document.getElementById('add-member-modal').classList.remove('active');
+    } else if (type === 'send-notif') {
+      const p = pendingAction.payload;
+      let target_user_id = null;
+      if (p.target_type === 'user' && p.target_user_input) {
+        const found = (window._allUsersCache || []).find(u =>
+          u.email === p.target_user_input || u.member_id === p.target_user_input
+        );
+        target_user_id = found?.id || null;
+      }
+      res = await apiFetch('/admin/notifications', {
+        method: 'POST',
+        body: JSON.stringify({ authCode, title: p.title, body: p.body, target_type: p.target_type, target_tag: p.target_tag, target_user_id }),
+      });
+      if (res?.ok) { document.getElementById('notif-send-form').reset(); loadAdminNotifications(); }
+    } else if (type === 'review-activity') {
+      const p = pendingAction.payload;
+      res = await apiFetch(`/admin/activities/${p.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ authCode, action: p.action, reviewer_note: p.reviewer_note }),
+      });
+      if (res?.ok) {
+        const activeFilter = document.querySelector('.activity-filter-btn.active')?.dataset.status || 'pending';
+        loadActivityReviews(activeFilter);
+      }
+    }
+
+    confirmBtn.disabled    = false;
+    confirmBtn.textContent = 'Confirm Action';
+
+    if (res?.ok) {
+      authModal.classList.remove('active');
+      const doneType = pendingAction?.type;
+      const doneUserId = pendingAction?.userId;
+      pendingAction = null;
+      selectedUserIds.clear();
+      updateActionButtons();
+      document.getElementById('select-all-users').checked = false;
+      showSuccessToast('编辑成功');
+
+      // Reload audit log if edit modal is still open for this user
+      if ((doneType === 'edit-user' || doneType === 'undo-audit') && doneUserId) {
+        loadAuditLog(doneUserId);
+      }
+
+      const activeTab = document.querySelector('#admin-sidebar-menu li.active')?.getAttribute('data-admin-tab');
+      if (activeTab === 'tab-users') loadUsers();
+      else if (activeTab === 'tab-cabinet') loadCabinetApplications();
+    } else {
+      errorEl.textContent   = res?.data?.message || 'Authorization failed. Please verify the code and try again.';
+      errorEl.style.display = 'block';
+    }
+  });
+
+  // ─── Notifications ───────────────────────────────────────────────────────────
+  async function loadAdminNotifications() {
+    const el = document.getElementById('notif-sent-list');
+    if (!el) return;
+    const res = await apiFetch('/admin/notifications');
+    if (!res.ok) { el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">加载失败</p>'; return; }
+    const list = res.data.notifications || [];
+    if (!list.length) { el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">暂无发送记录</p>'; return; }
+    el.innerHTML = `<table class="admin-table"><thead><tr>
+      <th>时间</th><th>标题</th><th>发送对象</th><th>发件人</th>
+    </tr></thead><tbody>${list.map(n => `<tr>
+      <td style="white-space:nowrap">${new Date(n.created_at).toLocaleString('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</td>
+      <td>${n.title}</td>
+      <td>${n.target_type === 'all' ? '全体' : n.target_type === 'tag' ? `Tag: ${n.target_tag}` : `User #${n.target_user_id}`}</td>
+      <td>${n.sender_name}</td>
+    </tr>`).join('')}</tbody></table>`;
+  }
+
+  // ─── Activity Review ──────────────────────────────────────────────────────────
+  const DIM_ZH = { voluntary_public_service:'志愿公共服务', personal_development:'个人发展', physical_fitness:'身体素质', expedition:'探索与考察' };
+
+  async function loadActivityReviews(status = 'pending') {
+    const el = document.getElementById('activity-review-list');
+    const countEl = document.getElementById('activity-review-count');
+    if (!el) return;
+    el.innerHTML = '<p class="table-loading">加载中…</p>';
+    const res = await apiFetch(`/admin/activities?status=${status}`);
+    if (!res.ok) { el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">加载失败</p>'; return; }
+    const list = res.data.submissions || [];
+    if (countEl) countEl.textContent = `共 ${list.length} 条`;
+    if (!list.length) { el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">暂无记录</p>'; return; }
+    el.innerHTML = `<table class="admin-table"><thead><tr>
+      <th>会员</th><th>维度</th><th>时长</th><th>活动名称</th><th>报告</th><th>提交时间</th>${status==='pending'?'<th>操作</th>':'<th>审核结果</th>'}
+    </tr></thead><tbody>${list.map(s => `<tr>
+      <td>${s.name_zh || s.name}<br><span style="font-size:0.72rem;color:var(--text-muted)">${s.email}</span></td>
+      <td style="white-space:nowrap">${DIM_ZH[s.dimension]||s.dimension}</td>
+      <td style="white-space:nowrap">${s.value} ${s.unit==='days'?'天':'h'}</td>
+      <td>${s.title}</td>
+      <td style="max-width:200px;font-size:0.8rem;color:var(--text-muted)">${s.report ? s.report.slice(0,60)+(s.report.length>60?'…':'') : '—'}</td>
+      <td style="white-space:nowrap">${new Date(s.created_at).toLocaleDateString('zh-CN')}</td>
+      <td>${status==='pending' ? `
+        <button class="approve-cabinet-btn" style="background:#16a34a" onclick="reviewActivity(${s.id},'approve')">通过</button>
+        <button class="approve-cabinet-btn" style="background:#dc2626;margin-left:4px" onclick="reviewActivity(${s.id},'reject')">驳回</button>
+      ` : `<span style="color:${status==='approved'?'#16a34a':'#dc2626'};font-weight:600">${status==='approved'?'已通过':'已驳回'}</span>${s.reviewer_note?`<br><span style="font-size:0.72rem;color:var(--text-muted)">${s.reviewer_note}</span>`:''}`}</td>
+    </tr>`).join('')}</tbody></table>`;
+  }
+
+  function reviewActivity(id, action) {
+    let note = '';
+    if (action === 'reject') {
+      note = prompt('请输入驳回原因（可选）：') || '';
+    }
+    pendingAction = { type: 'review-activity', payload: { id, action, reviewer_note: note } };
+    openAuthModal('review-activity');
+  }
+
+  // ─── Benefits Management ──────────────────────────────────────────────────────
+  let editingBenefitId  = null;
+  let benefitEditTags   = [];
+
+  // Load benefits tab when selected
+  document.querySelector('#admin-sidebar-menu li[data-admin-tab="tab-benefits-mgmt"]')?.addEventListener('click', loadAdminBenefits);
+
+  async function loadAdminBenefits() {
+    const tbody = document.getElementById('benefits-tbody');
+    tbody.innerHTML = '<tr><td colspan="8" class="table-loading">Loading…</td></tr>';
+    const res = await apiFetch('/admin/benefits');
+    if (!res.ok) {
+      tbody.innerHTML = `<tr><td colspan="8" class="table-loading">Failed: ${escapeHtml(res.data.message)}</td></tr>`;
+      return;
+    }
+    const benefits = res.data.benefits || [];
+    if (!benefits.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="table-loading">No benefits yet. Click + New Benefit to add one.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = benefits.map(b => {
+      const tags = (b.tags_required || []).map(t => `<span class="admin-tag-pill">${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--text-muted);font-size:.75rem;">All members</span>';
+      const cycleLabel = { none:'—', monthly:'Monthly', quarterly:'Quarterly', 'semi-annual':'Semi-annual', annual:'Annual' }[b.cycle_type] || b.cycle_type;
+      return `<tr>
+        <td class="benefit-icon-cell">${escapeHtml(b.icon || '✦')}</td>
+        <td><strong style="font-size:.875rem">${escapeHtml(b.name)}</strong>${b.name_zh ? `<br><span style="font-size:.75rem;color:var(--text-muted)">${escapeHtml(b.name_zh)}</span>` : ''}</td>
+        <td>${tags}</td>
+        <td style="font-size:.8125rem">${b.is_redeemable ? `✓ ${b.redemption_limit}×` : '—'}</td>
+        <td><span class="benefit-cycle-badge">${cycleLabel}</span></td>
+        <td style="font-size:.8125rem;color:var(--text-muted)">${b.display_order}</td>
+        <td><span class="benefit-active-dot benefit-active-dot--${b.is_active ? 'on' : 'off'}"></span></td>
+        <td><button class="btn-icon edit-benefit-btn" data-id="${b.id}">Edit</button></td>
+      </tr>`;
+    }).join('');
+    tbody._benefitsData = benefits;
+    tbody.querySelectorAll('.edit-benefit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const b = (tbody._benefitsData || []).find(x => String(x.id) === btn.getAttribute('data-id'));
+        if (b) openBenefitModal(b);
+      });
+    });
+  }
+
+  function openBenefitModal(benefit) {
+    editingBenefitId = benefit ? benefit.id : null;
+    benefitEditTags  = benefit ? [...(benefit.tags_required || [])] : [];
+
+    document.getElementById('benefit-modal-title').textContent  = benefit ? 'Edit Benefit' : 'New Benefit';
+    document.getElementById('benefit-modal-error').style.display = 'none';
+    document.getElementById('delete-benefit-btn').style.display  = benefit ? 'inline-flex' : 'none';
+
+    document.getElementById('bm-name').value      = benefit?.name       || '';
+    document.getElementById('bm-name-zh').value   = benefit?.name_zh    || '';
+    document.getElementById('bm-name-zt').value   = benefit?.name_zt    || '';
+    document.getElementById('bm-desc').value      = benefit?.description || '';
+    document.getElementById('bm-desc-zh').value   = benefit?.description_zh || '';
+    document.getElementById('bm-desc-zt').value   = benefit?.description_zt || '';
+    document.getElementById('bm-icon').value      = benefit?.icon        || '';
+    document.getElementById('bm-order').value     = benefit?.display_order ?? 0;
+    document.getElementById('bm-active').value    = benefit?.is_active   ? '1' : '0';
+    document.getElementById('bm-redeemable').value = benefit?.is_redeemable ? '1' : '0';
+    document.getElementById('bm-limit').value     = benefit?.redemption_limit ?? 1;
+    document.getElementById('bm-cycle').value     = benefit?.cycle_type  || 'none';
+
+    renderBenefitTagChips();
+    document.getElementById('benefit-modal').classList.add('active');
+  }
+
+  function renderBenefitTagChips() {
+    const editor = document.getElementById('bm-tag-editor');
+    const input  = document.getElementById('bm-tag-input');
+    editor.querySelectorAll('.tag-chip').forEach(c => c.remove());
+    benefitEditTags.forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'tag-chip';
+      chip.innerHTML = `${escapeHtml(tag)}<button type="button" class="tag-chip-remove" data-tag="${escapeHtml(tag)}">&times;</button>`;
+      editor.insertBefore(chip, input);
+    });
+    editor.querySelectorAll('.tag-chip-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.getAttribute('data-tag');
+        benefitEditTags = benefitEditTags.filter(t => t !== tag);
+        renderBenefitTagChips();
+      });
+    });
+  }
+
+  // Benefit tag input
+  document.getElementById('bm-tag-editor')?.addEventListener('click', () => document.getElementById('bm-tag-input').focus());
+  document.getElementById('bm-tag-input')?.addEventListener('focus', e => renderBenefitSuggestions(e.target.value));
+  document.getElementById('bm-tag-input')?.addEventListener('input', e => renderBenefitSuggestions(e.target.value));
+  document.getElementById('bm-tag-input')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const val = e.target.value.trim().replace(/,$/, '');
+      if (val && !benefitEditTags.includes(val)) { benefitEditTags.push(val); renderBenefitTagChips(); }
+      e.target.value = '';
+      document.getElementById('bm-tag-suggestions')?.classList.remove('open');
+    } else if (e.key === 'Backspace' && !e.target.value && benefitEditTags.length) {
+      benefitEditTags.pop(); renderBenefitTagChips();
+    }
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#bm-tag-editor') && !e.target.closest('#bm-tag-suggestions'))
+      document.getElementById('bm-tag-suggestions')?.classList.remove('open');
+  });
+
+  function renderBenefitSuggestions(filter) {
+    const dropdown = document.getElementById('bm-tag-suggestions');
+    if (!dropdown) return;
+    const q = (filter || '').toLowerCase();
+    const allTags = collectAllTags();
+    const items = allTags.filter(t => !q || t.toLowerCase().includes(q));
+    if (!items.length) { dropdown.classList.remove('open'); return; }
+    dropdown.innerHTML = items.map(tag => {
+      const added = benefitEditTags.includes(tag);
+      return `<div class="tag-suggestion-item${added ? ' already-added' : ''}" data-tag="${escapeHtml(tag)}">
+        <span class="tag-dot"></span>${escapeHtml(tag)}${added ? ' <span style="font-size:.65rem;opacity:.6">(added)</span>' : ''}
+      </div>`;
+    }).join('');
+    dropdown.querySelectorAll('.tag-suggestion-item:not(.already-added)').forEach(item => {
+      item.addEventListener('mousedown', e => {
+        e.preventDefault();
+        const tag = item.getAttribute('data-tag');
+        if (tag && !benefitEditTags.includes(tag)) { benefitEditTags.push(tag); renderBenefitTagChips(); }
+        document.getElementById('bm-tag-input').value = '';
+        dropdown.classList.remove('open');
+      });
+    });
+    dropdown.classList.add('open');
+  }
+
+  document.getElementById('add-benefit-btn')?.addEventListener('click', () => openBenefitModal(null));
+  document.getElementById('close-benefit-modal')?.addEventListener('click', () => {
+    document.getElementById('benefit-modal').classList.remove('active');
+  });
+
+  document.getElementById('save-benefit-btn')?.addEventListener('click', async () => {
+    const errEl = document.getElementById('benefit-modal-error');
+    const name  = document.getElementById('bm-name').value.trim();
+    if (!name) { errEl.textContent = 'English name is required.'; errEl.style.display = 'block'; return; }
+    const payload = {
+      name,
+      name_zh:         document.getElementById('bm-name-zh').value.trim() || null,
+      name_zt:         document.getElementById('bm-name-zt').value.trim() || null,
+      description:     document.getElementById('bm-desc').value.trim()    || null,
+      description_zh:  document.getElementById('bm-desc-zh').value.trim() || null,
+      description_zt:  document.getElementById('bm-desc-zt').value.trim() || null,
+      icon:            document.getElementById('bm-icon').value.trim()    || '✦',
+      display_order:   parseInt(document.getElementById('bm-order').value) || 0,
+      is_active:       document.getElementById('bm-active').value === '1',
+      tags_required:   benefitEditTags,
+      is_redeemable:   document.getElementById('bm-redeemable').value === '1',
+      redemption_limit:parseInt(document.getElementById('bm-limit').value) || 1,
+      cycle_type:      document.getElementById('bm-cycle').value,
+    };
+    const method = editingBenefitId ? 'PATCH' : 'POST';
+    const path   = editingBenefitId ? `/admin/benefits/${editingBenefitId}` : '/admin/benefits';
+    errEl.style.display = 'none';
+    const btn = document.getElementById('save-benefit-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    const res = await apiFetch(path, { method, body: JSON.stringify(payload) });
+    btn.disabled = false; btn.textContent = 'Save Benefit';
+    if (res.ok) {
+      document.getElementById('benefit-modal').classList.remove('active');
+      showSuccessToast('权益已保存');
+      loadAdminBenefits();
+    } else {
+      errEl.textContent = res.data?.message || 'Save failed.';
+      errEl.style.display = 'block';
+    }
+  });
+
+  document.getElementById('delete-benefit-btn')?.addEventListener('click', async () => {
+    if (!editingBenefitId) return;
+    if (!confirm('Delete this benefit? This cannot be undone.')) return;
+    const res = await apiFetch(`/admin/benefits/${editingBenefitId}`, { method: 'DELETE' });
+    if (res.ok) {
+      document.getElementById('benefit-modal').classList.remove('active');
+      showSuccessToast('权益已删除');
+      loadAdminBenefits();
+    }
+  });
+
+  // ─── Logout ───────────────────────────────────────────────────────────────────
+  document.getElementById('admin-logout-btn')?.addEventListener('click', () => {
+    clearToken();
+    window.location.href = 'index.html';
+  });
+
+  init();
+</script>
+</body>
+</html>

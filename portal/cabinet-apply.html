@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>青年内阁申请 — CNPAF</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { background: var(--bg); min-height: 100vh; margin: 0; }
+
+    .apply-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 32px; border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .apply-topbar-logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .apply-topbar-logo img { height: 32px; }
+    .apply-topbar-logo span {
+      font-family: var(--font-serif); font-size: 1rem;
+      font-weight: 700; color: var(--accent-dark);
+    }
+    .apply-topbar-back {
+      font-size: 0.82rem; color: var(--text-muted); text-decoration: none;
+      display: flex; align-items: center; gap: 4px; transition: color .15s;
+    }
+    .apply-topbar-back:hover { color: var(--accent-dark); }
+
+    .apply-body {
+      max-width: 680px; width: 100%;
+      margin: 36px auto; padding: 0 20px 80px;
+    }
+    .apply-header { margin-bottom: 24px; }
+    .apply-header-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 99px; padding: 4px 14px;
+      font-size: 0.75rem; font-weight: 600; color: var(--accent-dark);
+      margin-bottom: 10px;
+    }
+    .apply-header h1 {
+      font-family: var(--font-serif); font-size: 1.55rem;
+      font-weight: 700; color: var(--text); margin: 0 0 6px;
+    }
+    .apply-header p {
+      font-size: 0.855rem; color: var(--text-muted);
+      line-height: 1.6; margin: 0;
+    }
+
+    .apply-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 32px;
+    }
+    @media (max-width: 600px) {
+      .apply-topbar { padding: 14px 16px; }
+      .apply-body { margin: 18px auto; }
+      .apply-card { padding: 18px 16px; }
+      .apply-header h1 { font-size: 1.25rem; }
+    }
+
+    /* Section headers */
+    .apply-section-title {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent-dark);
+      margin: 0 0 20px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .apply-divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 28px 0 20px; color: var(--text-muted);
+      font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.08em; font-weight: 600;
+    }
+    .apply-divider::before, .apply-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* Two / three column row */
+    .field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-row-3 { display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 12px; }
+    @media (max-width: 540px) {
+      .field-row-2, .field-row-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Guardian / adult toggle box */
+    .guardian-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 18px; margin-top: 4px;
+    }
+    .guardian-box-title {
+      font-size: 0.78rem; font-weight: 600; color: var(--text);
+      margin: 0 0 4px;
+    }
+    .guardian-box-hint {
+      font-size: 0.73rem; color: var(--text-muted);
+      line-height: 1.5; margin: 0 0 14px;
+    }
+    .adult-confirm-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px; margin-top: 4px;
+    }
+    .adult-confirm-row input[type=checkbox] {
+      margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px;
+      accent-color: var(--accent-dark); cursor: pointer;
+    }
+    .adult-confirm-row label {
+      font-size: 0.84rem; color: var(--text); cursor: pointer;
+      line-height: 1.4; margin: 0; font-weight: 500;
+    }
+
+    /* Submit row */
+    .apply-submit-row {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 28px; flex-wrap: wrap;
+    }
+    .apply-submit-row .btn { min-width: 140px; }
+    .apply-cancel-link {
+      font-size: 0.82rem; color: var(--text-muted);
+      text-decoration: none; transition: color .15s;
+    }
+    .apply-cancel-link:hover { color: var(--text); }
+
+    .apply-loading {
+      text-align: center; padding: 60px 20px;
+      color: var(--text-muted); font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="apply-topbar">
+    <a href="index.html" class="apply-topbar-logo">
+      <img src="logo.png" alt="CNPAF" />
+      <span>CNPAF</span>
+    </a>
+    <a href="index.html" class="apply-topbar-back">← 返回会员中心</a>
+  </div>
+
+  <div class="apply-body">
+    <div class="apply-header">
+      <div class="apply-header-pill">✦ Youth Cabinet</div>
+      <h1>青年内阁申请表</h1>
+      <p>请如实填写以下信息，申请提交后将由秘书处进行资质审核。审核通过后您将收到系统通知。<br>
+         标注 <span class="req">*</span> 的字段为必填项。</p>
+    </div>
+
+    <div id="apply-content">
+      <div class="apply-loading">加载中…</div>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = 'https://cnpaf.org/api';
+    const TOKEN_KEY = 'cpaf_token';
+    const getToken = () => { try { return localStorage.getItem(TOKEN_KEY); } catch { return null; } };
+
+    async function apiFetch(path, opts = {}) {
+      const token = getToken();
+      const headers = { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+      try {
+        const r = await fetch(BASE_URL + path, { ...opts, headers: { ...headers, ...(opts.headers || {}) } });
+        const data = await r.json().catch(() => ({}));
+        return { ok: r.ok, status: r.status, data };
+      } catch { return { ok: false, status: 0, data: {} }; }
+    }
+
+    function escapeHtml(s) {
+      return s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function getAge(dobStr) {
+      if (!dobStr) return null;
+      return (Date.now() - new Date(dobStr)) / (365.25 * 24 * 3600 * 1000);
+    }
+
+    function updateGuardianSection(dobVal) {
+      const age = getAge(dobVal);
+      const section = document.getElementById('guardian-section');
+      if (!section) return;
+      if (age === null) {
+        // DOB 未填写，不显示任何内容
+        section.innerHTML = '';
+        return;
+      }
+      if (age < 18) {
+        section.innerHTML = `
+          <div class="guardian-box">
+            <p class="guardian-box-title">家长 / 监护人联系方式 <span class="req">*</span></p>
+            <p class="guardian-box-hint">申请人未满 18 周岁，须填写家长或监护人邮箱。家长可能收到基金会发送的活动通知及项目更新。</p>
+            <div class="field" style="margin-bottom:10px">
+              <label for="f-guardian-email">家长 / 监护人邮箱 <span class="req">*</span></label>
+              <input type="email" id="f-guardian-email" name="guardianEmail" placeholder="Enter Email" />
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label for="f-guardian-email-confirm">确认家长邮箱 <span class="req">*</span></label>
+              <input type="email" id="f-guardian-email-confirm" name="guardianEmailConfirm" placeholder="Confirm Email" />
+            </div>
+          </div>`;
+      } else {
+        // age >= 18，显示成年确认复选框
+        section.innerHTML = `
+          <div class="adult-confirm-row">
+            <input type="checkbox" id="f-adult-confirm" name="adultConfirm" checked />
+            <label for="f-adult-confirm">我确认我已年满十八岁</label>
+          </div>`;
+        // Auto-check if DOB confirms >=18
+        if (age !== null && age >= 18) {
+          const cb = document.getElementById('f-adult-confirm');
+          if (cb) cb.checked = true;
+        }
+      }
+    }
+
+    function renderForm(member) {
+      // Pre-fill name
+      const nameParts = (member.name || '').trim().split(/\s+/);
+      const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : (nameParts[0] || '');
+      const lastName  = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+      const dobVal = member.dob ? member.dob.slice(0, 10) : '';
+      const genderMap = { 'Female': 'Female/Woman', 'Male': 'Male/Man', 'Prefer not to say': 'Other/Prefer not to report' };
+      const genderPrefill = genderMap[member.gender] || '';
+
+      document.getElementById('apply-content').innerHTML = `
+        <div class="apply-card">
+          <form id="cabinet-apply-form" novalidate>
+
+            <!-- ── SECTION 1: 申请人基本信息 ── -->
+            <p class="apply-section-title">申请人基本信息</p>
+
+            <div class="field-row-2">
+              <div class="field">
+                <label for="f-fname">名（First Name）<span class="req">*</span></label>
+                <input type="text" id="f-fname" name="firstName" value="${escapeHtml(firstName)}" placeholder="First" autocomplete="given-name" />
+              </div>
+              <div class="field">
+                <label for="f-lname">姓（Last Name）<span class="req">*</span></label>
+                <input type="text" id="f-lname" name="lastName" value="${escapeHtml(lastName)}" placeholder="Last" autocomplete="family-name" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-street">街道地址 <span class="req">*</span></label>
+              <input type="text" id="f-street" name="street" value="${escapeHtml(member.address || '')}" placeholder="Street Address" autocomplete="street-address" />
+            </div>
+            <div class="field-row-3">
+              <div class="field">
+                <label for="f-city">城市 <span class="req">*</span></label>
+                <input type="text" id="f-city" name="city" placeholder="City" autocomplete="address-level2" />
+              </div>
+              <div class="field">
+                <label for="f-state">州 / 省份 <span class="req">*</span></label>
+                <input type="text" id="f-state" name="state" placeholder="State / Territory" autocomplete="address-level1" />
+              </div>
+              <div class="field">
+                <label for="f-zip">邮政编码 <span class="req">*</span></label>
+                <input type="text" id="f-zip" name="zip" placeholder="ZIP Code" autocomplete="postal-code" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-phone">手机号码 <span class="req">*</span></label>
+              <input type="tel" id="f-phone" name="phone" value="${escapeHtml(member.phone || '')}" placeholder="+1 (xxx) xxx-xxxx" autocomplete="tel" />
+            </div>
+
+            <div class="field">
+              <label for="f-email">邮箱 <span class="req">*</span></label>
+              <input type="email" id="f-email" name="email" value="${escapeHtml(member.email || '')}" placeholder="Enter Email" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="f-email-confirm">确认邮箱 <span class="req">*</span></label>
+              <input type="email" id="f-email-confirm" name="emailConfirm" value="${escapeHtml(member.email || '')}" placeholder="Confirm Email" autocomplete="email" />
+            </div>
+
+            <div class="field">
+              <label for="f-dob">出生日期 <span class="req">*</span></label>
+              <input type="date" id="f-dob" name="dob" value="${escapeHtml(dobVal)}" />
+              <p class="field-hint">仅接受年满 14 周岁且未满 24 周岁的申请人。</p>
+            </div>
+
+            <!-- Guardian / adult confirmation — rendered by JS -->
+            <div id="guardian-section" style="margin-bottom:4px"></div>
+
+            <div class="field">
+              <label for="f-gender">性别 <span class="req">*</span></label>
+              <select id="f-gender" name="gender">
+                <option value="">-- 请选择 --</option>
+                <option value="Female/Woman" ${genderPrefill === 'Female/Woman' ? 'selected' : ''}>女性 (Female/Woman)</option>
+                <option value="Male/Man" ${genderPrefill === 'Male/Man' ? 'selected' : ''}>男性 (Male/Man)</option>
+                <option value="Gender-Variant/Non-Conforming">性别多元 (Gender-Variant/Non-Conforming)</option>
+                <option value="Other/Prefer not to report" ${genderPrefill === 'Other/Prefer not to report' ? 'selected' : ''}>其他 / 不愿透露 (Other/Prefer not to report)</option>
+              </select>
+              <p class="field-hint">性别不影响申请资格，仅用于报告目的。</p>
+            </div>
+
+            <div class="field">
+              <label for="f-race">种族 / 民族 <span class="req">*</span></label>
+              <select id="f-race" name="race">
+                <option value="">-- 请选择 --</option>
+                <option value="Unknown/Prefer not to report">不愿透露 (Unknown/Prefer not to report)</option>
+                <option value="American Indian or Alaskan Native">美洲原住民 (American Indian or Alaskan Native)</option>
+                <option value="Asian">亚裔 (Asian)</option>
+                <option value="Black or African American">黑人或非裔美国人 (Black or African American)</option>
+                <option value="Middle Eastern or North African">中东或北非裔 (Middle Eastern or North African)</option>
+                <option value="Native Hawaiian or Other Pacific Islander">夏威夷原住民或太平洋岛民 (Native Hawaiian or Other Pacific Islander)</option>
+                <option value="Hispanic or Latino or Spanish Origin">西班牙裔或拉丁裔 (Hispanic or Latino or Spanish Origin)</option>
+                <option value="White">白人 (White)</option>
+                <option value="Two or more races">多种族 (Two or more races)</option>
+              </select>
+              <p class="field-hint">种族 / 民族不影响申请资格，仅用于报告目的。</p>
+            </div>
+
+            <!-- ── SECTION 2: 申请材料 ── -->
+            <div class="apply-divider"><span>申请材料</span></div>
+
+            <div class="field">
+              <label for="f-background">学术 / 职业背景 <span class="req">*</span></label>
+              <textarea id="f-background" name="background" rows="3" placeholder="请简述您的学术经历、所属机构或职业背景…"></textarea>
+            </div>
+            <div class="field">
+              <label for="f-motivation">申请动机与愿景 <span class="req">*</span></label>
+              <textarea id="f-motivation" name="motivation" rows="4" placeholder="您为何希望加入 CNPAF 青年内阁？您希望在此平台上实现哪些目标？"></textarea>
+            </div>
+            <div class="field">
+              <label for="f-vision">长远影响力规划 <span class="req">*</span></label>
+              <textarea id="f-vision" name="vision" rows="3" placeholder="您如何理解"知识领导力"？您计划如何在专业领域与社区层面产生持续影响？"></textarea>
+            </div>
+
+            <div class="apply-submit-row">
+              <button type="submit" class="btn btn-primary" id="submit-btn">提交申请</button>
+              <a href="index.html" class="apply-cancel-link">取消，返回会员中心</a>
+            </div>
+          </form>
+        </div>`;
+
+      // Init guardian section based on pre-filled DOB
+      updateGuardianSection(dobVal);
+
+      // DOB change → update guardian section
+      document.getElementById('f-dob').addEventListener('change', function () {
+        updateGuardianSection(this.value);
+      });
+
+      // Form submit
+      document.getElementById('cabinet-apply-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+
+        const firstName    = form.firstName.value.trim();
+        const lastName     = form.lastName.value.trim();
+        const street       = form.street.value.trim();
+        const city         = form.city.value.trim();
+        const state        = form.state.value.trim();
+        const zip          = form.zip.value.trim();
+        const phone        = form.phone.value.trim();
+        const email        = form.email.value.trim();
+        const emailConfirm = form.emailConfirm.value.trim();
+        const dob          = form.dob.value.trim();
+        const gender       = form.gender.value;
+        const race         = form.race.value;
+        const background   = form.background.value.trim();
+        const motivation   = form.motivation.value.trim();
+        const vision       = form.vision.value.trim();
+
+        // Basic field checks
+        if (!firstName || !lastName) { alert('请填写法定姓名（名和姓）。'); return; }
+        if (!street || !city || !state || !zip) { alert('请填写完整地址。'); return; }
+        if (!phone) { alert('请填写手机号码。'); return; }
+        if (!email) { alert('请填写邮箱。'); return; }
+        if (email !== emailConfirm) { alert('两次输入的邮箱不一致，请重新确认。'); return; }
+        if (!dob) { alert('请填写出生日期。'); return; }
+
+        const age = getAge(dob);
+        if (age < 14 || age >= 24) { alert('申请人需年满 14 周岁且未满 24 周岁。'); return; }
+
+        // Guardian / adult confirmation
+        let guardianEmail = '';
+        if (age < 18) {
+          const ge  = form.guardianEmail?.value.trim() || '';
+          const gec = form.guardianEmailConfirm?.value.trim() || '';
+          if (!ge) { alert('未满 18 周岁的申请人须填写家长/监护人邮箱。'); return; }
+          if (ge !== gec) { alert('两次输入的监护人邮箱不一致，请重新确认。'); return; }
+          guardianEmail = ge;
+        } else {
+          const confirmed = form.adultConfirm?.checked;
+          if (!confirmed) { alert('请勾选"我确认我已年满十八岁"后再提交。'); return; }
+        }
+
+        if (!gender) { alert('请选择性别。'); return; }
+        if (!race)   { alert('请选择种族/民族。'); return; }
+        if (!background || !motivation || !vision) { alert('请填写所有申请材料字段。'); return; }
+
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.textContent = '提交中…';
+
+        const demographics = {
+          firstName, lastName,
+          street, city, state, zip,
+          phone, email, dob, gender, race,
+          vision,
+          ...(guardianEmail ? { guardianEmail } : {})
+        };
+
+        const res = await apiFetch('/youth-cabinet/apply', {
+          method: 'POST',
+          body: JSON.stringify({ experience: background, motivation, demographics }),
+        });
+
+        if (res.ok) {
+          window.location.href = 'index.html?tab=cabinet';
+        } else {
+          btn.disabled = false;
+          btn.textContent = '提交申请';
+          alert(res.data?.message || '提交失败，请重试。');
+        }
+      });
+    }
+
+    // Init
+    (async () => {
+      const token = getToken();
+      if (!token) { window.location.href = 'index.html'; return; }
+      const res = await apiFetch('/me');
+      if (!res.ok || !res.data.user) { window.location.href = 'index.html'; return; }
+      const member = res.data.user;
+      if (member.youth_cabinet_status && member.youth_cabinet_status !== '') {
+        window.location.href = 'index.html?tab=cabinet';
+        return;
+      }
+      renderForm(member);
+    })();
+  </script>
+</body>
+</html>

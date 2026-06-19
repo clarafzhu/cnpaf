@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chinese Psychological Assistance Foundation – Membership</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+</head>
+<body>
+  <div class="app">
+    <!-- Landing / Home -->
+    <section id="landing" class="screen active">
+      <header class="site-header">
+        <div class="logo logo-link">
+          <img src="logo.png" alt="CNPAF Logo" />
+          <span id="logo-landing" data-i18n="logo">Chinese Psychological Assistance Foundation</span>
+        </div>
+        <nav>
+          <a href="#" data-go="landing" data-i18n="navHome">Home</a>
+          <a href="#" data-go="signup" data-i18n="navJoin">Sign Up</a>
+          <a href="#" data-go="login" data-i18n="navSignIn">Sign In</a>
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="en" data-i18n="langEn">EN</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zh" data-i18n="langZh">简体</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zt" data-i18n="langZt">繁體</button>
+          </div>
+        </nav>
+      </header>
+      <main class="hero">
+        <h1 data-i18n="landingTitle">Become a member</h1>
+        <p class="tagline" data-i18n="landingTagline">Join our community, get your digital membership card in seconds.</p>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-cta" data-go="signup" data-i18n="landingCta">Sign Up Now</button>
+          <button type="button" class="btn btn-secondary" data-go="login" data-i18n="landingSecondary">Already a member? Sign In</button>
+        </div>
+      </main>
+    </section>
+
+    <!-- Sign up form -->
+    <section id="signup" class="screen">
+      <header class="site-header">
+        <div class="logo logo-link">
+          <img src="logo.png" alt="CNPAF Logo" />
+          <span data-i18n="logo">Chinese Psychological Assistance Foundation</span>
+        </div>
+        <nav>
+          <a href="#" data-go="landing" data-i18n="navHome">Home</a>
+          <a href="#" data-go="signup" data-i18n="navJoin">Sign Up</a>
+          <a href="#" data-go="login" data-i18n="navSignIn">Sign In</a>
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="en" data-i18n="langEn">EN</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zh" data-i18n="langZh">简体</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zt" data-i18n="langZt">繁體</button>
+          </div>
+        </nav>
+      </header>
+      <main class="form-container">
+        <h2 data-i18n="signupTitle">Create your membership</h2>
+        <p class="form-intro" data-i18n="signupIntro">Fill in your details to receive your digital membership card.</p>
+        <form id="signup-form" class="membership-form">
+          <div class="field-row">
+            <div class="field">
+              <label for="name"><span data-i18n="signupName">English Name</span> <span data-i18n="required">*</span></label>
+              <input type="text" id="name" name="name" required placeholder="" data-i18n-placeholder="signupNamePlaceholder" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="nameZh" data-i18n="signupNameZh">Chinese Name</label>
+              <input type="text" id="nameZh" name="nameZh" placeholder="" data-i18n-placeholder="signupNameZhPlaceholder" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="gender"><span data-i18n="signupGender">Gender</span> <span data-i18n="required">*</span></label>
+            <select id="gender" name="gender" required>
+              <option value="" data-i18n="signupGenderSelect">Select</option>
+              <option value="Female" data-i18n="signupGenderFemale">Female</option>
+              <option value="Male" data-i18n="signupGenderMale">Male</option>
+              <option value="Non-binary" data-i18n="signupGenderNonBinary">Non-binary</option>
+              <option value="Prefer not to say" data-i18n="signupGenderPreferNot">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="email"><span data-i18n="signupEmail">Email</span> <span data-i18n="required">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="" data-i18n-placeholder="signupEmailPlaceholder" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="phone"><span data-i18n="signupPhone">Phone</span> <span data-i18n="required">*</span></label>
+            <div class="phone-input-group">
+              <select id="phone-code" name="phoneCode" class="phone-code-select">
+                <optgroup label="── CNPAF Offices ──">
+                  <option value="+1" selected>+1 (US)</option>
+                  <option value="+1">+1 (CA)</option>
+                  <option value="+86">+86 (CN)</option>
+                  <option value="+852">+852 (HK)</option>
+                  <option value="+853">+853 (MO)</option>
+                  <option value="+886">+886 (TW)</option>
+                  <option value="+61">+61 (AU)</option>
+                  <option value="+44">+44 (UK)</option>
+                </optgroup>
+                <optgroup label="── Other Countries ──">
+                  <option value="+93">+93 (AF)</option>
+                  <option value="+355">+355 (AL)</option>
+                  <option value="+213">+213 (DZ)</option>
+                  <option value="+376">+376 (AD)</option>
+                  <option value="+244">+244 (AO)</option>
+                  <option value="+54">+54 (AR)</option>
+                  <option value="+374">+374 (AM)</option>
+                  <option value="+43">+43 (AT)</option>
+                  <option value="+994">+994 (AZ)</option>
+                  <option value="+1-242">+1-242 (BS)</option>
+                  <option value="+973">+973 (BH)</option>
+                  <option value="+880">+880 (BD)</option>
+                  <option value="+1-246">+1-246 (BB)</option>
+                  <option value="+375">+375 (BY)</option>
+                  <option value="+32">+32 (BE)</option>
+                  <option value="+501">+501 (BZ)</option>
+                  <option value="+229">+229 (BJ)</option>
+                  <option value="+975">+975 (BT)</option>
+                  <option value="+591">+591 (BO)</option>
+                  <option value="+387">+387 (BA)</option>
+                  <option value="+267">+267 (BW)</option>
+                  <option value="+55">+55 (BR)</option>
+                  <option value="+673">+673 (BN)</option>
+                  <option value="+359">+359 (BG)</option>
+                  <option value="+226">+226 (BF)</option>
+                  <option value="+257">+257 (BI)</option>
+                  <option value="+238">+238 (CV)</option>
+                  <option value="+855">+855 (KH)</option>
+                  <option value="+237">+237 (CM)</option>
+                  <option value="+236">+236 (CF)</option>
+                  <option value="+235">+235 (TD)</option>
+                  <option value="+56">+56 (CL)</option>
+                  <option value="+57">+57 (CO)</option>
+                  <option value="+269">+269 (KM)</option>
+                  <option value="+242">+242 (CG)</option>
+                  <option value="+243">+243 (CD)</option>
+                  <option value="+506">+506 (CR)</option>
+                  <option value="+385">+385 (HR)</option>
+                  <option value="+53">+53 (CU)</option>
+                  <option value="+357">+357 (CY)</option>
+                  <option value="+420">+420 (CZ)</option>
+                  <option value="+45">+45 (DK)</option>
+                  <option value="+253">+253 (DJ)</option>
+                  <option value="+1-767">+1-767 (DM)</option>
+                  <option value="+1-809">+1-809 (DO)</option>
+                  <option value="+593">+593 (EC)</option>
+                  <option value="+20">+20 (EG)</option>
+                  <option value="+503">+503 (SV)</option>
+                  <option value="+240">+240 (GQ)</option>
+                  <option value="+291">+291 (ER)</option>
+                  <option value="+372">+372 (EE)</option>
+                  <option value="+268">+268 (SZ)</option>
+                  <option value="+251">+251 (ET)</option>
+                  <option value="+679">+679 (FJ)</option>
+                  <option value="+358">+358 (FI)</option>
+                  <option value="+33">+33 (FR)</option>
+                  <option value="+241">+241 (GA)</option>
+                  <option value="+220">+220 (GM)</option>
+                  <option value="+995">+995 (GE)</option>
+                  <option value="+49">+49 (DE)</option>
+                  <option value="+233">+233 (GH)</option>
+                  <option value="+30">+30 (GR)</option>
+                  <option value="+1-473">+1-473 (GD)</option>
+                  <option value="+502">+502 (GT)</option>
+                  <option value="+224">+224 (GN)</option>
+                  <option value="+245">+245 (GW)</option>
+                  <option value="+592">+592 (GY)</option>
+                  <option value="+509">+509 (HT)</option>
+                  <option value="+504">+504 (HN)</option>
+                  <option value="+36">+36 (HU)</option>
+                  <option value="+354">+354 (IS)</option>
+                  <option value="+91">+91 (IN)</option>
+                  <option value="+62">+62 (ID)</option>
+                  <option value="+98">+98 (IR)</option>
+                  <option value="+964">+964 (IQ)</option>
+                  <option value="+353">+353 (IE)</option>
+                  <option value="+972">+972 (IL)</option>
+                  <option value="+39">+39 (IT)</option>
+                  <option value="+1-876">+1-876 (JM)</option>
+                  <option value="+81">+81 (JP)</option>
+                  <option value="+962">+962 (JO)</option>
+                  <option value="+7">+7 (KZ)</option>
+                  <option value="+254">+254 (KE)</option>
+                  <option value="+686">+686 (KI)</option>
+                  <option value="+850">+850 (KP)</option>
+                  <option value="+82">+82 (KR)</option>
+                  <option value="+965">+965 (KW)</option>
+                  <option value="+996">+996 (KG)</option>
+                  <option value="+856">+856 (LA)</option>
+                  <option value="+371">+371 (LV)</option>
+                  <option value="+961">+961 (LB)</option>
+                  <option value="+266">+266 (LS)</option>
+                  <option value="+231">+231 (LR)</option>
+                  <option value="+218">+218 (LY)</option>
+                  <option value="+423">+423 (LI)</option>
+                  <option value="+370">+370 (LT)</option>
+                  <option value="+352">+352 (LU)</option>
+                  <option value="+261">+261 (MG)</option>
+                  <option value="+265">+265 (MW)</option>
+                  <option value="+60">+60 (MY)</option>
+                  <option value="+960">+960 (MV)</option>
+                  <option value="+223">+223 (ML)</option>
+                  <option value="+356">+356 (MT)</option>
+                  <option value="+692">+692 (MH)</option>
+                  <option value="+222">+222 (MR)</option>
+                  <option value="+230">+230 (MU)</option>
+                  <option value="+52">+52 (MX)</option>
+                  <option value="+691">+691 (FM)</option>
+                  <option value="+373">+373 (MD)</option>
+                  <option value="+377">+377 (MC)</option>
+                  <option value="+976">+976 (MN)</option>
+                  <option value="+382">+382 (ME)</option>
+                  <option value="+212">+212 (MA)</option>
+                  <option value="+258">+258 (MZ)</option>
+                  <option value="+95">+95 (MM)</option>
+                  <option value="+264">+264 (NA)</option>
+                  <option value="+674">+674 (NR)</option>
+                  <option value="+977">+977 (NP)</option>
+                  <option value="+31">+31 (NL)</option>
+                  <option value="+64">+64 (NZ)</option>
+                  <option value="+505">+505 (NI)</option>
+                  <option value="+227">+227 (NE)</option>
+                  <option value="+234">+234 (NG)</option>
+                  <option value="+389">+389 (MK)</option>
+                  <option value="+47">+47 (NO)</option>
+                  <option value="+968">+968 (OM)</option>
+                  <option value="+92">+92 (PK)</option>
+                  <option value="+680">+680 (PW)</option>
+                  <option value="+507">+507 (PA)</option>
+                  <option value="+675">+675 (PG)</option>
+                  <option value="+595">+595 (PY)</option>
+                  <option value="+51">+51 (PE)</option>
+                  <option value="+63">+63 (PH)</option>
+                  <option value="+48">+48 (PL)</option>
+                  <option value="+351">+351 (PT)</option>
+                  <option value="+974">+974 (QA)</option>
+                  <option value="+40">+40 (RO)</option>
+                  <option value="+7">+7 (RU)</option>
+                  <option value="+250">+250 (RW)</option>
+                  <option value="+1-869">+1-869 (KN)</option>
+                  <option value="+1-758">+1-758 (LC)</option>
+                  <option value="+1-784">+1-784 (VC)</option>
+                  <option value="+685">+685 (WS)</option>
+                  <option value="+378">+378 (SM)</option>
+                  <option value="+239">+239 (ST)</option>
+                  <option value="+966">+966 (SA)</option>
+                  <option value="+221">+221 (SN)</option>
+                  <option value="+381">+381 (RS)</option>
+                  <option value="+248">+248 (SC)</option>
+                  <option value="+232">+232 (SL)</option>
+                  <option value="+65">+65 (SG)</option>
+                  <option value="+421">+421 (SK)</option>
+                  <option value="+386">+386 (SI)</option>
+                  <option value="+677">+677 (SB)</option>
+                  <option value="+252">+252 (SO)</option>
+                  <option value="+27">+27 (ZA)</option>
+                  <option value="+211">+211 (SS)</option>
+                  <option value="+34">+34 (ES)</option>
+                  <option value="+94">+94 (LK)</option>
+                  <option value="+249">+249 (SD)</option>
+                  <option value="+597">+597 (SR)</option>
+                  <option value="+46">+46 (SE)</option>
+                  <option value="+41">+41 (CH)</option>
+                  <option value="+963">+963 (SY)</option>
+                  <option value="+992">+992 (TJ)</option>
+                  <option value="+255">+255 (TZ)</option>
+                  <option value="+66">+66 (TH)</option>
+                  <option value="+670">+670 (TL)</option>
+                  <option value="+228">+228 (TG)</option>
+                  <option value="+676">+676 (TO)</option>
+                  <option value="+1-868">+1-868 (TT)</option>
+                  <option value="+216">+216 (TN)</option>
+                  <option value="+90">+90 (TR)</option>
+                  <option value="+993">+993 (TM)</option>
+                  <option value="+688">+688 (TV)</option>
+                  <option value="+256">+256 (UG)</option>
+                  <option value="+380">+380 (UA)</option>
+                  <option value="+971">+971 (AE)</option>
+                  <option value="+598">+598 (UY)</option>
+                  <option value="+998">+998 (UZ)</option>
+                  <option value="+678">+678 (VU)</option>
+                  <option value="+58">+58 (VE)</option>
+                  <option value="+84">+84 (VN)</option>
+                  <option value="+967">+967 (YE)</option>
+                  <option value="+260">+260 (ZM)</option>
+                  <option value="+263">+263 (ZW)</option>
+                </optgroup>
+              </select>
+              <input type="tel" id="phone" name="phone" required placeholder="" data-i18n-placeholder="signupPhonePlaceholder" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field">
+            <label data-i18n="signupAddress">Physical Address</label>
+            <div class="address-grid">
+              <input type="text" id="address-street" name="addressStreet" data-i18n-placeholder="addressStreet" />
+              <div class="field-row">
+                <input type="text" id="address-city" name="addressCity" data-i18n-placeholder="addressCity" />
+                <input type="text" id="address-state" name="addressState" data-i18n-placeholder="addressState" />
+              </div>
+              <input type="text" id="address-zip" name="addressZip" data-i18n-placeholder="addressZip" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="region"><span data-i18n="signupRegion">Region</span> <span data-i18n="required">*</span></label>
+            <select id="region" name="region" required>
+              <option value="">-- Select Country --</option>
+              <optgroup label="── CNPAF Offices ──">
+                <option value="US" selected>United States</option>
+                <option value="CA">Canada</option>
+                <option value="CN">China Mainland</option>
+                <option value="HK">Hong Kong SAR</option>
+                <option value="MO">Macau SAR</option>
+                <option value="TW">Taiwan</option>
+                <option value="AU">Australia</option>
+                <option value="UK">United Kingdom</option>
+              </optgroup>
+              <optgroup label="── Other Countries ──">
+                <option value="AF">Afghanistan</option>
+                <option value="AL">Albania</option>
+                <option value="DZ">Algeria</option>
+                <option value="AD">Andorra</option>
+                <option value="AO">Angola</option>
+                <option value="AG">Antigua and Barbuda</option>
+                <option value="AR">Argentina</option>
+                <option value="AM">Armenia</option>
+                <option value="AT">Austria</option>
+                <option value="AZ">Azerbaijan</option>
+                <option value="BS">Bahamas</option>
+                <option value="BH">Bahrain</option>
+                <option value="BD">Bangladesh</option>
+                <option value="BB">Barbados</option>
+                <option value="BY">Belarus</option>
+                <option value="BE">Belgium</option>
+                <option value="BZ">Belize</option>
+                <option value="BJ">Benin</option>
+                <option value="BT">Bhutan</option>
+                <option value="BO">Bolivia</option>
+                <option value="BA">Bosnia and Herzegovina</option>
+                <option value="BW">Botswana</option>
+                <option value="BR">Brazil</option>
+                <option value="BN">Brunei</option>
+                <option value="BG">Bulgaria</option>
+                <option value="BF">Burkina Faso</option>
+                <option value="BI">Burundi</option>
+                <option value="CV">Cabo Verde</option>
+                <option value="KH">Cambodia</option>
+                <option value="CM">Cameroon</option>
+                <option value="CF">Central African Republic</option>
+                <option value="TD">Chad</option>
+                <option value="CL">Chile</option>
+                <option value="CO">Colombia</option>
+                <option value="KM">Comoros</option>
+                <option value="CG">Congo</option>
+                <option value="CD">Congo (DRC)</option>
+                <option value="CR">Costa Rica</option>
+                <option value="CI">Côte d'Ivoire</option>
+                <option value="HR">Croatia</option>
+                <option value="CU">Cuba</option>
+                <option value="CY">Cyprus</option>
+                <option value="CZ">Czech Republic</option>
+                <option value="DK">Denmark</option>
+                <option value="DJ">Djibouti</option>
+                <option value="DM">Dominica</option>
+                <option value="DO">Dominican Republic</option>
+                <option value="EC">Ecuador</option>
+                <option value="EG">Egypt</option>
+                <option value="SV">El Salvador</option>
+                <option value="GQ">Equatorial Guinea</option>
+                <option value="ER">Eritrea</option>
+                <option value="EE">Estonia</option>
+                <option value="SZ">Eswatini</option>
+                <option value="ET">Ethiopia</option>
+                <option value="FJ">Fiji</option>
+                <option value="FI">Finland</option>
+                <option value="FR">France</option>
+                <option value="GA">Gabon</option>
+                <option value="GM">Gambia</option>
+                <option value="GE">Georgia</option>
+                <option value="DE">Germany</option>
+                <option value="GH">Ghana</option>
+                <option value="GR">Greece</option>
+                <option value="GD">Grenada</option>
+                <option value="GT">Guatemala</option>
+                <option value="GN">Guinea</option>
+                <option value="GW">Guinea-Bissau</option>
+                <option value="GY">Guyana</option>
+                <option value="HT">Haiti</option>
+                <option value="HN">Honduras</option>
+                <option value="HU">Hungary</option>
+                <option value="IS">Iceland</option>
+                <option value="IN">India</option>
+                <option value="ID">Indonesia</option>
+                <option value="IR">Iran</option>
+                <option value="IQ">Iraq</option>
+                <option value="IE">Ireland</option>
+                <option value="IL">Israel</option>
+                <option value="IT">Italy</option>
+                <option value="JM">Jamaica</option>
+                <option value="JP">Japan</option>
+                <option value="JO">Jordan</option>
+                <option value="KZ">Kazakhstan</option>
+                <option value="KE">Kenya</option>
+                <option value="KI">Kiribati</option>
+                <option value="KP">Korea (North)</option>
+                <option value="KR">Korea (South)</option>
+                <option value="KW">Kuwait</option>
+                <option value="KG">Kyrgyzstan</option>
+                <option value="LA">Laos</option>
+                <option value="LV">Latvia</option>
+                <option value="LB">Lebanon</option>
+                <option value="LS">Lesotho</option>
+                <option value="LR">Liberia</option>
+                <option value="LY">Libya</option>
+                <option value="LI">Liechtenstein</option>
+                <option value="LT">Lithuania</option>
+                <option value="LU">Luxembourg</option>
+                <option value="MG">Madagascar</option>
+                <option value="MW">Malawi</option>
+                <option value="MY">Malaysia</option>
+                <option value="MV">Maldives</option>
+                <option value="ML">Mali</option>
+                <option value="MT">Malta</option>
+                <option value="MH">Marshall Islands</option>
+                <option value="MR">Mauritania</option>
+                <option value="MU">Mauritius</option>
+                <option value="MX">Mexico</option>
+                <option value="FM">Micronesia</option>
+                <option value="MD">Moldova</option>
+                <option value="MC">Monaco</option>
+                <option value="MN">Mongolia</option>
+                <option value="ME">Montenegro</option>
+                <option value="MA">Morocco</option>
+                <option value="MZ">Mozambique</option>
+                <option value="MM">Myanmar</option>
+                <option value="NA">Namibia</option>
+                <option value="NR">Nauru</option>
+                <option value="NP">Nepal</option>
+                <option value="NL">Netherlands</option>
+                <option value="NZ">New Zealand</option>
+                <option value="NI">Nicaragua</option>
+                <option value="NE">Niger</option>
+                <option value="NG">Nigeria</option>
+                <option value="MK">North Macedonia</option>
+                <option value="NO">Norway</option>
+                <option value="OM">Oman</option>
+                <option value="PK">Pakistan</option>
+                <option value="PW">Palau</option>
+                <option value="PA">Panama</option>
+                <option value="PG">Papua New Guinea</option>
+                <option value="PY">Paraguay</option>
+                <option value="PE">Peru</option>
+                <option value="PH">Philippines</option>
+                <option value="PL">Poland</option>
+                <option value="PT">Portugal</option>
+                <option value="QA">Qatar</option>
+                <option value="RO">Romania</option>
+                <option value="RU">Russia</option>
+                <option value="RW">Rwanda</option>
+                <option value="KN">Saint Kitts and Nevis</option>
+                <option value="LC">Saint Lucia</option>
+                <option value="VC">Saint Vincent and the Grenadines</option>
+                <option value="WS">Samoa</option>
+                <option value="SM">San Marino</option>
+                <option value="ST">São Tomé and Príncipe</option>
+                <option value="SA">Saudi Arabia</option>
+                <option value="SN">Senegal</option>
+                <option value="RS">Serbia</option>
+                <option value="SC">Seychelles</option>
+                <option value="SL">Sierra Leone</option>
+                <option value="SG">Singapore</option>
+                <option value="SK">Slovakia</option>
+                <option value="SI">Slovenia</option>
+                <option value="SB">Solomon Islands</option>
+                <option value="SO">Somalia</option>
+                <option value="ZA">South Africa</option>
+                <option value="SS">South Sudan</option>
+                <option value="ES">Spain</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="SD">Sudan</option>
+                <option value="SR">Suriname</option>
+                <option value="SE">Sweden</option>
+                <option value="CH">Switzerland</option>
+                <option value="SY">Syria</option>
+                <option value="TJ">Tajikistan</option>
+                <option value="TZ">Tanzania</option>
+                <option value="TH">Thailand</option>
+                <option value="TL">Timor-Leste</option>
+                <option value="TG">Togo</option>
+                <option value="TO">Tonga</option>
+                <option value="TT">Trinidad and Tobago</option>
+                <option value="TN">Tunisia</option>
+                <option value="TR">Turkey</option>
+                <option value="TM">Turkmenistan</option>
+                <option value="TV">Tuvalu</option>
+                <option value="UG">Uganda</option>
+                <option value="UA">Ukraine</option>
+                <option value="AE">United Arab Emirates</option>
+                <option value="UY">Uruguay</option>
+                <option value="UZ">Uzbekistan</option>
+                <option value="VU">Vanuatu</option>
+                <option value="VE">Venezuela</option>
+                <option value="VN">Vietnam</option>
+                <option value="YE">Yemen</option>
+                <option value="ZM">Zambia</option>
+                <option value="ZW">Zimbabwe</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="dob" data-i18n="signupDob">Date of birth</label>
+            <input type="date" id="dob" name="dob" />
+          </div>
+          <div class="field">
+            <label data-i18n="signupMbti">MBTI Type</label>
+            <div class="mbti-grid">
+              <select id="signup-mbti-1" name="mbti1">
+                <option value="">-</option>
+                <option value="E" data-i18n="mbti_E">E</option>
+                <option value="I" data-i18n="mbti_I">I</option>
+              </select>
+              <select id="signup-mbti-2" name="mbti2">
+                <option value="">-</option>
+                <option value="S" data-i18n="mbti_S">S</option>
+                <option value="N" data-i18n="mbti_N">N</option>
+              </select>
+              <select id="signup-mbti-3" name="mbti3">
+                <option value="">-</option>
+                <option value="T" data-i18n="mbti_T">T</option>
+                <option value="F" data-i18n="mbti_F">F</option>
+              </select>
+              <select id="signup-mbti-4" name="mbti4">
+                <option value="">-</option>
+                <option value="J" data-i18n="mbti_J">J</option>
+                <option value="P" data-i18n="mbti_P">P</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="zodiac" data-i18n="signupZodiac">Zodiac Sign</label>
+            <select id="zodiac" name="zodiac">
+              <option value="">-</option>
+              <option value="Aquarius" data-i18n="zodiac_Aquarius">Aquarius</option>
+              <option value="Aries" data-i18n="zodiac_Aries">Aries</option>
+              <option value="Cancer" data-i18n="zodiac_Cancer">Cancer</option>
+              <option value="Capricorn" data-i18n="zodiac_Capricorn">Capricorn</option>
+              <option value="Gemini" data-i18n="zodiac_Gemini">Gemini</option>
+              <option value="Leo" data-i18n="zodiac_Leo">Leo</option>
+              <option value="Libra" data-i18n="zodiac_Libra">Libra</option>
+              <option value="Pisces" data-i18n="zodiac_Pisces">Pisces</option>
+              <option value="Sagittarius" data-i18n="zodiac_Sagittarius">Sagittarius</option>
+              <option value="Scorpio" data-i18n="zodiac_Scorpio">Scorpio</option>
+              <option value="Taurus" data-i18n="zodiac_Taurus">Taurus</option>
+              <option value="Virgo" data-i18n="zodiac_Virgo">Virgo</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bio" data-i18n="signupBio">Personal Bio</label>
+            <textarea id="bio" name="bio" rows="2" data-i18n-placeholder="signupBioPlaceholder"></textarea>
+          </div>
+          <div class="field">
+            <label for="photo-upload" data-i18n="signupPhoto">Profile Photo</label>
+            <input type="file" id="photo-upload" name="photo" accept="image/*" />
+          </div>
+          <div class="field">
+            <label for="password"><span data-i18n="signupPassword">Password</span> <span data-i18n="required">*</span></label>
+            <input type="password" id="password" name="password" required />
+            <p class="field-hint" data-i18n="passwordRequirements">Password must be at least 8 characters long, including uppercase and lowercase letters and at least one special character.</p>
+          </div>
+          <div class="field">
+            <label for="confirm-password"><span data-i18n="signupConfirmPassword">Confirm Password</span> <span data-i18n="required">*</span></label>
+            <input type="password" id="confirm-password" name="confirmPassword" required />
+          </div>
+          <button type="submit" class="btn btn-primary" data-i18n="signupSubmit">Register</button>
+        </form>
+      </main>
+    </section>
+
+    <!-- Login / Sign In -->
+    <section id="login" class="screen">
+      <header class="site-header">
+        <div class="logo logo-link">
+          <img src="logo.png" alt="CNPAF Logo" />
+          <span data-i18n="logo">Chinese Psychological Assistance Foundation</span>
+        </div>
+        <nav>
+          <a href="#" data-go="landing" data-i18n="navHome">Home</a>
+          <a href="#" data-go="signup" data-i18n="navJoin">Sign Up</a>
+          <a href="#" data-go="login" data-i18n="navSignIn">Sign In</a>
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="en" data-i18n="langEn">EN</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zh" data-i18n="langZh">简体</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zt" data-i18n="langZt">繁體</button>
+          </div>
+        </nav>
+      </header>
+      <main class="form-container">
+        <h2 data-i18n="loginTitle">Sign In</h2>
+        <p class="form-intro" data-i18n="loginIntro">Enter your Membership ID or Email to access your profile.</p>
+        <form id="lookup-form" class="membership-form lookup-form">
+          <div class="field">
+            <label for="membership-id-input" data-i18n="loginLabel">Membership ID or Email</label>
+            <input type="text" id="membership-id-input" name="membershipId" placeholder="" data-i18n-placeholder="loginPlaceholder" />
+          </div>
+          <div class="field">
+            <label for="login-password" data-i18n="loginPassword">Password</label>
+            <input type="password" id="login-password" name="password" required />
+          </div>
+          <button type="submit" class="btn btn-primary" data-i18n="loginSubmit">Sign In</button>
+        </form>
+      </main>
+    </section>
+
+    <!-- Dashboard (Main Logged-in Area) -->
+    <section id="dashboard" class="screen">
+      <header class="site-header">
+        <div class="logo logo-link">
+          <img src="logo.png" alt="CNPAF Logo" />
+          <span data-i18n="logo">Chinese Psychological Assistance Foundation</span>
+        </div>
+        <nav>
+          <button type="button" class="btn-text" id="logout-btn" data-i18n="logout">Sign Out</button>
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="en" data-i18n="langEn">EN</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zh" data-i18n="langZh">简体</button>
+            <span class="lang-divider">/</span>
+            <button type="button" class="lang-btn" data-lang="zt" data-i18n="langZt">繁體</button>
+          </div>
+        </nav>
+      </header>
+      <main class="dashboard-layout">
+        <aside class="dashboard-sidebar">
+          <ul class="dash-menu">
+            <li class="active" data-tab="tab-overview" data-i18n="dashMenuOverview">Overview</li>
+            <li data-tab="tab-card" data-i18n="dashMenuCard">My Membership Card</li>
+            <li data-tab="tab-profile" data-i18n="dashMenuProfile">Member Info</li>
+            <li data-tab="tab-account" data-i18n="dashMenuAccount">My Account</li>
+            <li data-tab="tab-benefits" data-i18n="dashMenuBenefits">My Benefits</li>
+            <li data-tab="tab-cabinet" data-i18n="dashMenuCabinet">Youth Cabinet<span class="notif-nav-badge" id="cabinet-notif-badge" style="display:none"></span></li>
+            <li data-tab="tab-security" data-i18n="dashMenuSecurity">Account Security</li>
+            <li id="admin-panel-link" style="display:none; color:var(--secondary); border-top:1px solid var(--border); margin-top:0.5rem; padding-top:0.5rem;">
+              <a href="admin.html" target="_blank" style="color:inherit; text-decoration:none; font-weight:600; font-size:0.9375rem;">⚙ Admin Panel</a>
+            </li>
+          </ul>
+        </aside>
+        
+        <div class="dashboard-content">
+          <!-- Tab 0: Overview -->
+          <div id="tab-overview" class="dash-tab active">
+            <div class="overview-container">
+              <div class="welcome-section">
+                <h2 class="welcome-msg"><span data-i18n="dashWelcome">Welcome back,</span> <span id="dash-welcome-name">Member</span>!</h2>
+              </div>
+              
+              <div class="overview-grid">
+                <div class="overview-card points-summary">
+                  <h3 data-i18n="dashMenuAccount">My Account</h3>
+                  <p class="overview-label">Member ID</p>
+                  <div class="overview-value" style="font-size:1.1rem;letter-spacing:0.05em"><span id="dash-member-id">—</span></div>
+                </div>
+
+                <div class="overview-card badge-plaque-card">
+                  <h3 id="badge-section-title" data-i18n="badgeSectionTitle">My Credentials</h3>
+                  <div id="badge-plaque-panel" class="badge-plaque-panel"></div>
+                </div>
+              </div>
+
+              <!-- Inbox -->
+              <div class="overview-inbox" id="overview-inbox" style="display:none">
+                <div class="overview-inbox-hd">
+                  <h3 class="overview-inbox-title">消息通知</h3>
+                  <span class="inbox-unread-badge" id="inbox-unread-badge" style="display:none"></span>
+                </div>
+                <div id="overview-inbox-list" class="inbox-list"></div>
+              </div>
+
+              <div class="overview-benefits-preview">
+                <h3 data-i18n="dashOverviewSummary">Benefit Summary</h3>
+                <ul class="benefits-preview-list" id="overview-benefits-preview-list">
+                  <!-- Short list of benefits -->
+                </ul>
+                <button type="button" class="btn-text" onclick="switchTab('tab-benefits')" data-i18n="dashMenuBenefits">View all benefits</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 1: Card View -->
+          <div id="tab-card" class="dash-tab">
+            <div class="card-view">
+              <div class="card-actions">
+                <button type="button" class="btn btn-secondary" id="download-card" data-i18n="downloadCard">Download card (image)</button>
+              </div>
+              <div id="membership-card" class="membership-card">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                  <div class="card-photo-col">
+                    <div class="card-brand-logo">
+                      <img src="logo.png" alt="Logo" class="card-logo-img" />
+                    </div>
+                    <div class="card-photo" id="card-photo-trigger" title="Change Photo">
+                      <span class="photo-placeholder" id="card-photo-placeholder" data-i18n="cardPhoto">Photo</span>
+                    </div>
+                    <button type="button" class="btn-text btn-card-edit" id="edit-profile-btn-card">
+                      <span data-i18n="editBtn">Edit Profile</span>
+                    </button>
+                    <div class="card-bio-sidebar">
+                      <h4 class="section-label-small" data-i18n="signupBio">Bio</h4>
+                      <p id="card-bio" class="bio-text">—</p>
+                    </div>
+                  </div>
+                  <div class="card-details">
+                    <div class="card-header-main">
+                      <div class="card-title-group">
+                        <h3 class="card-name" id="card-name">—</h3>
+                        <div class="card-name-zh" id="card-name-zh"></div>
+                        <div id="card-badges-row" class="card-badges-row"></div>
+                      </div>
+                      <div class="card-id-badge">
+                        <span class="card-badge" data-i18n="cardBadge">Member</span>
+                        <span class="card-id" id="card-membership-id">—</span>
+                      </div>
+                    </div>
+
+                    <div class="card-content-horizontal">
+                      <div class="card-info-panel">
+                        <h4 class="section-label" data-i18n="cardPersonalInfo">Personal Information</h4>
+                        <div class="panel-grid">
+                          <div class="info-item">
+                            <dt data-i18n="cardEmail">Email</dt>
+                            <dd id="card-email">—</dd>
+                          </div>
+                          <div class="info-item">
+                            <dt data-i18n="cardPhone">Phone</dt>
+                            <dd id="card-phone">—</dd>
+                          </div>
+                          <div class="info-item span-full">
+                            <dt data-i18n="cardAddress">Physical Address</dt>
+                            <dd id="card-address">—</dd>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card-info-panel">
+                        <h4 class="section-label" data-i18n="cardIndividualInfo">About Me</h4>
+                        <div class="panel-grid">
+                          <div class="info-item">
+                            <dt data-i18n="cardGender">Gender</dt>
+                            <dd id="card-gender">—</dd>
+                          </div>
+                          <div class="info-item">
+                            <dt data-i18n="cardRegion">Region</dt>
+                            <dd id="card-region">—</dd>
+                          </div>
+                          <div class="info-item">
+                            <dt data-i18n="cardMbti">MBTI</dt>
+                            <dd id="card-mbti">—</dd>
+                          </div>
+                          <div class="info-item">
+                            <dt data-i18n="cardZodiac">Zodiac</dt>
+                            <dd id="card-zodiac">—</dd>
+                          </div>
+                          <div class="info-item">
+                            <dt data-i18n="profileDob">Date of birth</dt>
+                            <dd id="card-dob">—</dd>
+                          </div>
+                          <div class="info-item">
+                            <dt data-i18n="cardMemberSince">Since</dt>
+                            <dd id="card-joined">—</dd>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Profile Edit (previously modal content) -->
+          <div id="tab-profile" class="dash-tab">
+            <div class="form-container-full">
+              <h2 data-i18n="editTitle">Update Profile</h2>
+              <form id="dash-edit-form" class="membership-form">
+                <div class="field">
+                  <label for="dash-edit-name-zh" data-i18n="signupNameZh">Chinese Name</label>
+                  <input type="text" id="dash-edit-name-zh" name="nameZh" />
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="dash-edit-gender" data-i18n="signupGender">Gender</label>
+                    <select id="dash-edit-gender" name="gender">
+                      <option value="Female" data-i18n="signupGenderFemale">Female</option>
+                      <option value="Male" data-i18n="signupGenderMale">Male</option>
+                      <option value="Non-binary" data-i18n="signupGenderNonBinary">Non-binary</option>
+                      <option value="Prefer not to say" data-i18n="signupGenderPreferNot">Prefer not to say</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="dash-edit-zodiac" data-i18n="signupZodiac">Zodiac Sign</label>
+                    <select id="dash-edit-zodiac" name="zodiac">
+                      <option value="">-</option>
+                      <option value="Aquarius" data-i18n="zodiac_Aquarius">Aquarius</option>
+                      <option value="Aries" data-i18n="zodiac_Aries">Aries</option>
+                      <option value="Cancer" data-i18n="zodiac_Cancer">Cancer</option>
+                      <option value="Capricorn" data-i18n="zodiac_Capricorn">Capricorn</option>
+                      <option value="Gemini" data-i18n="zodiac_Gemini">Gemini</option>
+                      <option value="Leo" data-i18n="zodiac_Leo">Leo</option>
+                      <option value="Libra" data-i18n="zodiac_Libra">Libra</option>
+                      <option value="Pisces" data-i18n="zodiac_Pisces">Pisces</option>
+                      <option value="Sagittarius" data-i18n="zodiac_Sagittarius">Sagittarius</option>
+                      <option value="Scorpio" data-i18n="zodiac_Scorpio">Scorpio</option>
+                      <option value="Taurus" data-i18n="zodiac_Taurus">Taurus</option>
+                      <option value="Virgo" data-i18n="zodiac_Virgo">Virgo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label data-i18n="signupMbti">MBTI Type</label>
+                  <div class="mbti-grid">
+                    <select id="dash-edit-mbti-1"><option value="">-</option><option value="E" data-i18n="mbti_E">E</option><option value="I" data-i18n="mbti_I">I</option></select>
+                    <select id="dash-edit-mbti-2"><option value="">-</option><option value="S" data-i18n="mbti_S">S</option><option value="N" data-i18n="mbti_N">N</option></select>
+                    <select id="dash-edit-mbti-3"><option value="">-</option><option value="T" data-i18n="mbti_T">T</option><option value="F" data-i18n="mbti_F">F</option></select>
+                    <select id="dash-edit-mbti-4"><option value="">-</option><option value="J" data-i18n="mbti_J">J</option><option value="P" data-i18n="mbti_P">P</option></select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="dash-edit-email" data-i18n="signupEmail">Email</label>
+                  <input type="email" id="dash-edit-email" name="email" required />
+                </div>
+                <div class="field">
+                  <label for="dash-edit-phone" data-i18n="signupPhone">Phone</label>
+                  <div class="phone-input-group">
+                    <select id="dash-edit-phone-code" name="phoneCode" class="phone-code-select">
+                      <option value="+61">+61 (AU)</option>
+                      <option value="+1">+1 (CA)</option>
+                      <option value="+86">+86 (CN)</option>
+                      <option value="+852">+852 (HK)</option>
+                      <option value="+853">+853 (MO)</option>
+                      <option value="+886">+886 (TW)</option>
+                      <option value="+44">+44 (UK)</option>
+                      <option value="+1">+1 (US)</option>
+                    </select>
+                    <input type="tel" id="dash-edit-phone" name="phone" required />
+                  </div>
+                </div>
+                <div class="field">
+                  <label data-i18n="signupAddress">Physical Address</label>
+                  <div class="address-grid">
+                    <input type="text" id="dash-edit-address-street" name="addressStreet" data-i18n-placeholder="addressStreet" />
+                    <div class="field-row">
+                      <input type="text" id="dash-edit-address-city" name="addressCity" data-i18n-placeholder="addressCity" />
+                      <input type="text" id="dash-edit-address-state" name="addressState" data-i18n-placeholder="addressState" />
+                    </div>
+                    <input type="text" id="dash-edit-address-zip" name="addressZip" data-i18n-placeholder="addressZip" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="dash-edit-bio" data-i18n="signupBio">Personal Bio</label>
+                  <textarea id="dash-edit-bio" name="bio" rows="2" data-i18n-placeholder="signupBioPlaceholder"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" data-i18n="saveBtn">Save Changes</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Tab 3: My Account -->
+          <div id="tab-account" class="dash-tab">
+            <div class="form-container-full">
+              <h2 data-i18n="dashMenuAccount">My Account</h2>
+              <div class="points-card">
+                <div class="points-label">Member ID</div>
+                <div class="points-value" style="font-size:1.4rem;letter-spacing:0.08em"><span id="dash-points">—</span></div>
+              </div>
+              <div class="account-stat-grid">
+                <div class="account-stat-tile">
+                  <div class="account-stat-icon">★</div>
+                  <div class="account-stat-label">积分</div>
+                  <div class="account-stat-value" id="dash-points-value">—</div>
+                  <div class="account-stat-sub">更多积分权益即将上线</div>
+                </div>
+                <div class="account-stat-tile">
+                  <div class="account-stat-icon">◎</div>
+                  <div class="account-stat-label">Member Since</div>
+                  <div class="account-stat-value account-stat-value--date" id="dash-member-since">—</div>
+                  <div class="account-stat-sub">加入里程碑</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 4: My Benefits (Tiers) -->
+          <div id="tab-benefits" class="dash-tab">
+            <div class="form-container-full">
+              <h2 data-i18n="dashMenuBenefits">My Benefits</h2>
+              <div class="tier-card" id="tier-card">
+                <div class="tier-info">
+                  <div class="tier-label" data-i18n="benefitsTier">Your Tier</div>
+                  <div class="tier-name" id="dash-tier-name">—</div>
+                </div>
+              </div>
+              <div id="benefits-dynamic-container" class="benefits-dynamic">
+                <p style="color:var(--text-muted); font-size:0.875rem;">Loading benefits…</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 5: Youth Cabinet -->
+          <div id="tab-cabinet" class="dash-tab">
+            <div class="form-container-full">
+              <h2 data-i18n="dashMenuCabinet">Youth Cabinet</h2>
+              <div id="cabinet-content">
+                <!-- populated by renderYouthCabinet() in app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 6: Account Security -->
+          <div id="tab-security" class="dash-tab">
+            <div class="form-container-full">
+              <h2 data-i18n="dashMenuSecurity">Account Security</h2>
+              <form id="dash-security-form" class="membership-form">
+                <div class="field">
+                  <label for="dash-old-pwd" data-i18n="securityOldPwd">Old Password</label>
+                  <input type="password" id="dash-old-pwd" required />
+                </div>
+                <div class="field">
+                  <label for="dash-new-pwd" data-i18n="securityNewPwd">New Password</label>
+                  <input type="password" id="dash-new-pwd" required />
+                  <p class="field-hint" data-i18n="passwordRequirements">Password must be at least 8 characters long, including uppercase and lowercase letters and at least one special character.</p>
+                </div>
+                <div class="field">
+                  <label for="dash-confirm-pwd" data-i18n="securityConfirmPwd">Confirm New Password</label>
+                  <input type="password" id="dash-confirm-pwd" required />
+                </div>
+                <button type="submit" class="btn btn-primary" data-i18n="securityChangePwd">Change Password</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <!-- Edit Profile Modal (Still used for quick access if needed, or removed if strictly using dashboard) -->
+  <!-- Let's keep the Avatar Update Modal but remove the Edit Profile Modal as it's now a section -->
+
+  <!-- Avatar Update Modal -->
+  <div id="avatar-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 data-i18n="editPhotoTitle">Update Avatar</h2>
+        <button type="button" class="modal-close" id="close-avatar-modal">&times;</button>
+      </div>
+      <div class="avatar-edit-body">
+        <div class="current-avatar-preview">
+          <label data-i18n="currentPhoto">Current Avatar</label>
+          <div id="modal-current-photo" class="large-avatar"></div>
+        </div>
+        <div class="upload-new-avatar">
+          <label for="modal-photo-upload" data-i18n="uploadNewPhoto">Upload New Avatar</label>
+          <input type="file" id="modal-photo-upload" accept="image/*" />
+        </div>
+        <button type="button" id="save-avatar-btn" class="btn btn-primary" data-i18n="saveBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity submit modal -->
+  <div id="activity-submit-modal" class="activity-modal-overlay" style="display:none">
+    <div class="activity-modal">
+      <div class="activity-modal-hd">
+        <h3>提交实践报告</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="activity-submit-form" class="activity-modal-body">
+        <div class="field">
+          <label>实践维度</label>
+          <select id="activity-dim" required>
+            <option value="">请选择…</option>
+            <option value="voluntary_public_service">志愿公共服务 · Voluntary Public Service</option>
+            <option value="personal_development">个人发展 · Personal Development</option>
+            <option value="physical_fitness">身体素质 · Physical Fitness</option>
+            <option value="expedition">探索与考察 · Expedition / Exploration</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="activity-value-label">时长（小时）</label>
+          <input type="number" id="activity-value" min="0.5" step="0.5" placeholder="例：8" required>
+        </div>
+        <div class="field">
+          <label>活动名称</label>
+          <input type="text" id="activity-title" placeholder="请简要描述活动名称" required>
+        </div>
+        <div class="field">
+          <label>实践报告 <span style="color:var(--text-muted);font-weight:400">（选填）</span></label>
+          <textarea id="activity-report" rows="5" placeholder="详细描述你的实践经历、收获与反思…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">提交</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="app.js"></script>
+</body>
+</html>
