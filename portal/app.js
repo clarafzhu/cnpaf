@@ -12,6 +12,10 @@
   // ─── Language ─────────────────────────────────────────────────────────────────
 
   let currentLang = (() => {
+    // URL param from main site takes priority (e.g. /portal?lang=zh)
+    const urlLang = new URLSearchParams(location.search).get('lang');
+    if (urlLang === 'zh') { try { localStorage.setItem(LANG_KEY, 'zh'); } catch {} return 'zh'; }
+    if (urlLang === 'tc' || urlLang === 'zt') { try { localStorage.setItem(LANG_KEY, 'zt'); } catch {} return 'zt'; }
     try {
       const saved = localStorage.getItem(LANG_KEY);
       if (saved === "zh" || saved === "zt") return saved;
