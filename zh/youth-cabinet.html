@@ -27,11 +27,9 @@
 
     <div class="bg-primaryDark text-gray-300 text-xs py-2 relative z-50">
         <div class="container mx-auto px-6 flex justify-end items-center space-x-6">
-                        <!-- 暂时隐藏：登录/注册入口
-<span class="text-gray-600">|</span>
-            <a href="/login" class="hover:text-white transition">Log In</a>
-            <a href="/signup" class="hover:text-white transition">Sign Up</a>
--->
+                        <span class="text-gray-500/60">|</span>
+            <a href="/portal" class="hover:text-white transition">登录</a>
+            <a href="/portal" class="hover:text-white transition">注册</a>
         </div>
     </div>
 
@@ -103,7 +101,7 @@
                                 <p class="text-[13px] text-gray-500 leading-relaxed">成为共同改变行业标准的一员。</p>
                             </div>
                             <div class="w-3/4 px-10 grid grid-cols-2 gap-4">
-                                <a href="#" data-newsletter-open class="text-[14px] text-gray-700 hover:text-accent font-medium">免费注册为会员</a>
+                                <a href="/portal" class="text-[14px] text-gray-700 hover:text-accent font-medium">免费注册为会员</a>
                                 <a href="stage-1" class="text-[14px] text-gray-700 hover:text-accent font-medium">"青听计划"心理支持服务</a>
                                 <a href="join#volunteer" class="text-[14px] text-gray-700 hover:text-accent font-medium">成为志愿者</a>
                                 <a href="join#research" class="text-[14px] text-gray-700 hover:text-accent font-medium">参与科研计划</a>
@@ -374,7 +372,11 @@
                 <p class="text-[15px] font-light leading-relaxed text-gray-200 mb-8">
                     我们目前采取"提名邀请制"全年滚动录取。CNPAF 将为每一个分支提供从启动资金、法律合规到实务资源对接的全程督导支持。
                 </p>
-                <a href="#founder-contact" class="founder-guide-btn inline-block bg-accent text-white px-10 py-4 rounded-full font-bold hover:bg-orange-500 transition duration-300 shadow-lg">索取《发起人申报指引》</a>
+                <p class="text-[13px] text-gray-300/70 mt-4 mb-8 leading-relaxed max-w-xl mx-auto">【申请须知】加入青年内阁需首先注册为 CNPAF 基础会员。基础会员注册及维系不产生任何强制性费用，基金会将严格执行最高级别的数据隐私保护标准。如有任何疑问，请联系青年内阁秘书处：<a href="mailto:ycsec@cnpaf.org" class="underline hover:text-accent transition">ycsec@cnpaf.org</a></p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/portal?action=register" class="inline-block bg-accent text-white px-8 py-4 rounded-full font-bold hover:bg-orange-500 transition duration-300 shadow-lg">还不是会员？立即注册并申请</a>
+                    <a href="/portal" class="inline-block border-2 border-white/70 text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition duration-300">已经是会员？点击进入后台申请</a>
+                </div>
             </div>
         </section>
 
