@@ -535,7 +535,7 @@
             <div class="cabinet-status-icon cabinet-icon-approved">✓</div>
             <h3>${t('cabinetApprovedTitle')}</h3>
             <p>恭喜您——内阁秘书处已批准您的申请资格，请点击下方确认加入。</p>
-            <button id="btn-activate-cabinet" class="cabinet-action-btn">捐赠并激活年度席位 (US$365)</button>
+            <button class="btn btn-primary cabinet-activate-btn" id="cabinet-activate-btn">确认加入 →</button>
             <p class="cabinet-stripe-note">付款成功后系统将自动激活您的内阁成员身份，无需额外操作。</p>
           </div>
           <div class="overview-inbox">
@@ -549,7 +549,7 @@
           </div>
         </div>`;
 
-      document.getElementById('btn-activate-cabinet').addEventListener('click', () => {
+      document.getElementById('cabinet-activate-btn').addEventListener('click', () => {
         showDisclaimerModal(member.id);
       });
       loadCabinetNotificationsAsInbox();
@@ -812,9 +812,29 @@
     });
   }
 
-  function redirectToStripePayment(memberId) {
-    const baseStripeLink = 'https://donate.stripe.com/00wdR24Fmeja2afctAbwk00';
-    window.location.href = `${baseStripeLink}?client_reference_id=${memberId}`;
+  function showStripePayModal(memberId) {
+    let modal = document.getElementById('stripe-pay-overlay');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'stripe-pay-overlay';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:900;';
+      modal.innerHTML = `
+        <div style="background:#fff;border-radius:14px;padding:2rem 2rem 1.5rem;max-width:460px;width:92%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.18);">
+          <button id="stripe-modal-close" style="position:absolute;top:.875rem;right:1rem;background:none;border:none;font-size:1.375rem;cursor:pointer;color:#888;line-height:1;">&times;</button>
+          <h3 style="margin:0 0 .375rem;font-size:1rem;font-weight:700;">激活年度席位</h3>
+          <p style="color:#666;font-size:.8125rem;margin:0 0 1.25rem;line-height:1.5;">完成 $365/年 席位捐赠，即刻激活您的青年内阁成员身份。付款成功后系统自动激活，无需等待。</p>
+          <stripe-buy-button
+            buy-button-id="buy_btn_1Tjrd93THnN0b2ABaz1fmA1m"
+            publishable-key="pk_live_51TjDbt3THnN0b2ABSXEO0y6PhG9kBUAogvWTQuWYPhc6GQS3DBlpXwbIaEVy2s5Y3ym9yObgOuvFfNrBCF6tYxsY00Y7hKBrcU"
+            client-reference-id="${memberId}"
+          ></stripe-buy-button>
+        </div>`;
+      document.body.appendChild(modal);
+      modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+      modal.querySelector('#stripe-modal-close').addEventListener('click', () => { modal.style.display = 'none'; });
+    } else {
+      modal.style.display = 'flex';
+    }
   }
 
   function showDisclaimerModal(memberId) {
@@ -860,7 +880,7 @@
       modal.querySelector('#disclaimer-confirm-btn').addEventListener('click', () => {
         if (modal.querySelector('#disclaimer-agree-check').checked) {
           modal.style.display = 'none';
-          redirectToStripePayment(parseInt(modal.dataset.memberId));
+          showStripePayModal(parseInt(modal.dataset.memberId));
         }
       });
     }
