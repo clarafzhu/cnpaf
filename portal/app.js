@@ -812,7 +812,14 @@
     });
   }
 
+  let _activeCheckout = null;
+
   async function showStripePayModal(memberId) {
+    // Destroy previous Stripe checkout instance before creating a new one
+    if (_activeCheckout) {
+      try { _activeCheckout.destroy(); } catch (e) {}
+      _activeCheckout = null;
+    }
     document.getElementById('stripe-pay-overlay')?.remove();
 
     const overlay = document.createElement('div');
@@ -828,8 +835,12 @@
         </div>
       </div>`;
     document.body.appendChild(overlay);
-    overlay.querySelector('#stripe-modal-close').addEventListener('click', () => overlay.remove());
-    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    const closeModal = () => {
+      if (_activeCheckout) { try { _activeCheckout.destroy(); } catch (e) {} _activeCheckout = null; }
+      overlay.remove();
+    };
+    overlay.querySelector('#stripe-modal-close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
 
     const res = await apiFetch('/create-checkout-session', { method: 'POST' });
     if (!res.ok) {
@@ -840,6 +851,7 @@
 
     const stripeObj = Stripe('pk_live_51TjDbt3THnN0b2ABSXEO0y6PhG9kBUAogvWTQuWYPhc6GQS3DBlpXwbIaEVy2s5Y3ym9yObgOuvFfNrBCF6tYxsY00Y7hKBrcU');
     const checkout = await stripeObj.initEmbeddedCheckout({ clientSecret: res.data.clientSecret });
+    _activeCheckout = checkout;
     const container = document.getElementById('stripe-checkout-container');
     if (container) {
       container.innerHTML = '';
