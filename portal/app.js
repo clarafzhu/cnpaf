@@ -812,28 +812,39 @@
     });
   }
 
-  function showStripePayModal(memberId) {
-    let modal = document.getElementById('stripe-pay-overlay');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = 'stripe-pay-overlay';
-      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:900;';
-      modal.innerHTML = `
-        <div style="background:#fff;border-radius:14px;padding:2rem 2rem 1.5rem;max-width:460px;width:92%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.18);">
-          <button id="stripe-modal-close" style="position:absolute;top:.875rem;right:1rem;background:none;border:none;font-size:1.375rem;cursor:pointer;color:#888;line-height:1;">&times;</button>
-          <h3 style="margin:0 0 .375rem;font-size:1rem;font-weight:700;">激活年度席位</h3>
-          <p style="color:#666;font-size:.8125rem;margin:0 0 1.25rem;line-height:1.5;">完成 $365/年 席位捐赠，即刻激活您的青年内阁成员身份。付款成功后系统自动激活，无需等待。</p>
-          <stripe-buy-button
-            buy-button-id="buy_btn_1Tjrd93THnN0b2ABaz1fmA1m"
-            publishable-key="pk_live_51TjDbt3THnN0b2ABSXEO0y6PhG9kBUAogvWTQuWYPhc6GQS3DBlpXwbIaEVy2s5Y3ym9yObgOuvFfNrBCF6tYxsY00Y7hKBrcU"
-            client-reference-id="${memberId}"
-          ></stripe-buy-button>
-        </div>`;
-      document.body.appendChild(modal);
-      modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
-      modal.querySelector('#stripe-modal-close').addEventListener('click', () => { modal.style.display = 'none'; });
-    } else {
-      modal.style.display = 'flex';
+  async function showStripePayModal(memberId) {
+    document.getElementById('stripe-pay-overlay')?.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'stripe-pay-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-start;justify-content:center;z-index:900;padding:1.5rem 1rem;overflow-y:auto;';
+    overlay.innerHTML = `
+      <div style="background:#fff;border-radius:14px;padding:1.5rem;max-width:520px;width:100%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.2);margin:auto;">
+        <button id="stripe-modal-close" style="position:absolute;top:.875rem;right:1rem;background:none;border:none;font-size:1.375rem;cursor:pointer;color:#888;line-height:1;">&times;</button>
+        <h3 style="margin:0 0 .25rem;font-size:1rem;font-weight:700;color:#1a2535;">激活年度席位</h3>
+        <p style="color:#6b7280;font-size:.8125rem;margin:0 0 1.25rem;line-height:1.5;">完成 $365/年 席位捐赠，即刻激活您的青年内阁成员身份。付款成功后系统自动激活，无需等待。</p>
+        <div id="stripe-checkout-container" style="min-height:120px;display:flex;align-items:center;justify-content:center;">
+          <p style="color:#6b7280;font-size:.875rem;">加载支付表单中…</p>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#stripe-modal-close').addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+    const res = await apiFetch('/create-checkout-session', { method: 'POST' });
+    if (!res.ok) {
+      document.getElementById('stripe-checkout-container').innerHTML =
+        '<p style="color:#dc2626;font-size:.875rem;text-align:center;">无法加载支付表单，请稍后重试。</p>';
+      return;
+    }
+
+    const stripeObj = Stripe('pk_live_51TjDbt3THnN0b2ABSXEO0y6PhG9kBUAogvWTQuWYPhc6GQS3DBlpXwbIaEVy2s5Y3ym9yObgOuvFfNrBCF6tYxsY00Y7hKBrcU');
+    const checkout = await stripeObj.initEmbeddedCheckout({ clientSecret: res.data.clientSecret });
+    const container = document.getElementById('stripe-checkout-container');
+    if (container) {
+      container.innerHTML = '';
+      container.style.cssText = 'min-height:auto;display:block;';
+      checkout.mount('#stripe-checkout-container');
     }
   }
 
@@ -1445,9 +1456,20 @@
       fillCardAndProfile(res.data.user);
       showScreen("dashboard");
       // Support ?tab=cabinet redirect from cabinet-apply.html
-      const urlTab = new URLSearchParams(location.search).get('tab');
+      const urlParams = new URLSearchParams(location.search);
+      const urlTab = urlParams.get('tab');
       switchTab(urlTab === 'cabinet' ? 'tab-cabinet' : 'tab-overview');
       if (urlTab) history.replaceState(null, '', location.pathname);
+
+      // Handle return from Stripe Embedded Checkout
+      if (urlParams.get('payment_status') === 'complete') {
+        history.replaceState(null, '', location.pathname);
+        const banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999;background:#065f46;color:#fff;padding:.75rem 1.25rem;text-align:center;font-size:.875rem;font-weight:600;letter-spacing:.01em;';
+        banner.textContent = '支付成功！您的内阁成员身份正在激活，请稍候片刻后刷新页面查看最新状态。';
+        document.body.prepend(banner);
+        setTimeout(() => banner.remove(), 10000);
+      }
     } else {
       clearToken();
     }
