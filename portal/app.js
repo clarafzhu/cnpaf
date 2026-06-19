@@ -1249,7 +1249,7 @@
         reader.onload = ev => resolve(ev.target.result);
         reader.readAsDataURL(photoUploadInput.files[0]);
       });
-      const res = await apiFetch("/me/avatar", { method: "PUT", body: JSON.stringify({ photo }) });
+      const res = await apiFetch("/me/avatar", { method: "PUT", body: JSON.stringify({ avatar_url: photo }) });
       if (res.ok) {
         m.photo = photo;
         fillCardAndProfile(m);
