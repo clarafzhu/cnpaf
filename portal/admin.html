@@ -1052,12 +1052,17 @@
       return;
     }
 
-    const pending   = apps.filter(a => !['approved','rejected'].includes(a.youth_cabinet_status));
-    const processed = apps.filter(a =>  ['approved','rejected'].includes(a.youth_cabinet_status));
+    const DONE = ['approved', 'rejected', 'unlocked', 'expired'];
+    // 待付款：已提交申请但尚未完成席位捐赠 → 不可审批
+    const awaitingPay    = apps.filter(a => a.youth_cabinet_status === 'pending_payment');
+    // 待审批：已付款待审 + 旧的 pending/info_requested
+    const awaitingReview = apps.filter(a => !DONE.includes(a.youth_cabinet_status) && a.youth_cabinet_status !== 'pending_payment');
+    const processed      = apps.filter(a => DONE.includes(a.youth_cabinet_status));
 
     const cabinetAppsById = {};
 
-    function renderCard(app, done) {
+    // mode: 'review'（可审批）| 'pay'（未付款，仅查看）| 'done'（已处理，盖章）
+    function renderCard(app, mode) {
       const uid  = escapeHtml(String(app.user_id || app.id || ''));
       const mid  = escapeHtml(app.member_id || app.membershipId || '');
       const name = escapeHtml(app.name || uid);
@@ -1065,12 +1070,20 @@
         ? new Date(app.applied_at || app.appliedAt || app.created_at).toLocaleDateString('zh-CN', {year:'numeric', month:'long', day:'numeric'})
         : '—';
       const st = app.youth_cabinet_status;
-      const isApproved     = st === 'approved';
+      const done = mode === 'done';
+      const isApproved     = st === 'approved' || st === 'unlocked';
       const isRejected     = st === 'rejected';
+      const isExpired      = st === 'expired';
       const isInfoReq      = st === 'info_requested';
-      const stampLabel = isApproved ? 'APPROVED' : isRejected ? 'REJECTED' : isInfoReq ? 'INFO NEEDED' : '';
-      const stampClass = isApproved ? 'cabinet-stamp--approved' : isRejected ? 'cabinet-stamp--rejected' : 'cabinet-stamp--info';
+      const isPaidReview   = st === 'paid_pending_review';
+      const stampLabel = isApproved ? 'APPROVED' : isRejected ? 'REJECTED' : isExpired ? 'EXPIRED' : isInfoReq ? 'INFO NEEDED' : '';
+      const stampClass = isRejected ? 'cabinet-stamp--rejected' : (isInfoReq || isExpired) ? 'cabinet-stamp--info' : 'cabinet-stamp--approved';
       const fb = app.cabinet_feedback ? `<div class="cabinet-app-feedback"><span>秘书处反馈：</span>${escapeHtml(app.cabinet_feedback)}</div>` : '';
+      // 状态徽章
+      let badge = '';
+      if (mode === 'pay')        badge = '<span class="cabinet-info-badge" style="background:#fef3c7;color:#92400e">⏳ 待付款</span>';
+      else if (isPaidReview)     badge = '<span class="cabinet-info-badge" style="background:#dcfce7;color:#166534">💰 已付款待审</span>';
+      else if (isInfoReq)        badge = '<span class="cabinet-info-badge">待补充材料</span>';
       cabinetAppsById[uid] = app;
       return `
         <div class="cabinet-app-card${done ? ' cabinet-app-card--done' : ''}" data-uid="${uid}">
@@ -1079,7 +1092,7 @@
             <div class="cabinet-app-name">
               <strong>${name}</strong>
               <code class="admin-mid">${mid}</code>
-              ${isInfoReq ? '<span class="cabinet-info-badge">待补充材料</span>' : ''}
+              ${badge}
             </div>
             <div class="cabinet-app-email">${escapeHtml(app.email || '')}</div>
             <div class="cabinet-app-submitted">申请时间：${appliedDate}</div>
@@ -1088,7 +1101,7 @@
             </div>
             ${fb}
           </div>
-          ${!done ? `
+          ${mode === 'review' ? `
           <div class="cabinet-app-actions">
             <button class="btn btn-sm cabinet-review-btn cabinet-review-btn--approve" data-uid="${uid}" data-name="${name}" data-action="approve">✓ 批准</button>
             <button class="btn btn-sm cabinet-review-btn cabinet-review-btn--reject"  data-uid="${uid}" data-name="${name}" data-action="reject">✗ 拒绝</button>
@@ -1105,17 +1118,23 @@
         </div>`;
     }
 
-    const pendingHtml = pending.length
-      ? pending.map(a => renderCard(a, false)).join('')
+    const reviewHtml = awaitingReview.length
+      ? awaitingReview.map(a => renderCard(a, 'review')).join('')
       : '<p style="color:var(--text-muted);font-size:0.8125rem;padding:0.75rem 0">暂无待审申请。</p>';
+    const payHtml = awaitingPay.length
+      ? `<div style="margin-top:1.75rem;border-top:1px solid var(--border);padding-top:1.25rem">
+           <p class="section-divider">待付款（尚未完成席位捐赠，暂不可审批）</p>
+           ${awaitingPay.map(a => renderCard(a, 'pay')).join('')}
+         </div>`
+      : '';
     const processedHtml = processed.length
       ? `<div style="margin-top:1.75rem;border-top:1px solid var(--border);padding-top:1.25rem">
            <p class="section-divider">已处理</p>
-           ${processed.map(a => renderCard(a, true)).join('')}
+           ${processed.map(a => renderCard(a, 'done')).join('')}
          </div>`
       : '';
 
-    container.innerHTML = `<div class="cabinet-apps-list">${pendingHtml}${processedHtml}</div>`;
+    container.innerHTML = `<div class="cabinet-apps-list">${reviewHtml}${payHtml}${processedHtml}</div>`;
 
     const ACTION_META = {
       approve:      { label: '批准申请 — 反馈（可选，将作为鼓励语发送给申请人）', placeholder: '恭喜您通过审核！期待与您共同推进基金会的使命…' },
@@ -1183,14 +1202,15 @@
       ? new Date(app.applied_at || app.appliedAt).toLocaleDateString('zh-CN', {year:'numeric', month:'long', day:'numeric'})
       : '—';
 
-    const fullName = app.name || '—';
-    const address  = [app.addressStreet, app.addressCity, app.addressState, app.addressZip].filter(Boolean).join(', ') || '—';
+    const fullName = [demo.firstName, demo.lastName].filter(Boolean).join(' ') || app.name || '—';
+    const address  = [demo.street, demo.city, demo.state, demo.zip].filter(Boolean).join(', ') || '—';
     const dob      = demo.dob || '—';
-    const phone    = [app.phoneCode, app.phone].filter(Boolean).join(' ').trim() || '—';
-    const email    = app.email || '—';
+    const phone    = demo.phone || app.phone || '—';
+    const email    = demo.email || app.email || '—';
     const gender   = demo.gender || '—';
     const race     = demo.race || '—';
     const guardian = demo.guardianEmail || '';
+    const referral = demo.referralCode || '';
 
     document.getElementById('cabinet-detail-title').textContent = `申请详情 — ${fullName}`;
     document.getElementById('cabinet-detail-body').innerHTML = `
@@ -1205,13 +1225,14 @@
           <div class="detail-item"><span class="detail-label">性别</span><span class="detail-value">${f(gender)}</span></div>
           <div class="detail-item"><span class="detail-label">种族 / 民族</span><span class="detail-value">${f(race)}</span></div>
           ${guardian ? `<div class="detail-item" style="grid-column:1/-1"><span class="detail-label">监护人邮箱</span><span class="detail-value">${f(guardian)}</span></div>` : ''}
+          <div class="detail-item"><span class="detail-label">推荐码</span><span class="detail-value">${referral ? f(referral) : '<span style="color:#9ca3af">无（需审核）</span>'}</span></div>
         </div>
       </div>
       <div class="detail-section">
         <p class="detail-section-title">申请材料</p>
         <div class="detail-item" style="margin-bottom:0.75rem"><span class="detail-label">学术 / 职业背景</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.background || app.experience)}</span></div>
         <div class="detail-item" style="margin-bottom:0.75rem"><span class="detail-label">申请动机与愿景</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.motivation)}</span></div>
-        <div class="detail-item"><span class="detail-label">长远影响力规划</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(app.vision || demo.vision)}</span></div>
+        <div class="detail-item"><span class="detail-label">长远影响力规划</span><span class="detail-value" style="font-weight:400;line-height:1.6;white-space:pre-wrap">${f(demo.vision || app.vision)}</span></div>
       </div>
       <div class="detail-section">
         <p class="detail-section-title">申请状态</p>

@@ -554,6 +554,40 @@
       });
       loadCabinetNotificationsAsInbox();
 
+    } else if (status === "pending_payment") {
+      // 已提交申请、尚未完成支付（含弃单回来）
+      container.innerHTML = `
+        <div class="cabinet-status-block cabinet-status-block--approved">
+          <div class="cabinet-status-icon cabinet-icon-pending">＄</div>
+          <h3>完成席位捐赠以提交申请</h3>
+          <p>您的申请信息已暂存。请完成 $365/年 的席位捐赠，我们才会正式受理您的申请。<br>如填写了有效推荐码，付款后将免审直接激活；否则将进入秘书处审核（1 个工作日内出结果）。</p>
+          <button class="btn btn-primary cabinet-activate-btn" id="cabinet-pay-btn">完成席位捐赠 →</button>
+          <p class="cabinet-stripe-note">如未通过审核，捐赠将全额原路退款。</p>
+        </div>`;
+      document.getElementById('cabinet-pay-btn').addEventListener('click', () => {
+        showDisclaimerModal(member.id);
+      });
+
+    } else if (status === "paid_pending_review") {
+      // 已付款，等待秘书处审核（无推荐码分支）
+      container.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div class="cabinet-status-block cabinet-status-block--pending">
+            <div class="cabinet-status-icon cabinet-icon-pending">⧗</div>
+            <h3>席位捐赠已确认 · 审核中</h3>
+            <p>✅ 您的席位捐赠已收到，申请已正式提交。秘书处正在进行最终审核，预计 <strong>1 个工作日内</strong>出结果。<br>审核通过后您的内阁权益将自动激活；如未通过，捐赠将全额原路退款。如有疑问请联系 <a href="mailto:ycsec@cnpaf.org">ycsec@cnpaf.org</a>。</p>
+          </div>
+          <div class="overview-inbox">
+            <div class="overview-inbox-hd">
+              <h4 class="overview-inbox-title">通知与消息</h4>
+            </div>
+            <div id="cabinet-notif-list" class="inbox-list">
+              <p class="cabinet-loading" style="padding:10px 16px;">加载中…</p>
+            </div>
+          </div>
+        </div>`;
+      loadCabinetNotificationsAsInbox();
+
     } else if (status === "pending") {
       container.innerHTML = `
         <div class="cabinet-status-block cabinet-status-block--pending">
@@ -1134,54 +1168,7 @@
     });
   }
 
-  async function handleCabinetApply(e) {
-    e.preventDefault();
-    const form = e.target;
-    const background = form.background.value.trim();
-    const motivation = form.motivation.value.trim();
-    const vision     = form.vision.value.trim();
-    const dob        = form.dob.value.trim();
-    const gender     = form.gender.value;
-    const race       = form.race.value;
-    const guardianEmail = form.guardianEmail?.value.trim() || '';
-
-    if (!background || !motivation || !vision) {
-      alert(t("cabinetErrorFields"));
-      return;
-    }
-    if (!dob) { alert('请填写出生日期。'); return; }
-    // Age validation: must be 13.5–24
-    const ageYears = (Date.now() - new Date(dob)) / (365.25 * 24 * 3600 * 1000);
-    if (ageYears < 13.5 || ageYears >= 24) {
-      alert('申请人需年满 13.5 周岁且未满 24 周岁。');
-      return;
-    }
-    if (ageYears < 18 && !guardianEmail) {
-      alert('未满 18 周岁的申请人须填写家长/监护人邮箱。');
-      return;
-    }
-    if (!gender) { alert('请选择性别。'); return; }
-    if (!race)   { alert('请选择种族/民族。'); return; }
-
-    const btn = form.querySelector("button[type=submit]");
-    btn.disabled = true;
-    btn.textContent = t("cabinetSubmitting");
-
-    const demographics = { dob, gender, race, ...(guardianEmail ? { guardianEmail } : {}) };
-    const res = await apiFetch("/youth-cabinet/apply", {
-      method: "POST",
-      body: JSON.stringify({ experience: background, motivation, vision, demographics }),
-    });
-
-    if (res.ok) {
-      window._cpaf_currentMember.youth_cabinet_status = "pending";
-      renderYouthCabinet(window._cpaf_currentMember);
-    } else {
-      btn.disabled = false;
-      btn.textContent = '提交申请';
-      alert(res.data?.message || "提交失败，请重试。");
-    }
-  }
+  // 申请入口统一为 cabinet-apply.html（旧的内联 handleCabinetApply 已废弃删除）
 
   // ─── Event wiring ─────────────────────────────────────────────────────────────
 
@@ -1470,7 +1457,13 @@
       const urlParams = new URLSearchParams(location.search);
       const urlTab = urlParams.get('tab');
       switchTab(urlTab === 'cabinet' ? 'tab-cabinet' : 'tab-overview');
-      if (urlTab) history.replaceState(null, '', location.pathname);
+      const wantPay = urlParams.get('action') === 'pay';
+      if (urlTab || wantPay) history.replaceState(null, '', location.pathname);
+
+      // 从申请页提交成功回跳(action=pay)：自动调起 disclaimer + 支付
+      if (wantPay && res.data.user.youth_cabinet_status === 'pending_payment') {
+        showDisclaimerModal(res.data.user.id);
+      }
 
       // Handle return from Stripe Embedded Checkout
       if (urlParams.get('payment_status') === 'complete') {
@@ -1480,9 +1473,9 @@
         overlay.innerHTML = `
           <div style="background:#fff;border-radius:1rem;padding:2.5rem 2rem;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);">
             <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
-            <h2 style="margin:0 0 .75rem;font-size:1.25rem;color:#065f46;font-weight:700;">支付成功！</h2>
-            <p style="margin:0 0 .5rem;color:#374151;font-size:.95rem;line-height:1.6;">您的内阁成员身份正在激活，系统将自动刷新页面。</p>
-            <p style="margin:0 0 1.5rem;color:#6b7280;font-size:.85rem;line-height:1.6;">如页面刷新后青年内阁状态仍未更新，请查看站内消息或联系秘书处：<a href="mailto:ycsec@cnpaf.org" style="color:#1d4ed8;">ycsec@cnpaf.org</a></p>
+            <h2 style="margin:0 0 .75rem;font-size:1.25rem;color:#065f46;font-weight:700;">席位捐赠成功！</h2>
+            <p style="margin:0 0 .5rem;color:#374151;font-size:.95rem;line-height:1.6;">系统正在处理您的申请，页面将自动刷新。<br>如填写了有效推荐码将直接激活；否则将进入秘书处审核（1 个工作日内出结果，未通过全额退款）。</p>
+            <p style="margin:0 0 1.5rem;color:#6b7280;font-size:.85rem;line-height:1.6;">如刷新后状态未更新，请查看站内消息或联系秘书处：<a href="mailto:ycsec@cnpaf.org" style="color:#1d4ed8;">ycsec@cnpaf.org</a></p>
             <button onclick="this.closest('div[style*=inset]').remove();location.reload();" style="background:#065f46;color:#fff;border:none;border-radius:.5rem;padding:.65rem 1.75rem;font-size:.95rem;font-weight:600;cursor:pointer;">好的，刷新页面</button>
           </div>`;
         document.body.appendChild(overlay);
