@@ -12,6 +12,9 @@ jobs:
       - name: Checkout Code from GitHub
         uses: actions/checkout@v4
 
+      - name: Remove git metadata
+        run: rm -rf .git
+
       - name: Sync Files to AWS Server
         uses: appleboy/scp-action@v0.1.7
         with:
